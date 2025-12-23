@@ -188,7 +188,7 @@ Si quieres contribuir:
 
 ## 🧾 Licencia
 
-Este proyecto está bajo la licencia **MIT**.  
+Este proyecto está bajo la licencia **GPL3**.  
 Consulta el archivo `LICENSE` para más detalles.
 
 ---
