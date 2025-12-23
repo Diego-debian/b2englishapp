@@ -195,4 +195,4 @@ Consulta el archivo `LICENSE` para más detalles.
 Si quieres contactarme:
 
 - GitHub: https://github.com/Diego-debian
-- Email: profediegoparra01@gmail.com  # opcional, cámbialo o elimínalo
+- Email: profediegoparra01@gmail.com  
