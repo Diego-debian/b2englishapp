@@ -46,6 +46,47 @@ b2englishapp/
 
 ---
 
+## 🖼️ Capturas de pantalla
+
+> Nota: estas rutas asumen que guardas las imágenes en `screenshots/` en la raíz del proyecto.
+> Cambia las rutas si usas otra carpeta (`docs/img`, `assets`, etc.).
+
+### Pantalla de bienvenida
+
+![Pantalla de bienvenida](img/1.png)
+
+---
+
+### Inicio de sesión
+
+![Pantalla de inicio de sesión](img/2.png)
+
+---
+
+### Crear cuenta
+
+![Pantalla de creación de cuenta](img/3.png)
+
+---
+
+### Panel de control de práctica
+
+![Panel de control](img/4.png)
+
+---
+
+### Ejercicio de verbo irregular
+
+![Ejercicio de verbo](img/5.png)
+
+---
+
+### Gestión de verbos (admin)
+
+![Gestión de verbos](img/6.png)
+
+---
+
 ## 🛠️ Cómo instalar & ejecutar
 
 Sigue estos pasos para levantar la aplicación localmente.
@@ -90,7 +131,7 @@ Si prefieres no usar Docker, puedes levantar frontend y backend por separado.
 cd backend
 # Crear entorno virtual (opcional pero recomendado)
 python -m venv venv
-source venv/bin/activate  # En Windows: venv\Scriptsctivate
+source venv/bin/activate  # En Windows: venv\Scripts ctivate
 
 # Instalar dependencias
 pip install -r requirements.txt
@@ -119,12 +160,10 @@ npm run dev   # o npm start, según tu configuración
 
 Una vez levantada:
 
-1. Regístrate o inicia sesión (si la app tiene autenticación).
-2. Explora módulos temáticos de inglés.
+1. Regístrate o inicia sesión.
+2. Explora módulos temáticos de verbos irregulares B2.
 3. Resuelve ejercicios y revisa tus resultados.
-4. Repite lecciones para mejorar tu nivel.
-
-> Tip: Puedes añadir capturas de pantalla (screenshots) aquí para hacer la guía más visual.
+4. Repite lecciones para mejorar tu nivel y subir de nivel de XP.
 
 ---
 
@@ -159,4 +198,4 @@ Consulta el archivo `LICENSE` para más detalles.
 Si quieres contactarme:
 
 - GitHub: https://github.com/Diego-debian
-- Email: profediegoparra01@gmail.com  # opcional, cámbialo o elimínalo
+- Email: tu-correo@ejemplo.com  # opcional, cámbialo o elimínalo
