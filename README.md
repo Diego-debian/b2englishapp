@@ -28,7 +28,6 @@ El proyecto combina varias tecnologías modernas:
 - **Entorno de desarrollo:** archivo `.env` para variables de configuración  
 
 > Revisa las carpetas `backend` y `frontend` para más detalles sobre el stack exacto.  
-> (Aquí puedes ajustar los nombres de frameworks concretos que estés usando.)
 
 ---
 
@@ -48,8 +47,6 @@ b2englishapp/
 
 ## 🖼️ Capturas de pantalla
 
-> Nota: estas rutas asumen que guardas las imágenes en `screenshots/` en la raíz del proyecto.
-> Cambia las rutas si usas otra carpeta (`docs/img`, `assets`, etc.).
 
 ### Pantalla de bienvenida
 
