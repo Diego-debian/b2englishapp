@@ -1,0 +1,62 @@
+services:
+  # PostgreSQL database service. Persists data in a named volume.
+  db:
+    image: postgres:13
+    restart: always
+    environment:
+      POSTGRES_DB: b2english
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  # Backend service running FastAPI.
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    # Run the FastAPI application via Uvicorn.
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000
+    environment:
+      # Database connection string used by SQLAlchemy.
+      DATABASE_URL: postgresql+psycopg2://postgres:postgres@db:5432/b2english
+    volumes:
+      - ./backend/app:/code/app
+    depends_on:
+      - db
+    ports:
+      - "8001:8000"
+
+  # Frontend service running Next.js. Serves the compiled production build.
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    environment:
+      # Public API URL used on the client side to access the backend within the Docker network.
+      NEXT_PUBLIC_API_URL: http://localhost:8001
+      PORT: 3000
+    #volumes:
+    #  - ./frontend:/app
+    depends_on:
+      - backend
+    ports:
+      - "3000:3000"
+
+  # Optional Cloudflare Tunnel to expose the frontend securely without opening local ports.
+  # To enable this service, provide a valid TUNNEL_TOKEN in a .env file.
+
+#  cloudflared:
+#    image: cloudflare/cloudflared:latest
+#    command: tunnel --no-autoupdate run
+#    env_file:
+#      - ./.env
+#    depends_on:
+#      - frontend
+#    restart: unless-stopped
+
+volumes:
+  db_data:
+    driver: local

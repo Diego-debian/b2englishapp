@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * Animación global de confetti. Se define aquí porque cada trocito
+ * de confetti necesita tiempos distintos y Tailwind no puede generar
+ * keyframes arbitrarios.
+ */
+@keyframes confetti {
+  0% {
+    transform: translateY(-10%) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(110vh) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+@layer utilities {
+  .animate-confetti {
+    animation: confetti 2.5s linear forwards;
+  }
+}
