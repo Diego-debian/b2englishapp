@@ -101,12 +101,16 @@ function PracticeInner() {
     updateLadderLevel,
     usedQuestionIdsThisRun,
     lastMissionCompletedDate,
-    markMissionComplete
+    markMissionComplete,
+    isDailyRun,
+    addToHistory
   } = usePracticeStore();
 
   // Derived state (Moved up for dependencies)
   const isRunReady = questions.length > 0 && attemptId !== null;
   const isFinished = isRunReady && currentIndex >= questions.length;
+  const currentQ = questions[currentIndex];
+
   // Daily Lock Calculation
   const today = new Date().toISOString().split("T")[0];
   const isDailyLocked = lastMissionCompletedDate === today;
@@ -114,12 +118,22 @@ function PracticeInner() {
   // Mark completion if finished
   useEffect(() => {
     if (isFinished) {
-      const { isDailyRun } = usePracticeStore.getState();
       if (isDailyRun) {
         markMissionComplete();
       }
     }
-  }, [isFinished, markMissionComplete]);
+  }, [isFinished, markMissionComplete, isDailyRun]);
+
+  // LRU Update Strategy: Option A (When Shown)
+  // WHY: We update lastSeen immediately when the question is presented.
+  // This ensures that even if the user abandons the session or skips without submitting,
+  // the question is marked as "recently seen" (high timestamp) and will be downranked
+  // by the LRU selector in future sessions, preventing immediate repetition.
+  useEffect(() => {
+    if (currentQ?.id) {
+      addToHistory(currentQ.id);
+    }
+  }, [currentQ?.id, addToHistory]);
 
   const [activities, setActivities] = useState<ActivityOut[]>([]);
   const [loading, setLoading] = useState(false);
@@ -191,10 +205,7 @@ function PracticeInner() {
     setAnswer("");
   }, [currentIndex, questions]);
 
-  const currentQ: QuestionOut | null = useMemo(() => {
-    if (questions.length === 0) return null;
-    return questions[currentIndex] ?? null;
-  }, [questions, currentIndex]);
+
 
   const progressText = useMemo(() => {
     const n = questions.length;
@@ -369,6 +380,11 @@ function PracticeInner() {
 
       } else {
         // --- CLASSIC MODE LOGIC (RANDOMIZED POOLS) ---
+
+        // DAY2 VARIETY V2 behind flag
+        // Default to "0" (Old Logic) if not set or set to anything else
+        const useVarietyV2 = process.env.NEXT_PUBLIC_PRACTICE_VARIETY_V2 === "1";
+
         const sorted = [...activities].sort((a, b) => a.difficulty - b.difficulty);
 
         // Split into thirds for difficulty bands
@@ -377,47 +393,246 @@ function PracticeInner() {
         const midBand = sorted.slice(third, third * 2);
         const highBand = sorted.slice(third * 2);
 
-        // Pick random from each band (fallback to sorted[0]/mid/last if something fails, though slice handles empty fine)
-        const warmupAct = lowBand[Math.floor(Math.random() * lowBand.length)] || sorted[0];
-        const mainAct = midBand[Math.floor(Math.random() * midBand.length)] || sorted[Math.floor(sorted.length / 2)];
-        const bossAct = highBand[Math.floor(Math.random() * highBand.length)] || sorted[sorted.length - 1];
+        if (useVarietyV2) {
+          // ==========================================
+          // V2 LOGIC: POOL EXPANSION + SOFT FILTER
+          // ==========================================
 
-        const [wQs, mQs, bQs] = await Promise.all([
-          api.activityQuestions(warmupAct.id, { signal: abort.signal }),
-          api.activityQuestions(mainAct.id, { signal: abort.signal }),
-          api.activityQuestions(bossAct.id, { signal: abort.signal })
-        ]);
+          // Pool Expansion Helper
+          // Select up to K distinct random activities from a band
+          const pickK = (arr: ActivityOut[], k: number) => {
+            if (arr.length <= k) return arr;
+            const shuffled = [...arr].sort(() => 0.5 - Math.random());
+            return shuffled.slice(0, k);
+          };
 
-        const filterRecent = (qs: QuestionOut[]) => {
-          const sevenDaysAgo = new Date();
-          sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
-          return qs.filter((q) => {
-            const lastSeen = history[q.id];
-            if (!lastSeen) return true;
-            return new Date(lastSeen) < sevenDaysAgo;
+          const K = 3; // Configurable pool size (Hard Limit)
+          const wActs = pickK(lowBand, K);
+          const mActs = pickK(midBand, K);
+          const bActs = pickK(highBand, K);
+
+          // Fetch questions for ALL selected activities in parallel (Fault Tolerant)
+          // Promise.allSettled to avoid full crash if one fails
+          // Refactored to return stats for dev metrics
+          const fetchBandQuestions = async (acts: ActivityOut[]) => {
+            const results = await Promise.allSettled(
+              acts.map(act => api.activityQuestions(act.id, { signal: abort.signal }))
+            );
+
+            let bandQs: QuestionOut[] = [];
+            let fulfilled = 0;
+            let rejected = 0;
+            let rawCount = 0;
+
+            results.forEach(res => {
+              if (res.status === "fulfilled") {
+                fulfilled++;
+                rawCount += res.value.length;
+                bandQs = bandQs.concat(res.value);
+              } else {
+                rejected++;
+                console.warn("Variety fetch failed for an activity", res.reason);
+              }
+            });
+            return { qs: bandQs, fulfilled, rejected, rawCount };
+          };
+
+          const [wRes, mRes, bRes] = await Promise.all([
+            fetchBandQuestions(wActs),
+            fetchBandQuestions(mActs),
+            fetchBandQuestions(bActs)
+          ]);
+
+          const wQs = wRes.qs;
+          const mQs = mRes.qs;
+          const bQs = bRes.qs;
+
+          // Deduplicate by ID
+          const dedupe = (qs: QuestionOut[]) => {
+            const seen = new Set();
+            return qs.filter(q => {
+              const duplicate = seen.has(q.id);
+              seen.add(q.id);
+              return !duplicate;
+            });
+          };
+
+          const safeW = dedupe(wQs.filter(isValidQuestion));
+          const safeM = dedupe(mQs.filter(isValidQuestion));
+          const safeB = dedupe(bQs.filter(isValidQuestion));
+
+          // ==========================================
+          // LRU SORT STRATEGY (V2 Variedad Real)
+          // ==========================================
+          // WHY: We want to prioritize content based on user history to maximize learning value.
+          // 1. NEVER SEEN (Rank ~0): Highest priority. Fresh content is king.
+          // 2. OLD SEEN (Rank ~Timestamp): Medium priority. Spaced repetition (older = smaller timestamp = better rank).
+          // 3. RECENT SEEN (Rank ~Timestamp): Low priority. Don't repeat what was just done.
+          // Sort Direction: ASCENDING (Smaller score is better)
+
+          const SESSION_POOL_SIZE = 20; // Target configurable
+
+          // 1. Global Merger
+          const mergedPool = [...safeW, ...safeM, ...safeB];
+
+          // 2. Rank calculation (Mapped for stability)
+          const rankedPool = mergedPool.map(q => {
+            const lastSeenIso = history[q.id];
+            let rank = 0;
+            if (!lastSeenIso) {
+              // Never seen (Score < 1). Random noise [0.0, 0.99] for shuffle.
+              rank = Math.random();
+            } else {
+              // Seen (Score > 1e12). Timestamp. Old < Recent.
+              rank = new Date(lastSeenIso).getTime();
+            }
+            return { q, rank };
           });
-        };
 
-        const fW = filterRecent(wQs.filter(isValidQuestion));
-        const fM = filterRecent(mQs.filter(isValidQuestion));
-        const fB = filterRecent(bQs.filter(isValidQuestion));
+          // 3. Sort (Ascending: 0..1..Timestamp)
+          rankedPool.sort((a, b) => a.rank - b.rank);
 
-        const finalW = fW.length > 0 ? fW : wQs.filter(isValidQuestion);
-        const finalM = fM.length > 0 ? fM : mQs.filter(isValidQuestion);
-        const finalB = fB.length > 0 ? fB : bQs.filter(isValidQuestion);
+          // 4. Unwrap & Unique Filter
+          const uniqueSorted = (() => {
+            const s = new Set();
+            const result: QuestionOut[] = [];
+            for (const item of rankedPool) {
+              if (!s.has(item.q.id)) {
+                s.add(item.q.id);
+                result.push(item.q);
+              }
+            }
+            return result;
+          })();
 
-        // Shuffle logic here is standard, store's stable shuffle will handle options
-        const questSet = [
-          ...shuffleArray(finalW).slice(0, 2),
-          ...shuffleArray(finalM).slice(0, 3),
-          ...shuffleArray(finalB).slice(0, 1)
-        ];
+          // 5. Build Session Pool
+          const questSet = uniqueSorted.slice(0, SESSION_POOL_SIZE);
 
-        setQuestions(questSet);
-        const attempt = await api.attemptStart({ activity_id: mainAct.id }, { signal: abort.signal });
-        setAttempt(attempt.attempt_id);
-        // Pre-cache main attempt (likely useless for Warmup/Boss questions due to mismatch, but simpler start)
-        usePracticeStore.getState().setAttemptForActivity(mainAct.id, attempt.attempt_id);
+          if (questSet.length === 0) {
+            throw new Error("No se pudieron cargar preguntas. Por favor intenta de nuevo.");
+          }
+
+          // --- DEV ONLY METRICS (DAY2 VARIETY) ---
+          if (process.env.NODE_ENV === "development") {
+            try {
+              const totalReqs = wActs.length + mActs.length + bActs.length;
+              const fulfilledTotal = wRes.fulfilled + mRes.fulfilled + bRes.fulfilled;
+              const failedTotal = wRes.rejected + mRes.rejected + bRes.rejected;
+              const rawCountTotal = wRes.rawCount + mRes.rawCount + bRes.rawCount;
+
+              const uniqueSources = new Set(questSet.map(q => q.activity_id)).size;
+
+              // Deterministic Repeat Analysis
+              const sevenDaysAgo = new Date();
+              sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+              const sevenDaysMs = sevenDaysAgo.getTime();
+
+              let neverSeenCount = 0;
+              let oldSeenCount = 0;
+              let recentSeenCount = 0;
+              let deterministicRepeats = 0;
+
+              questSet.forEach(q => {
+                const seenIso = history[q.id];
+                if (!seenIso) {
+                  neverSeenCount++;
+                } else {
+                  deterministicRepeats++; // Any history record counts as a "repeat" vs pure fresh
+                  const seenTime = new Date(seenIso).getTime();
+                  if (seenTime < sevenDaysMs) {
+                    oldSeenCount++;
+                  } else {
+                    recentSeenCount++;
+                  }
+                }
+              });
+
+              console.groupCollapsed("📊 Quest Variety Metrics");
+              console.log({
+                target: "V2_LRU_SORT",
+                session_pool_target: SESSION_POOL_SIZE,
+                requests_total: totalReqs,
+                requests_succeeded: fulfilledTotal,
+                pool_size_raw_merged: mergedPool.length,
+                pool_size_final: questSet.length,
+
+                // Variety Breakdown
+                neverSeen_count: neverSeenCount,
+                oldSeen_count: oldSeenCount,
+                recentSeen_count: recentSeenCount,
+
+                // "Repeat" = Anything not effectively new
+                repeats_total_in_session: deterministicRepeats,
+                unique_activity_sources: uniqueSources
+              });
+
+              // LRU Verification Log
+              console.log("🏆 Top 5 (High Priority - Should be Never Seen or Oldest):",
+                rankedPool.slice(0, 5).map(x => ({ id: x.q.id, rank: x.rank, seen: history[x.q.id] || "NEVER" }))
+              );
+              console.log("📉 Bottom 5 (Low Priority - Should be Newest):",
+                rankedPool.slice(-5).map(x => ({ id: x.q.id, rank: x.rank, seen: history[x.q.id] || "NEVER" }))
+              );
+
+              console.groupEnd();
+            } catch (e) {
+              console.warn("Failed to log metrics", e);
+            }
+          }
+
+          setQuestions(questSet);
+
+          // Start attempt with first available activity
+          const firstQ = questSet[0];
+          const attempt = await api.attemptStart({ activity_id: firstQ.activity_id }, { signal: abort.signal });
+          setAttempt(attempt.attempt_id);
+          usePracticeStore.getState().setAttemptForActivity(firstQ.activity_id, attempt.attempt_id);
+
+        } else {
+          // ==========================================
+          // V1 LOGIC: SINGLE ACTIVITY + STRICT FILTER
+          // ==========================================
+
+          // Pick random from each band
+          const warmupAct = lowBand[Math.floor(Math.random() * lowBand.length)] || sorted[0];
+          const mainAct = midBand[Math.floor(Math.random() * midBand.length)] || sorted[Math.floor(sorted.length / 2)];
+          const bossAct = highBand[Math.floor(Math.random() * highBand.length)] || sorted[sorted.length - 1];
+
+          const [wQs, mQs, bQs] = await Promise.all([
+            api.activityQuestions(warmupAct.id, { signal: abort.signal }),
+            api.activityQuestions(mainAct.id, { signal: abort.signal }),
+            api.activityQuestions(bossAct.id, { signal: abort.signal })
+          ]);
+
+          const filterRecentStrict = (qs: QuestionOut[]) => {
+            const sevenDaysAgo = new Date();
+            sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+            return qs.filter((q) => {
+              const lastSeen = history[q.id];
+              if (!lastSeen) return true;
+              return new Date(lastSeen) < sevenDaysAgo;
+            });
+          };
+
+          const fW = filterRecentStrict(wQs.filter(isValidQuestion));
+          const fM = filterRecentStrict(mQs.filter(isValidQuestion));
+          const fB = filterRecentStrict(bQs.filter(isValidQuestion));
+
+          const finalW = fW.length > 0 ? fW : wQs.filter(isValidQuestion);
+          const finalM = fM.length > 0 ? fM : mQs.filter(isValidQuestion);
+          const finalB = fB.length > 0 ? fB : bQs.filter(isValidQuestion);
+
+          const questSet = [
+            ...shuffleArray(finalW).slice(0, 2),
+            ...shuffleArray(finalM).slice(0, 3),
+            ...shuffleArray(finalB).slice(0, 1)
+          ];
+
+          setQuestions(questSet);
+          const attempt = await api.attemptStart({ activity_id: mainAct.id }, { signal: abort.signal });
+          setAttempt(attempt.attempt_id);
+          usePracticeStore.getState().setAttemptForActivity(mainAct.id, attempt.attempt_id);
+        }
       }
 
       startTimeRef.current = performance.now();
