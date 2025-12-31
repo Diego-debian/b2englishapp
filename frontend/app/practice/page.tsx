@@ -848,297 +848,215 @@ function PracticeInner() {
   const currentLevel = Math.floor(sessionXp / 100) + 1; // Visual session level
 
   return (
-    <div className="grid gap-6">
-      <div className="flex flex-wrap items-center justify-between gap-4">
+    <div className="max-w-7xl mx-auto px-4 md:px-6 py-5 pb-10">
+
+      {/* HEADER: Title & Mobile Actions */}
+      <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
         <div>
-          <h1 className="text-3xl font-bold text-slate-900">Misión de Práctica</h1>
-          <p className="text-sm text-slate-600 mt-1">
-            Completa tu entrenamiento de hoy para mantener tu racha.
+          <h1 className="text-2xl md:text-3xl font-bold text-slate-900 tracking-tight">
+            Misión de Práctica
+          </h1>
+          <p className="text-sm text-slate-500 mt-1 font-medium">
+            Entrenamiento cognitivo diario
           </p>
         </div>
 
-        <div className="flex items-center gap-4">
+        {/* Mobile Actions (Hidden on Desktop) */}
+        <div className="flex items-center gap-3 lg:hidden">
           {isRunReady && !isFinished && (
             <Button
               variant="ghost"
-              className="h-8 px-3 text-red-500 hover:text-red-700 hover:bg-red-50 text-xs uppercase tracking-widest font-bold"
-              onClick={() => {
-                if (confirm("¿Estás seguro de que quieres abandonar esta misión?")) {
-                  resetRun();
-                }
-              }}
+              className="h-8 px-2 text-red-500 text-xs font-bold uppercase"
+              onClick={() => confirm("¿Abandonar?") && resetRun()}
             >
-              Abandonar
+              Salir
             </Button>
-
           )}
-
-          <div className="flex items-center gap-2 px-4 py-2 bg-amber-100 rounded-full border border-amber-200">
-            <span className="text-xl">🔥</span>
-            <span className="font-bold text-amber-700">{streak} Días</span>
+          <div className="flex items-center gap-2 px-3 py-1 bg-amber-50 rounded-full border border-amber-100">
+            <span className="text-lg">🔥</span>
+            <span className="font-bold text-amber-700 text-sm">{streak}</span>
           </div>
-
           <Link href="/dashboard">
-            <Button variant="ghost" className="text-slate-500 hover:text-slate-900 transition-colors">
-              ← Salir
-            </Button>
+            <Button variant="ghost" className="text-slate-400 h-8 w-8 p-0 text-sm">✕</Button>
           </Link>
         </div>
       </div>
 
-      {/* Mode Toggle */}
-      {!isRunReady && !isFinished && (
-        <div className="flex justify-center mb-4">
-          <div className="bg-slate-100 p-1 rounded-xl inline-flex relative shadow-inner">
-            <button
-              onClick={() => setPracticeMode("classic")}
-              className={`px-6 py-2 rounded-lg text-sm font-bold transition-all relative z-10 ${practiceMode === "classic"
-                ? "bg-white text-slate-800 shadow-sm"
-                : "text-slate-500 hover:text-slate-700"
-                }`}
-              type="button"
-            >
-              Classic
-            </button>
-            <button
-              onClick={() => setPracticeMode("millionaire")}
-              className={`px-6 py-2 rounded-lg text-sm font-bold transition-all relative z-10 ${practiceMode === "millionaire"
-                ? "bg-slate-900 text-amber-400 shadow-sm"
-                : "text-slate-500 hover:text-slate-700"
-                }`}
-              type="button"
-            >
-              Millionaire
-            </button>
-          </div>
-        </div>
-      )}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
 
-      {err && (
-        <Alert
-          variant={status === 403 ? "warn" : "error"}
-          title={status === 403 ? "No autorizado" : "Atención"}
-          description={err}
-        />
-      )}
+        {/* === MAIN CONTENT (Left - 8 Cols) === */}
+        <div className="lg:col-span-8 space-y-5">
 
-      {!isRunReady && !isFinished && (
-        <div className="grid md:grid-cols-2 gap-4">
-          {/* Option 1: Daily Mission (Locked) */}
-          <Card
-            className={`
-               relative overflow-hidden cursor-pointer transition-all duration-300 border-2
-               ${isDailyLocked
-                ? "opacity-60 grayscale cursor-not-allowed border-slate-200 bg-slate-50"
-                : "hover:scale-[1.02] border-violet-500 bg-violet-50 hover:shadow-lg"}
-             `}
-            onClick={() => !isDailyLocked && !loading && startQuest(true)}
-          >
-            <div className="p-6 flex flex-col items-center text-center h-full justify-center space-y-3">
-              <div className="text-4xl">📅</div>
-              <div>
-                <h3 className="text-lg font-black text-slate-900">Misión Diaria</h3>
-                <p className="text-xs text-slate-600 mt-1">Completa el reto oficial para ganar tu racha.</p>
+          {/* Mode Toggle (Only when idle) */}
+          {!isRunReady && !isFinished && (
+            <div className="flex justify-start">
+              <div className="bg-slate-100 p-1 rounded-xl inline-flex relative shadow-inner">
+                <button
+                  onClick={() => setPracticeMode("classic")}
+                  className={`px-6 py-2 rounded-lg text-sm font-bold transition-all ${practiceMode === "classic"
+                    ? "bg-white text-slate-800 shadow-sm"
+                    : "text-slate-500 hover:text-slate-700"}`}
+                >
+                  Classic
+                </button>
+                <button
+                  onClick={() => setPracticeMode("millionaire")}
+                  className={`px-6 py-2 rounded-lg text-sm font-bold transition-all ${practiceMode === "millionaire"
+                    ? "bg-slate-900 text-amber-400 shadow-sm"
+                    : "text-slate-500 hover:text-slate-700"}`}
+                >
+                  Millionaire
+                </button>
               </div>
-              {isDailyLocked ? (
-                <span className="inline-block px-3 py-1 bg-slate-200 text-slate-500 rounded-full text-xs font-bold">
-                  ✅ Completada hoy
-                </span>
-              ) : (
-                <span className="inline-block px-3 py-1 bg-violet-200 text-violet-700 rounded-full text-xs font-bold animate-pulse">
-                  ✨ Disponible
-                </span>
-              )}
             </div>
-          </Card>
+          )}
 
-          {/* Option 2: Free Practice (Unlimited) */}
-          <Card
-            className="relative overflow-hidden cursor-pointer transition-all duration-300 border-2 border-slate-200 bg-white hover:border-amber-400 hover:shadow-lg hover:scale-[1.02]"
-            onClick={() => !loading && startQuest(false)}
-          >
-            <div className="p-6 flex flex-col items-center text-center h-full justify-center space-y-3">
-              <div className="text-4xl">♾️</div>
-              <div>
-                <h3 className="text-lg font-black text-slate-900">Práctica Libre</h3>
-                <p className="text-xs text-slate-600 mt-1">
-                  Entrena sin límites. No cuenta para la racha diaria.
-                </p>
-              </div>
-              <span className="inline-block px-3 py-1 bg-slate-100 text-slate-500 rounded-full text-xs font-bold">
-                Siempre disponible
-              </span>
-            </div>
-          </Card>
-        </div>
-      )}
+          {err && (
+            <Alert
+              variant={status === 403 ? "warn" : "error"}
+              title={status === 403 ? "No autorizado" : "Atención"}
+              description={err}
+            />
+          )}
 
-      {loading && !isRunReady && (
-        <div className="text-center py-12">
-          <Spinner />
-          <p className="text-slate-500 mt-4 animate-pulse">Preparando tu sesión...</p>
-        </div>
-      )}
-
-      {isRunReady && !isFinished && currentQ && (
-        <>
-          <div className="grid gap-4 md:grid-cols-3">
-            {practiceMode === "millionaire" ? (
-              <Card className="md:col-span-3 border-2 border-amber-200 bg-amber-50">
-                <div className="flex items-center justify-between">
+          {/* IDLE STATE: Selection Cards */}
+          {!isRunReady && !isFinished && (
+            <div className="grid md:grid-cols-2 gap-4">
+              <Card
+                className={`
+                   relative overflow-hidden cursor-pointer transition-all duration-300 border-2
+                   ${isDailyLocked
+                    ? "opacity-60 grayscale cursor-not-allowed border-slate-200 bg-slate-50"
+                    : "hover:scale-[1.02] border-violet-500 bg-violet-50 hover:shadow-lg"}
+                 `}
+                onClick={() => !isDailyLocked && !loading && startQuest(true)}
+              >
+                <div className="p-6 flex flex-col items-center text-center h-full justify-center space-y-3">
+                  <div className="text-4xl">📅</div>
                   <div>
-                    <p className="text-[10px] font-bold text-amber-700 uppercase tracking-widest">Modo Millionaire</p>
-                    <p className="text-xs text-amber-900 mt-1">Un error y termina la partida</p>
+                    <h3 className="text-lg font-black text-slate-900">Misión Diaria</h3>
+                    <p className="text-xs text-slate-600 mt-1">Completa el reto oficial</p>
                   </div>
-                  {/* Timer Display */}
-                  {timeLeft !== null && (
-                    <div className={`text-2xl font-black font-mono px-4 py-2 rounded-xl ${timeLeft < 10 ? "bg-red-100 text-red-600 animate-pulse" : "bg-slate-100 text-slate-700"}`}>
-                      {Math.floor(timeLeft / 60)}:{String(timeLeft % 60).padStart(2, '0')}
-                    </div>
+                  {isDailyLocked ? (
+                    <span className="px-3 py-1 bg-slate-200 text-slate-500 rounded-full text-xs font-bold">
+                      ✅ Completada
+                    </span>
+                  ) : (
+                    <span className="px-3 py-1 bg-violet-200 text-violet-700 rounded-full text-xs font-bold animate-pulse">
+                      ✨ Disponible
+                    </span>
                   )}
                 </div>
-
-                {/* Lifelines Bar */}
-                {isRunReady && !isFinished && (
-                  <div className="flex gap-2 mt-4 border-t border-amber-200/50 pt-3">
-                    <Button
-                      variant="secondary"
-                      onClick={useSwap}
-                      disabled={lifelines.swap || loading || !!lastFeedback}
-                      className={`flex-1 border-amber-300 hover:bg-amber-100 ${lifelines.swap ? "opacity-50 grayscale" : ""}`}
-                    >
-                      🔄 Cambio {lifelines.swap && "❌"}
-                    </Button>
-                    <Button
-                      variant="secondary"
-                      onClick={useTime}
-                      disabled={lifelines.time || loading || !!lastFeedback}
-                      className={`flex-1 border-blue-300 hover:bg-blue-100 text-blue-700 ${lifelines.time ? "opacity-50 grayscale" : ""}`}
-                    >
-                      ⏳ +30s {lifelines.time && "❌"}
-                    </Button>
-                    <Button
-                      variant="secondary"
-                      onClick={useDouble}
-                      disabled={lifelines.double || loading || !!lastFeedback}
-                      className={`flex-1 border-purple-300 hover:bg-purple-100 text-purple-700 ${lifelines.double ? "opacity-50 grayscale" : ""}`}
-                    >
-                      ✨ x2 XP {lifelines.double && "❌"}
-                    </Button>
-                  </div>
-                )}
               </Card>
-            ) : (
-              <>
-                <Card
-                  className={`border-2 transition-all ${questPhase === "WARMUP"
-                    ? "border-emerald-500 bg-emerald-50"
-                    : "border-slate-100 opacity-50"
-                    }`}
-                >
-                  <p className="text-[10px] font-bold text-emerald-600 uppercase tracking-widest">
-                    Fase 1: Warm-up
-                  </p>
-                  <p className="text-xs text-emerald-800 mt-1">Calentamiento cognitivo</p>
-                </Card>
 
-                <Card
-                  className={`border-2 transition-all ${questPhase === "MAIN"
-                    ? "border-violet-500 bg-violet-50"
-                    : "border-slate-100 opacity-50"
-                    }`}
-                >
-                  <p className="text-[10px] font-bold text-violet-600 uppercase tracking-widest">
-                    Fase 2: Main Quest
-                  </p>
-                  <p className="text-xs text-violet-800 mt-1">Núcleo del aprendizaje</p>
-                </Card>
+              <Card
+                className="relative overflow-hidden cursor-pointer transition-all duration-300 border-2 border-slate-200 bg-white hover:border-amber-400 hover:shadow-lg hover:scale-[1.02]"
+                onClick={() => !loading && startQuest(false)}
+              >
+                <div className="p-6 flex flex-col items-center text-center h-full justify-center space-y-3">
+                  <div className="text-4xl">♾️</div>
+                  <div>
+                    <h3 className="text-lg font-black text-slate-900">Práctica Libre</h3>
+                    <p className="text-xs text-slate-600 mt-1">Entrena sin límites</p>
+                  </div>
+                  <span className="px-3 py-1 bg-slate-100 text-slate-500 rounded-full text-xs font-bold">
+                    Siempre disponible
+                  </span>
+                </div>
+              </Card>
+            </div>
+          )}
 
-                <Card
-                  className={`border-2 transition-all ${questPhase === "BOSS"
-                    ? "border-rose-500 bg-rose-50"
-                    : "border-slate-100 opacity-50"
-                    }`}
-                >
-                  <p className="text-[10px] font-bold text-rose-600 uppercase tracking-widest">
-                    Fase 3: Boss
-                  </p>
-                  <p className="text-xs text-rose-800 mt-1">Máxima producción</p>
-                </Card>
-              </>
-            )}
-          </div>
+          {/* LOADING STATE */}
+          {loading && !isRunReady && (
+            <div className="text-center py-12">
+              <Spinner />
+              <p className="text-slate-500 mt-4 animate-pulse">Preparando tu sesión...</p>
+            </div>
+          )}
 
-          <div className={`grid gap-6 ${practiceMode === "millionaire" ? "lg:grid-cols-4" : ""}`}>
-            {/* Question Area */}
-            <div className={practiceMode === "millionaire" ? "lg:col-span-3" : ""}>
-              <Card className={`relative overflow-hidden h-full transition-colors duration-500 ${practiceMode === "millionaire"
-                ? "border-amber-900/10 bg-slate-900 text-white"
-                : "border-slate-200 bg-white"
-                }`}>
-                {/* Progress Bar (Classic Only) */}
+          {/* ACTIVE GAME STATE */}
+          {isRunReady && !isFinished && currentQ && (
+            <div className="space-y-4">
+              {/* Phase / Info Cards (Horizontal Bar) */}
+              <div className="grid grid-cols-3 gap-2">
+                {practiceMode === "millionaire" ? (
+                  <Card className="col-span-3 border-2 border-amber-200 bg-amber-50 p-3 flex items-center justify-between">
+                    <div>
+                      <p className="text-[10px] font-bold text-amber-700 uppercase tracking-widest">Modo Millionaire</p>
+                      <p className="text-xs text-amber-900">Muerte súbita activa</p>
+                    </div>
+                    {timeLeft !== null && (
+                      <div className={`text-lg font-black font-mono px-3 py-1 rounded-lg ${timeLeft < 10 ? "bg-red-100 text-red-600 animate-pulse" : "bg-white text-slate-700"}`}>
+                        {Math.floor(timeLeft / 60)}:{String(timeLeft % 60).padStart(2, '0')}
+                      </div>
+                    )}
+                  </Card>
+                ) : (
+                  <>
+                    {/* Classic Phases - Compact & highlighted */}
+                    <Card className={`p-2 border-b-4 text-center transition-all ${questPhase === "WARMUP" ? "border-emerald-500 bg-emerald-50 opacity-100 shadow-sm" : "border-transparent opacity-60 bg-slate-50 grayscale"}`}>
+                      <p className={`text-[10px] font-bold uppercase tracking-widest ${questPhase === "WARMUP" ? "text-emerald-800" : "text-slate-400"}`}>Warm-up</p>
+                    </Card>
+                    <Card className={`p-2 border-b-4 text-center transition-all ${questPhase === "MAIN" ? "border-violet-500 bg-violet-50 opacity-100 shadow-sm" : "border-transparent opacity-60 bg-slate-50 grayscale"}`}>
+                      <p className={`text-[10px] font-bold uppercase tracking-widest ${questPhase === "MAIN" ? "text-violet-800" : "text-slate-400"}`}>Main</p>
+                    </Card>
+                    <Card className={`p-2 border-b-4 text-center transition-all ${questPhase === "BOSS" ? "border-rose-500 bg-rose-50 opacity-100 shadow-sm" : "border-transparent opacity-60 bg-slate-50 grayscale"}`}>
+                      <p className={`text-[10px] font-bold uppercase tracking-widest ${questPhase === "BOSS" ? "text-rose-800" : "text-slate-400"}`}>Boss</p>
+                    </Card>
+                  </>
+                )}
+              </div>
+
+              {/* Main Context Card */}
+              <Card className={`relative overflow-hidden min-h-[350px] transition-colors duration-500 ${practiceMode === "millionaire" ? "bg-slate-900 text-white border-slate-800" : "bg-white border-slate-200"}`}>
+                {/* Progress Line (Classic) */}
                 {practiceMode !== "millionaire" && (
                   <div
-                    className={`absolute top-0 left-0 h-1.5 transition-all duration-1000 ${questPhase === "WARMUP"
-                      ? "bg-emerald-500"
-                      : questPhase === "MAIN"
-                        ? "bg-violet-500"
-                        : "bg-rose-500"
+                    className={`absolute top-0 left-0 h-1 transition-all duration-1000 ${questPhase === "WARMUP" ? "bg-emerald-500" :
+                      questPhase === "MAIN" ? "bg-violet-500" : "bg-rose-500"
                       }`}
                     style={{ width: `${progressValue}%` }}
                   />
                 )}
 
-                <div className="p-2 sm:p-6 mt-4">
-                  <div className="flex items-start justify-between gap-4 mb-8">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-3">
-                        {practiceMode === "millionaire" ? (
-                          <span className="px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30 text-[10px] font-bold uppercase tracking-widest">
-                            Nivel {currentIndex + 1} de {questions.length}
-                          </span>
-                        ) : (
-                          <span className="px-2 py-1 rounded-md bg-slate-100 text-[10px] font-bold text-slate-500 uppercase tracking-widest">
-                            Pregunta {progressText}
-                          </span>
-                        )}
-
-                        <span
-                          className={`px-2 py-1 rounded-md text-[10px] font-bold uppercase tracking-widest ${practiceMode === "millionaire"
-                            ? "bg-slate-800 text-slate-400"
-                            : (["choice", "mcq", "multiple_choice", "true_false"].includes(currentQ.kind) ? "bg-blue-100 text-blue-600" : "bg-orange-100 text-orange-600")
-                            }`}
-                        >
-                          {["choice", "mcq", "multiple_choice", "true_false"].includes(currentQ.kind) ? "Opción Múltiple" : "Entrada de Texto"}
-                        </span>
-
-                        {practiceMode === "classic" && (
-                          <span className="px-2 py-1 rounded-md bg-amber-100 text-[10px] font-bold text-amber-700 uppercase tracking-widest">
-                            Nivel {currentLevel}
-                          </span>
-                        )}
-                      </div>
-
-                      {/* Pedagogical Prompt Rendering */}
-                      <div>
-                        <p className={`text-xs font-bold uppercase tracking-widest mb-2 ${practiceMode === "millionaire" ? "text-amber-400" : "text-slate-400"}`}>
-                          {normalizePrompt(currentQ.prompt).instruction}
-                        </p>
-                        <h2 className={`text-3xl font-black leading-tight ${practiceMode === "millionaire" ? "text-white" : "text-slate-900"}`}>
-                          {normalizePrompt(currentQ.prompt).content}
-                        </h2>
-                      </div>
-                    </div>
+                <div className="p-4 md:p-6 text-base">
+                  {/* Question Metadata */}
+                  <div className="flex items-center gap-3 mb-4">
+                    <span className={`px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-widest ${practiceMode === "millionaire" ? "bg-amber-500/20 text-amber-400" : "bg-slate-100 text-slate-500"}`}>
+                      #{currentIndex + 1}
+                    </span>
+                    <span className={`px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-widest ${["choice", "mcq", "multiple_choice", "true_false"].includes(currentQ.kind)
+                      ? "bg-blue-50 text-blue-600"
+                      : "bg-orange-50 text-orange-600"
+                      }`}>
+                      {["choice", "mcq", "multiple_choice", "true_false"].includes(currentQ.kind) ? "Opción" : "Escritura"}
+                    </span>
                   </div>
 
-                  <div className="space-y-8">
-                    {activeDoubleXp && (
-                      <div className="bg-purple-100 text-purple-700 px-4 py-2 rounded-lg text-center font-bold animate-pulse border border-purple-200">
-                        ✨ DOBLE XP ACTIVO ✨
-                      </div>
-                    )}
+                  {/* The Question */}
+                  <div className="mb-6">
+                    <p className={`text-[10px] font-bold uppercase tracking-widest mb-2 ${practiceMode === "millionaire" ? "text-slate-400" : "text-slate-400"}`}>
+                      {normalizePrompt(currentQ.prompt).instruction}
+                    </p>
+                    <h2 className={`text-xl md:text-2xl font-black leading-snug ${practiceMode === "millionaire" ? "text-white" : "text-slate-900"}`}>
+                      {normalizePrompt(currentQ.prompt).content}
+                    </h2>
+                  </div>
 
-                    {loading && <Spinner />}
+                  {/* Millionaire Lifelines (Inside Card for context) */}
+                  {practiceMode === "millionaire" && isRunReady && !isFinished && (
+                    <div className="grid grid-cols-3 gap-2 mb-6">
+                      <Button variant="secondary" onClick={useSwap} disabled={lifelines.swap || !!lastFeedback} className={`text-xs py-1 h-8 ${lifelines.swap ? "opacity-40" : ""}`}>🔄 Swap</Button>
+                      <Button variant="secondary" onClick={useTime} disabled={lifelines.time || !!lastFeedback} className={`text-xs py-1 h-8 ${lifelines.time ? "opacity-40" : ""}`}>⏳ Time</Button>
+                      <Button variant="secondary" onClick={useDouble} disabled={lifelines.double || !!lastFeedback} className={`text-xs py-1 h-8 ${lifelines.double ? "opacity-40" : ""}`}>✨ XP</Button>
+                    </div>
+                  )}
+
+                  {/* Content: Options or Input */}
+                  <div className="space-y-6">
+                    {loading && <div className="py-4"><Spinner /></div>}
+
                     {["choice", "mcq", "multiple_choice", "true_false"].includes(currentQ.kind) ? (
                       <ChoiceQuestion
                         key={currentQ.id}
@@ -1162,140 +1080,149 @@ function PracticeInner() {
                       />
                     )}
 
+                    {/* Feedback Area */}
                     {lastFeedback === null ? (
-                      <div className="flex gap-3 pt-4">
+                      <div className="pt-2">
                         <Button
-                          className={`flex-1 py-6 text-lg font-bold disabled:opacity-30 ${practiceMode === "millionaire"
-                            ? "bg-amber-600 hover:bg-amber-700 text-white border-b-4 border-amber-800 active:border-b-0 active:translate-y-1"
+                          className={`w-full py-3 text-sm font-bold tracking-wide shadow-md hover:shadow-lg transition-all active:scale-[0.98] ${practiceMode === "millionaire"
+                            ? "bg-amber-600 hover:bg-amber-700 text-white"
                             : "bg-slate-900 hover:bg-slate-800 text-white"
                             }`}
                           onClick={submit}
                           disabled={loading || !answer.trim()}
                         >
-                          {loading ? <Spinner /> : (practiceMode === "millionaire" ? "¿Te parece bien esta opción?" : "Comprobar y aprender")}
+                          COMPROBAR
                         </Button>
                       </div>
                     ) : (
-                      <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 space-y-4">
-                        <div
-                          className={[
-                            "rounded-3xl p-6 flex items-center gap-4 border-2 transition-all",
-                            lastFeedback.is_correct
-                              ? "bg-emerald-50 border-emerald-200 text-emerald-700"
-                              : "bg-red-50 border-red-200 text-red-700"
-                          ].join(" ")}
-                        >
-                          <div className="h-12 w-12 rounded-full bg-white flex items-center justify-center text-2xl shadow-sm">
-                            {lastFeedback.is_correct ? "✅" : "❌"}
-                          </div>
+                      /* Feedback UI */
+                      <div className="animate-in fade-in slide-in-from-bottom-2 duration-300 space-y-4 pt-4 border-t border-slate-100">
+                        <div className={`rounded-xl p-4 flex gap-4 ${lastFeedback.is_correct ? "bg-emerald-50 text-emerald-800" : "bg-red-50 text-red-800"}`}>
+                          <div className="text-2xl">{lastFeedback.is_correct ? "✅" : "❌"}</div>
                           <div>
-                            <h4 className="text-xl font-black uppercase tracking-tight">
-                              {lastFeedback.is_correct ? "¡Muy bien! Así se usa 👏" : "Casi 😊 veamos por qué"}
-                            </h4>
-                            <p className="text-sm font-medium opacity-80">
-                              {lastFeedback.is_correct
-                                ? `Has ganado +${lastFeedback.xp_awarded} XP`
-                                : "Aquí está la clave 👇"}
-                            </p>
+                            <p className="font-black uppercase tracking-tight">{lastFeedback.is_correct ? "¡Correcto!" : "Incorrecto"}</p>
+                            <p className="text-sm opacity-80">{lastFeedback.is_correct ? `+${lastFeedback.xp_awarded} XP` : "Revisa la solución abajo"}</p>
                           </div>
                         </div>
 
                         {!lastFeedback.is_correct && lastFeedback.correct_answer && (
-                          <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-6 shadow-sm">
-                            <span className="block text-[10px] font-bold text-emerald-600 uppercase tracking-widest mb-2 flex items-center gap-2">
-                              <span className="h-2 w-2 rounded-full bg-emerald-500" />
-                              La forma correcta es
-                            </span>
-                            <p className="text-xl font-bold text-emerald-900">
-                              {lastFeedback.correct_answer}
-                            </p>
+                          <div className="p-4 bg-emerald-50 border border-emerald-100 rounded-xl">
+                            <p className="text-[10px] font-bold text-emerald-600 uppercase">Respuesta Correcta</p>
+                            <p className="font-bold text-emerald-900 text-lg">{lastFeedback.correct_answer}</p>
                           </div>
                         )}
 
                         {currentQ.explanation && (
-                          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-6 text-sm text-slate-700 leading-relaxed shadow-sm">
-                            <span className="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2 flex items-center gap-2">
-                              <span className="h-2 w-2 rounded-full bg-violet-400" />
-                              💡 Tip rápido
-                            </span>
+                          <div className="p-4 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-600">
+                            <p className="text-[10px] font-bold text-slate-400 uppercase mb-1">💡 Explicación</p>
                             {currentQ.explanation}
                           </div>
                         )}
 
-                        <Button
-                          className="w-full py-6 text-xl font-black uppercase tracking-widest bg-violet-600 text-white hover:bg-violet-500 transition-colors shadow-lg"
-                          onClick={next}
-                          disabled={loading}
-                        >
-                          Seguimos →
+                        <Button onClick={next} className="w-full py-4 bg-violet-600 hover:bg-violet-700 text-white font-black uppercase tracking-widest shadow-lg">
+                          Continuar →
                         </Button>
                       </div>
                     )}
                   </div>
+
                 </div>
               </Card>
             </div>
+          )}
 
-            {/* Ladder Area (Millionaire Only) - VISIBLE for Stage 2 */}
-            {practiceMode === "millionaire" && (
-              <div className="hidden lg:block lg:col-span-1">
+          {/* FINISHED STATE */}
+          {isFinished && (
+            <Card className="text-center p-8 md:p-12 border-emerald-200 bg-gradient-to-b from-emerald-50 to-white">
+              <div className="text-6xl mb-6">🏆</div>
+              <h3 className="text-3xl font-black text-slate-900 uppercase tracking-tighter mb-2">Misión Completada</h3>
+              <div className="grid grid-cols-2 gap-4 max-w-sm mx-auto my-8">
+                <div className="bg-white p-4 rounded-2xl border border-emerald-100 shadow-sm">
+                  <p className="text-xs text-slate-400 font-bold uppercase">XP Ganado</p>
+                  <p className="text-3xl font-black text-emerald-600">+{sessionXp}</p>
+                </div>
+                <div className="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm">
+                  <p className="text-xs text-slate-400 font-bold uppercase">Aciertos</p>
+                  <p className="text-3xl font-black text-slate-700">{Math.round((sessionCorrect / results.length) * 100)}%</p>
+                </div>
+              </div>
+              <div className="flex gap-3 justify-center">
+                <Button onClick={resetRun} className="bg-emerald-600 hover:bg-emerald-500 font-bold py-4 px-8 text-lg flex-1 shadow-xl">Otra Misión</Button>
+                <Link href="/dashboard" className="flex-1">
+                  <Button variant="secondary" className="border-slate-300 hover:bg-slate-50 font-bold py-4 px-8 text-lg w-full shadow-xl">Salir</Button>
+                </Link>
+              </div>
+            </Card>
+          )}
+
+        </div>
+
+        {/* === SIDEBAR (Right - 4 Cols - Desktop Only) === */}
+        <div className="hidden lg:flex lg:col-span-4 flex-col gap-4 sticky top-6">
+
+          {/* Sidebar: User Stats */}
+          <Card className="p-4 border-slate-200 shadow-sm bg-white">
+            <div className="flex items-center justify-between mb-4">
+              <h4 className="font-bold text-slate-700">Tu Progreso</h4>
+              <div className="flex items-center gap-1.5 px-2 py-1 bg-amber-50 text-amber-700 rounded-md border border-amber-100">
+                <span className="text-sm">🔥</span>
+                <span className="text-sm font-bold">{streak} día{streak !== 1 ? 's' : ''}</span>
+              </div>
+            </div>
+            <div className="space-y-3">
+              <div className="flex justify-between text-sm">
+                <span className="text-slate-500 font-medium">Nivel de Sesión</span>
+                <span className="font-bold text-slate-900">{currentLevel}</span>
+              </div>
+              <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                <div className="h-full bg-violet-500 transition-all" style={{ width: `${Math.min(100, (sessionXp % 100))}%` }} />
+              </div>
+              <p className="text-xs text-slate-400 text-center mt-1">Sigue practicando para subir de nivel</p>
+            </div>
+          </Card>
+
+          {/* Sidebar: Millionaire Ladder */}
+          {practiceMode === "millionaire" && isRunReady && !isFinished && (
+            <div className="border rounded-2xl bg-white shadow-sm overflow-hidden">
+              <div className="bg-slate-900 p-3 text-center">
+                <p className="text-xs font-bold text-amber-400 uppercase tracking-widest">Escalera de Premios</p>
+              </div>
+              <div className="p-4">
                 <LadderProgress levels={ladderLevels} currentLevelIndex={currentIndex} />
               </div>
-            )}
-          </div>
-        </>
-      )}
+            </div>
+          )}
 
-      {isFinished && (
-        <Card className="text-center p-12 border-emerald-200 bg-gradient-to-b from-emerald-50 to-white relative overflow-hidden">
-          <div className="relative">
-            <div className="text-6xl mb-6">🏆</div>
-            <h3 className="text-4xl font-black text-slate-900 mb-2 uppercase tracking-tighter">
-              Misión Completada
-            </h3>
-            <p className="text-slate-500 mb-8 max-w-sm mx-auto">
-              Has completado el entrenamiento diario. Tu racha de <b>{streak} días</b> sigue intacta.
+          {/* Sidebar: Tips / Hints Placeholder */}
+          <Card className="p-4 border-blue-100 bg-blue-50/50 dashed-border">
+            <h4 className="font-bold text-blue-800 text-sm mb-2 flex items-center gap-2">
+              <span>💡</span> Pro Tip
+            </h4>
+            <p className="text-xs text-blue-700 leading-relaxed">
+              Intenta leer la pregunta en voz alta. Conectar la pronunciación con la gramática refuerza la memoria a largo plazo.
             </p>
+          </Card>
 
-            <div className="grid grid-cols-2 gap-4 max-w-md mx-auto mb-8">
-              <div className="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm relative overflow-hidden">
-                <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">
-                  XP Total
-                </p>
-                <p className="text-3xl font-black text-emerald-600">+{sessionXp}</p>
-                {sessionBonusXp > 0 && (
-                  <div className="text-[10px] mt-1 pt-1 border-t border-slate-100 flex justify-between text-slate-400">
-                    <span>Real: +{sessionXp - sessionBonusXp}</span>
-                    <span className="text-purple-500 font-bold">Bonus: +{sessionBonusXp}</span>
-                  </div>
-                )}
-              </div>
-              <div className="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm">
-                <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">
-                  Precisión
-                </p>
-                <p className="text-3xl font-black text-cyan-600">
-                  {results.length > 0 ? Math.round((sessionCorrect / results.length) * 100) : 0}%
-                </p>
-              </div>
-            </div>
-
-            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+          {/* Sidebar: Actions */}
+          <div className="space-y-3">
+            {isRunReady && !isFinished && (
               <Button
-                onClick={resetRun}
-                className="flex-1 py-6 bg-emerald-600 hover:bg-emerald-500 text-lg font-bold shadow-xl"
+                variant="ghost"
+                className="w-full border-red-200 text-red-600 hover:bg-red-50 hover:border-red-300"
+                onClick={() => confirm("¿Seguro que quieres salir? Perderás el progreso actual.") && resetRun()}
               >
-                🔄 Nueva Misión
+                Abandonar Misión
               </Button>
-              <Link href="/dashboard" className="flex-1">
-                <Button className="w-full py-6 bg-slate-900 hover:bg-slate-800 text-lg font-bold shadow-xl">
-                  Regresar al Dashboard
-                </Button>
-              </Link>
-            </div>
+            )}
+            <Link href="/dashboard" className="block">
+              <Button variant="ghost" className="w-full text-slate-400 hover:text-slate-600">
+                ← Volver al Dashboard
+              </Button>
+            </Link>
           </div>
-        </Card>
-      )}
+        </div>
+
+      </div>
     </div>
   );
 }

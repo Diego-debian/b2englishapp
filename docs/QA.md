@@ -13,7 +13,7 @@
 #### 2. Tasa de Repetición (Variety Ratio)
 - **CRITERIO:** `repeats_total_in_session` debe ser **<= 30%** en 2 sesiones consecutivas (si el pool total disponible es suficiente).
 - **MOTIVO:** El usuario debe sentir contenido fresco. Si `history` indica que algo se vio hace poco, no debería salir de nuevo si hay opciones frescas.
-
+    
 #### 3. Tolerancia a Fallos (Resilience)
 - **Fallo Parcial:** Si una o más actividades fallan al cargar (Timeout/404) pero otras responden, el juego **debe arrancar** con las preguntas disponibles.
 - **Fallo Total:** Si TODAS fallan, debe mostrar un **Alert UI** ("No se pudieron cargar preguntas") y permitir reintentar.
