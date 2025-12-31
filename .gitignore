@@ -1,0 +1,34 @@
+# General
+.env
+.env.*
+!.env.example
+.DS_Store
+*.log
+*.zip
+
+# IDEs
+.vscode/
+.idea/
+
+# Backend (Python)
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+env/
+.pytest_cache/
+
+# Frontend (Node/Next.js)
+node_modules/
+.next/
+out/
+build/
+dist/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Docker
+.docker/

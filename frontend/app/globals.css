@@ -1,0 +1,316 @@
+@import "tailwindcss";
+
+/* =========================
+   DESIGN SYSTEM — Midnight Aurora (PRO)
+   Enfoque: claridad + gamificación elegante (sin ruido visual)
+   ========================= */
+:root {
+  color-scheme: light;
+
+  /* Brand (acento principal) */
+  --brand: 168 85 247;
+  /* violet-500 */
+  --brand2: 34 211 238;
+  /* cyan-400 */
+
+  /* Semánticos */
+  --success: 34 197 94;
+  /* green-500 */
+  --warning: 245 158 11;
+  /* amber-500 */
+  --danger: 239 68 68;
+  /* red-500 */
+
+  /* Neutrales (fondo/superficies) */
+  --bg: 255 255 255;
+  /* white */
+  --panel: 248 250 252;
+  /* slate-50 */
+  --muted: 15 23 42;
+  /* slate-900 */
+
+  /* Bordes y sombras */
+  --border: 203 213 225;
+  /* slate-300 */
+  --shadow-soft: 0 10px 30px rgba(0, 0, 0, .12);
+  --shadow-glow: 0 0 0 1px rgba(0, 0, 0, 0.08) inset, 0 18px 50px rgba(0, 0, 0, .15);
+}
+
+html,
+body {
+  height: 100%;
+}
+
+@layer base {
+  body {
+    @apply antialiased text-slate-900;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    background: rgb(var(--bg));
+  }
+
+  /* Tipografía / legibilidad */
+  h1,
+  h2,
+  h3 {
+    @apply tracking-tight;
+  }
+
+  p {
+    @apply leading-relaxed;
+  }
+
+  a {
+    @apply text-slate-700 hover:text-slate-900;
+  }
+}
+
+/* =========================
+   FONDO “PREMIUM” (REUSABLE)
+   - Lo usamos en layout/page wrappers.
+   ========================= */
+.bg-premium {
+  position: relative;
+  isolation: isolate;
+}
+
+.bg-premium::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(900px 520px at 18% 18%, rgba(var(--brand2), 0.16), transparent 60%),
+    radial-gradient(900px 520px at 82% 22%, rgba(var(--brand), 0.14), transparent 60%),
+    radial-gradient(1000px 720px at 50% 92%, rgba(34, 197, 94, 0.08), transparent 65%),
+    linear-gradient(to bottom, rgba(0, 0, 0, .20), rgba(0, 0, 0, .62));
+}
+
+/* =========================
+   TEXTO Y SELECCIÓN
+   ========================= */
+::selection {
+  background-color: rgba(var(--brand), 0.28);
+  color: white;
+}
+
+/* =========================
+   SCROLLBAR (Webkit)
+   ========================= */
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.14);
+  border-radius: 999px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.22);
+}
+
+/* =========================
+   ANIMACIONES SUAVES
+   ========================= */
+@keyframes shake {
+
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  25% {
+    transform: translateX(-4px);
+  }
+
+  75% {
+    transform: translateX(4px);
+  }
+}
+
+.animate-shake {
+  animation: shake 0.28s ease-in-out;
+}
+
+@keyframes enter {
+  0% {
+    opacity: 0;
+    transform: translateY(10px) scale(0.99);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-enter {
+  animation: enter 0.35s cubic-bezier(0.21, 1.02, 0.73, 1) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  .animate-shake,
+  .animate-enter {
+    animation: none;
+  }
+
+  * {
+    scroll-behavior: auto !important;
+  }
+}
+
+/* =========================
+   SUPERFICIES “GLASS” (CONSISTENTES)
+   ========================= */
+.glass {
+  border: 1px solid rgba(0, 0, 0, 0.10);
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(12px);
+  box-shadow: var(--shadow-soft);
+}
+
+.glass-strong {
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(16px);
+  box-shadow: var(--shadow-glow);
+}
+
+.card-hover {
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-2px);
+  border-color: rgba(0, 0, 0, 0.18);
+  box-shadow: 0 22px 70px rgba(0, 0, 0, .15);
+}
+
+/* =========================
+   TEXTO CON GRADIENTE (TÍTULOS)
+   ========================= */
+.text-gradient {
+  background: linear-gradient(90deg, rgba(var(--brand), 1), rgba(var(--brand2), 1));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* =========================
+   INPUTS (PRO)
+   ========================= */
+.input-pro {
+  border: 1px solid rgba(0, 0, 0, 0.18);
+  border-radius: 1rem;
+  padding: 0.75rem 1rem;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.9);
+  color: rgba(0, 0, 0, 0.95);
+  font-weight: 500;
+  transition: border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
+}
+
+.input-pro::placeholder {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.input-pro:hover {
+  border-color: rgba(0, 0, 0, 0.16);
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.input-pro:focus {
+  outline: none;
+  border-color: rgba(var(--brand2), 0.55);
+  box-shadow:
+    0 0 0 3px rgba(var(--brand2), 0.16),
+    0 12px 32px rgba(0, 0, 0, .15);
+}
+
+/* =========================
+   BOTONES (GAMIFICADOS, SOBRIOS)
+   ========================= */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 0.95rem;
+  padding: 0.75rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 650;
+  color: #ffffff;
+  background: linear-gradient(90deg, rgb(var(--brand) / 1), rgb(var(--brand2) / 1));
+  box-shadow: 0 4px 6px -1px rgb(var(--brand) / 0.3), 0 2px 4px -1px rgb(var(--brand2) / 0.2);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  transition: transform 120ms ease, filter 140ms ease, box-shadow 160ms ease;
+}
+
+.btn-primary:hover {
+  filter: brightness(1.06);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, .52), 0 0 0 1px rgba(255, 255, 255, 0.10) inset;
+}
+
+.btn-primary:active {
+  transform: scale(0.985);
+}
+
+.btn-primary:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* Secundario (acción menos importante) */
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 0.95rem;
+  padding: 0.65rem 0.95rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.92);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: rgba(255, 255, 255, 0.8);
+  transition: background 140ms ease, border-color 140ms ease, transform 120ms ease;
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.9);
+  border-color: rgba(0, 0, 0, 0.18);
+}
+
+.btn-secondary:active {
+  transform: scale(0.99);
+}
+
+.btn-secondary:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* Ghost (links/acciones suaves) */
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.95rem;
+  padding: 0.6rem 0.9rem;
+  font-size: 0.9rem;
+  color: rgba(0, 0, 0, 0.85);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: transparent;
+  transition: background 140ms ease, border-color 140ms ease;
+}
+
+.btn-ghost:hover {
+  border-color: rgba(0, 0, 0, 0.16);
+  background: rgba(0, 0, 0, 0.05);
+}

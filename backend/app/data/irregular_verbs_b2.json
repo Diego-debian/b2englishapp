@@ -1,0 +1,485 @@
+[
+  {
+    "infinitive": "be",
+    "past": "was/were",
+    "participle": "been",
+    "translation": "ser/estar",
+    "example_b2": "She has been a doctor for over a decade."
+  },
+  {
+    "infinitive": "beat",
+    "past": "beat",
+    "participle": "beaten",
+    "translation": "golpear/vencer",
+    "example_b2": "The champion was beaten in a surprising upset."
+  },
+  {
+    "infinitive": "become",
+    "past": "became",
+    "participle": "become",
+    "translation": "convertirse en",
+    "example_b2": "He became increasingly concerned about the results."
+  },
+  {
+    "infinitive": "begin",
+    "past": "began",
+    "participle": "begun",
+    "translation": "empezar",
+    "example_b2": "She began working on the project yesterday."
+  },
+  {
+    "infinitive": "bend",
+    "past": "bent",
+    "participle": "bent",
+    "translation": "doblar",
+    "example_b2": "The metal rod was bent out of shape."
+  },
+  {
+    "infinitive": "bet",
+    "past": "bet",
+    "participle": "bet",
+    "translation": "apostar",
+    "example_b2": "I bet all my savings on that business idea."
+  },
+  {
+    "infinitive": "bite",
+    "past": "bit",
+    "participle": "bitten",
+    "translation": "morder",
+    "example_b2": "The dog has never bitten anyone before."
+  },
+  {
+    "infinitive": "bleed",
+    "past": "bled",
+    "participle": "bled",
+    "translation": "sangrar",
+    "example_b2": "His knee bled profusely after the fall."
+  },
+  {
+    "infinitive": "blow",
+    "past": "blew",
+    "participle": "blown",
+    "translation": "soplar",
+    "example_b2": "The storm had blown down several trees."
+  },
+  {
+    "infinitive": "break",
+    "past": "broke",
+    "participle": "broken",
+    "translation": "romper",
+    "example_b2": "He has broken his glasses again."
+  },
+  {
+    "infinitive": "bring",
+    "past": "brought",
+    "participle": "brought",
+    "translation": "traer",
+    "example_b2": "Can you bring your notes to the meeting?"
+  },
+  {
+    "infinitive": "build",
+    "past": "built",
+    "participle": "built",
+    "translation": "construir",
+    "example_b2": "They built their house near the lake."
+  },
+  {
+    "infinitive": "burn",
+    "past": "burnt/burned",
+    "participle": "burnt/burned",
+    "translation": "quemar",
+    "example_b2": "She burnt the toast this morning."
+  },
+  {
+    "infinitive": "burst",
+    "past": "burst",
+    "participle": "burst",
+    "translation": "reventar",
+    "example_b2": "The balloon burst with a loud pop."
+  },
+  {
+    "infinitive": "buy",
+    "past": "bought",
+    "participle": "bought",
+    "translation": "comprar",
+    "example_b2": "I bought a new laptop last week."
+  },
+  {
+    "infinitive": "catch",
+    "past": "caught",
+    "participle": "caught",
+    "translation": "atrapar",
+    "example_b2": "She caught the ball effortlessly."
+  },
+  {
+    "infinitive": "choose",
+    "past": "chose",
+    "participle": "chosen",
+    "translation": "elegir",
+    "example_b2": "We have chosen the best candidate."
+  },
+  {
+    "infinitive": "come",
+    "past": "came",
+    "participle": "come",
+    "translation": "venir",
+    "example_b2": "They came to visit us during the holidays."
+  },
+  {
+    "infinitive": "cost",
+    "past": "cost",
+    "participle": "cost",
+    "translation": "costar",
+    "example_b2": "The repairs cost much less than expected."
+  },
+  {
+    "infinitive": "cut",
+    "past": "cut",
+    "participle": "cut",
+    "translation": "cortar",
+    "example_b2": "She cut her hair short for the summer."
+  },
+  {
+    "infinitive": "do",
+    "past": "did",
+    "participle": "done",
+    "translation": "hacer",
+    "example_b2": "Have you done your homework yet?"
+  },
+  {
+    "infinitive": "draw",
+    "past": "drew",
+    "participle": "drawn",
+    "translation": "dibujar",
+    "example_b2": "He has drawn a beautiful picture."
+  },
+  {
+    "infinitive": "drink",
+    "past": "drank",
+    "participle": "drunk",
+    "translation": "beber",
+    "example_b2": "They drank coffee in the morning."
+  },
+  {
+    "infinitive": "drive",
+    "past": "drove",
+    "participle": "driven",
+    "translation": "conducir",
+    "example_b2": "She has driven across the country."
+  },
+  {
+    "infinitive": "eat",
+    "past": "ate",
+    "participle": "eaten",
+    "translation": "comer",
+    "example_b2": "We have eaten at that restaurant before."
+  },
+  {
+    "infinitive": "fall",
+    "past": "fell",
+    "participle": "fallen",
+    "translation": "caer",
+    "example_b2": "The leaves have fallen off the trees."
+  },
+  {
+    "infinitive": "feel",
+    "past": "felt",
+    "participle": "felt",
+    "translation": "sentir",
+    "example_b2": "He felt happy about his promotion."
+  },
+  {
+    "infinitive": "find",
+    "past": "found",
+    "participle": "found",
+    "translation": "encontrar",
+    "example_b2": "She found her keys under the sofa."
+  },
+  {
+    "infinitive": "forget",
+    "past": "forgot",
+    "participle": "forgotten",
+    "translation": "olvidar",
+    "example_b2": "I have forgotten the password to my account."
+  },
+  {
+    "infinitive": "forgive",
+    "past": "forgave",
+    "participle": "forgiven",
+    "translation": "perdonar",
+    "example_b2": "She finally forgave him for his mistake."
+  },
+  {
+    "infinitive": "freeze",
+    "past": "froze",
+    "participle": "frozen",
+    "translation": "congelar",
+    "example_b2": "The pipes froze during the cold snap."
+  },
+  {
+    "infinitive": "get",
+    "past": "got",
+    "participle": "got/gotten",
+    "translation": "conseguir",
+    "example_b2": "He has gotten much better at speaking French."
+  },
+  {
+    "infinitive": "give",
+    "past": "gave",
+    "participle": "given",
+    "translation": "dar",
+    "example_b2": "She gave a compelling presentation."
+  },
+  {
+    "infinitive": "go",
+    "past": "went",
+    "participle": "gone",
+    "translation": "ir",
+    "example_b2": "They have gone to the supermarket."
+  },
+  {
+    "infinitive": "grow",
+    "past": "grew",
+    "participle": "grown",
+    "translation": "crecer/cultivar",
+    "example_b2": "He grew his business from scratch."
+  },
+  {
+    "infinitive": "have",
+    "past": "had",
+    "participle": "had",
+    "translation": "tener",
+    "example_b2": "They had already left when we arrived."
+  },
+  {
+    "infinitive": "hear",
+    "past": "heard",
+    "participle": "heard",
+    "translation": "oír",
+    "example_b2": "Have you heard the latest news?"
+  },
+  {
+    "infinitive": "hide",
+    "past": "hid",
+    "participle": "hidden",
+    "translation": "esconder",
+    "example_b2": "The documents were hidden in a safe place."
+  },
+  {
+    "infinitive": "hold",
+    "past": "held",
+    "participle": "held",
+    "translation": "sostener",
+    "example_b2": "She held the baby gently in her arms."
+  },
+  {
+    "infinitive": "keep",
+    "past": "kept",
+    "participle": "kept",
+    "translation": "guardar/mantener",
+    "example_b2": "He kept his promise despite the difficulties."
+  },
+  {
+    "infinitive": "know",
+    "past": "knew",
+    "participle": "known",
+    "translation": "saber/conocer",
+    "example_b2": "I have known her since we were children."
+  },
+  {
+    "infinitive": "leave",
+    "past": "left",
+    "participle": "left",
+    "translation": "dejar/marcharse",
+    "example_b2": "They left the country for a new start."
+  },
+  {
+    "infinitive": "lose",
+    "past": "lost",
+    "participle": "lost",
+    "translation": "perder",
+    "example_b2": "She lost her phone at the concert."
+  },
+  {
+    "infinitive": "make",
+    "past": "made",
+    "participle": "made",
+    "translation": "hacer/fabricar",
+    "example_b2": "They made a significant contribution."
+  },
+  {
+    "infinitive": "meet",
+    "past": "met",
+    "participle": "met",
+    "translation": "conocer/encontrarse",
+    "example_b2": "We met our targets ahead of schedule."
+  },
+  {
+    "infinitive": "pay",
+    "past": "paid",
+    "participle": "paid",
+    "translation": "pagar",
+    "example_b2": "Have you paid the invoice yet?"
+  },
+  {
+    "infinitive": "put",
+    "past": "put",
+    "participle": "put",
+    "translation": "poner",
+    "example_b2": "She put a lot of effort into the project."
+  },
+  {
+    "infinitive": "read",
+    "past": "read",
+    "participle": "read",
+    "translation": "leer",
+    "example_b2": "I have read all of his novels."
+  },
+  {
+    "infinitive": "run",
+    "past": "ran",
+    "participle": "run",
+    "translation": "correr",
+    "example_b2": "He ran a marathon last month."
+  },
+  {
+    "infinitive": "say",
+    "past": "said",
+    "participle": "said",
+    "translation": "decir",
+    "example_b2": "She said she would call back later."
+  },
+  {
+    "infinitive": "see",
+    "past": "saw",
+    "participle": "seen",
+    "translation": "ver",
+    "example_b2": "Have you seen the new exhibition?"
+  },
+  {
+    "infinitive": "send",
+    "past": "sent",
+    "participle": "sent",
+    "translation": "enviar",
+    "example_b2": "I sent the package two days ago."
+  },
+  {
+    "infinitive": "set",
+    "past": "set",
+    "participle": "set",
+    "translation": "establecer/colocar",
+    "example_b2": "They set a new world record."
+  },
+  {
+    "infinitive": "sing",
+    "past": "sang",
+    "participle": "sung",
+    "translation": "cantar",
+    "example_b2": "They sang beautifully at the ceremony."
+  },
+  {
+    "infinitive": "sit",
+    "past": "sat",
+    "participle": "sat",
+    "translation": "sentarse",
+    "example_b2": "He sat quietly through the meeting."
+  },
+  {
+    "infinitive": "sleep",
+    "past": "slept",
+    "participle": "slept",
+    "translation": "dormir",
+    "example_b2": "She slept for twelve hours straight."
+  },
+  {
+    "infinitive": "speak",
+    "past": "spoke",
+    "participle": "spoken",
+    "translation": "hablar",
+    "example_b2": "He has spoken at several conferences."
+  },
+  {
+    "infinitive": "spend",
+    "past": "spent",
+    "participle": "spent",
+    "translation": "gastar/pasar tiempo",
+    "example_b2": "We spent the weekend at the beach."
+  },
+  {
+    "infinitive": "stand",
+    "past": "stood",
+    "participle": "stood",
+    "translation": "estar de pie",
+    "example_b2": "He stood up to express his opinion."
+  },
+  {
+    "infinitive": "take",
+    "past": "took",
+    "participle": "taken",
+    "translation": "tomar",
+    "example_b2": "She has taken responsibility for the project."
+  },
+  {
+    "infinitive": "teach",
+    "past": "taught",
+    "participle": "taught",
+    "translation": "enseñar",
+    "example_b2": "He taught physics at the university."
+  },
+  {
+    "infinitive": "tell",
+    "past": "told",
+    "participle": "told",
+    "translation": "decir/contar",
+    "example_b2": "He told an amusing story."
+  },
+  {
+    "infinitive": "think",
+    "past": "thought",
+    "participle": "thought",
+    "translation": "pensar",
+    "example_b2": "She thought carefully before answering."
+  },
+  {
+    "infinitive": "throw",
+    "past": "threw",
+    "participle": "thrown",
+    "translation": "lanzar",
+    "example_b2": "He threw the ball to his teammate."
+  },
+  {
+    "infinitive": "understand",
+    "past": "understood",
+    "participle": "understood",
+    "translation": "entender",
+    "example_b2": "Finally, I understood the instructions."
+  },
+  {
+    "infinitive": "wake",
+    "past": "woke",
+    "participle": "woken",
+    "translation": "despertar",
+    "example_b2": "I woke up early this morning."
+  },
+  {
+    "infinitive": "wear",
+    "past": "wore",
+    "participle": "worn",
+    "translation": "llevar puesto",
+    "example_b2": "She wore a stunning dress to the party."
+  },
+  {
+    "infinitive": "win",
+    "past": "won",
+    "participle": "won",
+    "translation": "ganar",
+    "example_b2": "They won the championship last year."
+  },
+  {
+    "infinitive": "write",
+    "past": "wrote",
+    "participle": "written",
+    "translation": "escribir",
+    "example_b2": "He has written several bestselling novels."
+  }
+]

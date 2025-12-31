@@ -1,0 +1,481 @@
+{
+  "tenses": [
+    {
+      "code": "present_simple",
+      "name": "Present Simple",
+      "description": "Used for habits, routines, general truths, permanent situations, and scheduled events.",
+      "keywords": ["always", "usually", "often", "sometimes", "never", "every day/week", "on Mondays"],
+      "structure": "Subject + base verb (add -s/-es for he/she/it)",
+      "examples": [
+        {"sentence": "I work from 9 to 5.", "translation": "Trabajo de 9 a 5.", "note": "Routine/Habit"},
+        {"sentence": "The sun rises in the east.", "translation": "El sol sale por el este.", "note": "General truth"},
+        {"sentence": "She speaks three languages.", "translation": "Ella habla tres idiomas.", "note": "Permanent situation"},
+        {"sentence": "Water boils at 100°C.", "translation": "El agua hierve a 100°C.", "note": "Scientific fact"},
+        {"sentence": "The train leaves at 8 PM.", "translation": "El tren sale a las 8 PM.", "note": "Scheduled event"}
+      ],
+      "common_mistakes": [
+        "Forgetting the -s in 3rd person singular: 'He work' ❌ → 'He works' ✅",
+        "Using Present Simple for actions happening now: 'I eat now' ❌ → 'I'm eating now' ✅"
+      ],
+      "activities": [
+        {
+          "type": "quiz",
+          "title": "Habits and Routines",
+          "description": "Practice daily routines and general truths.",
+          "difficulty": 1,
+          "questions": [
+            {"kind": "multiple_choice", "prompt": "Complete: She ____ to the gym every morning.", "options": ["go", "goes", "is going", "went"], "correct_answer": "goes", "explanation": "3rd person singular + routine → adds -s", "xp_reward": 10, "sort_order": 1},
+            {"kind": "multiple_choice", "prompt": "Which sentence describes a general truth?", "options": ["I'm drinking tea.", "Cats hate water.", "We visited Paris.", "They will come tomorrow."], "correct_answer": "Cats hate water.", "explanation": "Present Simple for facts about animals.", "xp_reward": 10, "sort_order": 2},
+            {"kind": "true_false", "prompt": "'He don't like pizza.' is correct.", "options": ["True", "False"], "correct_answer": "False", "explanation": "3rd person singular negative: He doesn't like pizza.", "xp_reward": 10, "sort_order": 3},
+            {"kind": "multiple_choice", "prompt": "Choose the correct question form:", "options": ["Do she lives here?", "Does she live here?", "Is she live here?", "She lives here?"], "correct_answer": "Does she live here?", "explanation": "Questions: Do/Does + subject + base verb", "xp_reward": 10, "sort_order": 4},
+            {"kind": "multiple_choice", "prompt": "Negative of: 'They understand the lesson.'", "options": ["They don't understand the lesson.", "They not understand the lesson.", "They doesn't understand the lesson.", "They aren't understand the lesson."], "correct_answer": "They don't understand the lesson.", "explanation": "Negative: don't/doesn't + base verb", "xp_reward": 10, "sort_order": 5}
+          ]
+        },
+        {
+          "type": "fill_in_the_blanks",
+          "title": "Daily Schedule",
+          "description": "Complete the sentences about routines.",
+          "difficulty": 1,
+          "questions": [
+            {"prompt": "My brother ____ (study) engineering at university.", "correct_answer": "studies", "explanation": "3rd person singular: study → studies", "xp_reward": 15, "sort_order": 1},
+            {"prompt": "We ____ (not/watch) TV during dinner.", "correct_answer": "don't watch", "explanation": "Negative for plural subject", "xp_reward": 15, "sort_order": 2},
+            {"prompt": "____ you ____ (speak) French?", "correct_answer": "Do, speak", "explanation": "Question form for 'you'", "xp_reward": 15, "sort_order": 3}
+          ]
+        }
+      ]
+    },
+    {
+      "code": "present_continuous",
+      "name": "Present Continuous",
+      "description": "Used for actions happening now, temporary situations, future arrangements, and changing situations.",
+      "keywords": ["now", "at the moment", "currently", "today", "this week", "tonight", "tomorrow"],
+      "structure": "Subject + am/is/are + verb-ing",
+      "examples": [
+        {"sentence": "I'm reading a great book right now.", "translation": "Estoy leyendo un libro genial ahora mismo.", "note": "Action happening now"},
+        {"sentence": "They are staying with friends this month.", "translation": "Se están quedando con amigos este mes.", "note": "Temporary situation"},
+        {"sentence": "We're meeting at 7 PM tomorrow.", "translation": "Nos encontramos a las 7 PM mañana.", "note": "Future arrangement"},
+        {"sentence": "The climate is getting warmer.", "translation": "El clima se está volviendo más cálido.", "note": "Changing situation"},
+        {"sentence": "Is it raining outside?", "translation": "¿Está lloviendo afuera?", "note": "Question about current state"}
+      ],
+      "common_mistakes": [
+        "Using Present Continuous for permanent states: 'I am knowing' ❌ → 'I know' ✅",
+        "Forgetting the verb 'to be': 'They working now' ❌ → 'They are working now' ✅"
+      ],
+      "activities": [
+        {
+          "type": "quiz",
+          "title": "Actions in Progress",
+          "description": "Identify correct uses of Present Continuous.",
+          "difficulty": 1,
+          "questions": [
+            {"kind": "multiple_choice", "prompt": "Complete: Listen! Someone ____ at the door.", "options": ["knocks", "is knocking", "knocked", "has knocked"], "correct_answer": "is knocking", "explanation": "'Listen!' indicates action happening now.", "xp_reward": 10, "sort_order": 1},
+            {"kind": "multiple_choice", "prompt": "Which sentence describes a future arrangement?", "options": ["I'm eating lunch.", "She's visiting her parents next weekend.", "They're always late.", "He works here."], "correct_answer": "She's visiting her parents next weekend.", "explanation": "Present Continuous + future time marker", "xp_reward": 10, "sort_order": 2},
+            {"kind": "true_false", "prompt": "We can say: 'I am liking chocolate.'", "options": ["True", "False"], "correct_answer": "False", "explanation": "'Like' is a state verb, not used in continuous.", "xp_reward": 10, "sort_order": 3},
+            {"kind": "multiple_choice", "prompt": "Negative of: 'You are making progress.'", "options": ["You aren't making progress.", "You don't making progress.", "You not making progress.", "You doesn't making progress."], "correct_answer": "You aren't making progress.", "explanation": "Negative: am/is/are + not + -ing", "xp_reward": 10, "sort_order": 4},
+            {"kind": "sentence_correction", "prompt": "Correct: 'He watch TV right now.'", "correct_answer": "He is watching TV right now.", "explanation": "Need 'is' + verb-ing for action happening now", "xp_reward": 15, "sort_order": 5}
+          ]
+        },
+        {
+          "type": "matching",
+          "title": "Time Expressions Match",
+          "description": "Match sentences with their correct use.",
+          "difficulty": 1,
+          "pairs": [
+            {"left": "I'm studying for my exam.", "right": "Action happening now", "explanation": "Studying is in progress"},
+            {"left": "She's moving to Canada next year.", "right": "Future arrangement", "explanation": "Planned future event"},
+            {"left": "Our English is improving.", "right": "Changing situation", "explanation": "Shows gradual change"}
+          ],
+          "xp_reward": 20
+        }
+      ]
+    },
+    {
+      "code": "present_perfect_simple",
+      "name": "Present Perfect Simple",
+      "description": "Connects past actions to the present. Used for life experiences, unfinished time periods, recent actions with present results, and continuing situations.",
+      "keywords": ["ever", "never", "just", "already", "yet", "since", "for", "recently", "so far"],
+      "structure": "Subject + have/has + past participle",
+      "examples": [
+        {"sentence": "I have visited Japan three times.", "translation": "He visitado Japón tres veces.", "note": "Life experience (no specific time)"},
+        {"sentence": "She has lived here since 2015.", "translation": "Ella ha vivido aquí desde 2015.", "note": "Situation that started in past and continues"},
+        {"sentence": "We have just finished dinner.", "translation": "Acabamos de terminar la cena.", "note": "Very recent action"},
+        {"sentence": "Have you ever tried skydiving?", "translation": "¿Alguna vez has probado el paracaidismo?", "note": "Experience in one's life"},
+        {"sentence": "They haven't completed the project yet.", "translation": "No han completado el proyecto todavía.", "note": "Action expected but not done"}
+      ],
+      "common_mistakes": [
+        "Using specific past times: 'I have seen him yesterday' ❌ → 'I saw him yesterday' ✅",
+        "Confusing with Past Simple: 'Have you been to Paris last year?' ❌ → 'Did you go to Paris last year?' ✅"
+      ],
+      "activities": [
+        {
+          "type": "quiz",
+          "title": "Life Experiences",
+          "description": "Practice Present Perfect for experiences.",
+          "difficulty": 2,
+          "questions": [
+            {"kind": "multiple_choice", "prompt": "Complete: I ____ (be) to Italy twice.", "options": ["have been", "was", "am", "had been"], "correct_answer": "have been", "explanation": "Life experience with 'twice' → Present Perfect", "xp_reward": 15, "sort_order": 1},
+            {"kind": "multiple_choice", "prompt": "Which time expression is used with Present Perfect?", "options": ["yesterday", "last week", "since Monday", "in 2020"], "correct_answer": "since Monday", "explanation": "'Since' indicates a period continuing to now.", "xp_reward": 15, "sort_order": 2},
+            {"kind": "multiple_choice", "prompt": "Complete: She ____ (not/finish) her homework yet.", "options": ["didn't finish", "hasn't finished", "haven't finished", "doesn't finish"], "correct_answer": "hasn't finished", "explanation": "'Yet' with negative Present Perfect", "xp_reward": 15, "sort_order": 3},
+            {"kind": "multiple_choice", "prompt": "Choose the correct question:", "options": ["Have you ever eaten sushi?", "Did you ever eat sushi?", "Do you ever eat sushi?", "Are you ever eating sushi?"], "correct_answer": "Have you ever eaten sushi?", "explanation": "'Ever' questions about life experiences → Present Perfect", "xp_reward": 15, "sort_order": 4},
+            {"kind": "sentence_correction", "prompt": "Correct: 'I have bought this car last year.'", "correct_answer": "I bought this car last year.", "explanation": "Specific past time ('last year') requires Past Simple", "xp_reward": 15, "sort_order": 5}
+          ]
+        },
+        {
+          "type": "fill_in_the_blanks",
+          "title": "For and Since Practice",
+          "description": "Complete with 'for' or 'since'.",
+          "difficulty": 2,
+          "questions": [
+            {"prompt": "They've been married ____ 20 years.", "correct_answer": "for", "explanation": "'For' + period of time (20 years)", "xp_reward": 15, "sort_order": 1},
+            {"prompt": "I've known her ____ we were children.", "correct_answer": "since", "explanation": "'Since' + starting point in past", "xp_reward": 15, "sort_order": 2},
+            {"prompt": "He hasn't called ____ last Tuesday.", "correct_answer": "since", "explanation": "'Since' + specific point in time", "xp_reward": 15, "sort_order": 3}
+          ]
+        }
+      ]
+    },
+    {
+      "code": "present_perfect_continuous",
+      "name": "Present Perfect Continuous",
+      "description": "Emphasizes the duration of an activity that started in the past and continues to the present, or recently stopped with visible results.",
+      "keywords": ["for", "since", "all day/week", "recently", "lately", "how long"],
+      "structure": "Subject + have/has + been + verb-ing",
+      "examples": [
+        {"sentence": "I have been studying English for five years.", "translation": "He estado estudiando inglés por cinco años.", "note": "Emphasizes duration of ongoing activity"},
+        {"sentence": "She has been working here since January.", "translation": "Ella ha estado trabajando aquí desde enero.", "note": "Action that started in past and continues"},
+        {"sentence": "Why are you tired? I've been running.", "translation": "¿Por qué estás cansado? He estado corriendo.", "note": "Recent activity with present result"},
+        {"sentence": "It has been raining all day.", "translation": "Ha estado lloviendo todo el día.", "note": "Continuous recent action"},
+        {"sentence": "How long have you been waiting?", "translation": "¿Cuánto tiempo has estado esperando?", "note": "Question about duration"}
+      ],
+      "common_mistakes": [
+        "Using state verbs in continuous form: 'I have been knowing him' ❌ → 'I have known him' ✅",
+        "Confusing with Present Perfect Simple when emphasizing duration"
+      ],
+      "activities": [
+        {
+          "type": "quiz",
+          "title": "Duration Focus",
+          "description": "Practice emphasizing how long activities have been happening.",
+          "difficulty": 3,
+          "questions": [
+            {"kind": "multiple_choice", "prompt": "Complete: They ____ (talk) for over an hour.", "options": ["have talked", "have been talking", "are talking", "talk"], "correct_answer": "have been talking", "explanation": "Emphasizes duration of the talking", "xp_reward": 20, "sort_order": 1},
+            {"kind": "multiple_choice", "prompt": "Which sentence emphasizes the activity itself, not completion?", "options": ["I've read three books this month.", "I've been reading all afternoon.", "She has finished her work.", "They have visited London."], "correct_answer": "I've been reading all afternoon.", "explanation": "Present Perfect Continuous focuses on ongoing activity", "xp_reward": 20, "sort_order": 2},
+            {"kind": "multiple_choice", "prompt": "Complete: Her eyes are red. She ____ (cry).", "options": ["has cried", "has been crying", "cried", "cries"], "correct_answer": "has been crying", "explanation": "Visible result of recent ongoing action", "xp_reward": 20, "sort_order": 3},
+            {"kind": "sentence_transformation", "prompt": "Transform to emphasize duration: 'I work on this project for two months.'", "correct_answer": "I have been working on this project for two months.", "explanation": "Present Perfect Continuous emphasizes the time spent", "xp_reward": 20, "sort_order": 4}
+          ]
+        },
+        {
+          "type": "drag_and_drop",
+          "title": "Result vs. Duration",
+          "description": "Decide whether to use Simple or Continuous form.",
+          "difficulty": 3,
+          "items": [
+            {"sentence": "I ____ (clean) the house all morning.", "options": ["have cleaned", "have been cleaning"], "correct": "have been cleaning", "explanation": "Focus on duration of activity"},
+            {"sentence": "I ____ (clean) three rooms so far.", "options": ["have cleaned", "have been cleaning"], "correct": "have cleaned", "explanation": "Focus on completion/result"},
+            {"sentence": "She ____ (write) emails since 9 AM.", "options": ["has written", "has been writing"], "correct": "has been writing", "explanation": "Emphasizes ongoing activity"}
+          ],
+          "xp_reward": 25
+        }
+      ]
+    },
+    {
+      "code": "past_simple",
+      "name": "Past Simple",
+      "description": "Used for completed actions at specific times in the past, sequences of past actions, and past habits or states.",
+      "keywords": ["yesterday", "last week/month/year", "ago", "in 2010", "when", "then"],
+      "structure": "Subject + past tense verb (regular: +ed; irregular: varies)",
+      "examples": [
+        {"sentence": "I finished work at 6 PM yesterday.", "translation": "Terminé de trabajar a las 6 PM ayer.", "note": "Completed action at specific time"},
+        {"sentence": "She lived in Paris for three years.", "translation": "Ella vivió en París por tres años.", "note": "Completed past situation (no longer true)"},
+        {"sentence": "We didn't see the movie last night.", "translation": "No vimos la película anoche.", "note": "Negative form"},
+        {"sentence": "Did you enjoy the concert?", "translation": "¿Disfrutaste el concierto?", "note": "Question form"},
+        {"sentence": "First, I woke up. Then, I showered and ate breakfast.", "translation": "Primero, me desperté. Luego, me duché y desayuné.", "note": "Sequence of past actions"}
+      ],
+      "common_mistakes": [
+        "Using Past Simple for experiences without specific time: 'I went to Paris' (need context) vs 'I have been to Paris'",
+        "Forgetting to use the base form after 'did': 'Did you went?' ❌ → 'Did you go?' ✅"
+      ],
+      "activities": [
+        {
+          "type": "quiz",
+          "title": "Completed Past Actions",
+          "description": "Practice talking about finished past events.",
+          "difficulty": 1,
+          "questions": [
+            {"kind": "multiple_choice", "prompt": "Complete: They ____ (visit) Rome last summer.", "options": ["visit", "visits", "visited", "have visited"], "correct_answer": "visited", "explanation": "Specific past time ('last summer') → Past Simple", "xp_reward": 10, "sort_order": 1},
+            {"kind": "multiple_choice", "prompt": "Which time expression is NOT used with Past Simple?", "options": ["yesterday", "already", "three days ago", "in 1999"], "correct_answer": "already", "explanation": "'Already' is typically used with Present Perfect", "xp_reward": 10, "sort_order": 2},
+            {"kind": "multiple_choice", "prompt": "Negative of: 'He knew the answer.'", "options": ["He didn't knew the answer.", "He didn't know the answer.", "He not knew the answer.", "He knew not the answer."], "correct_answer": "He didn't know the answer.", "explanation": "Negative: didn't + base verb", "xp_reward": 10, "sort_order": 3},
+            {"kind": "multiple_choice", "prompt": "Irregular verb: She ____ (buy) a new car last month.", "options": ["buyed", "bought", "has bought", "buys"], "correct_answer": "bought", "explanation": "Past Simple of 'buy' is 'bought'", "xp_reward": 10, "sort_order": 4},
+            {"kind": "sentence_ordering", "prompt": "Order the sequence: 1. (arrive) 2. (check in) 3. (go to room)", "correct_answer": "We arrived at the hotel, checked in, and went to our room.", "explanation": "Past Simple for sequential past actions", "xp_reward": 15, "sort_order": 5}
+          ]
+        },
+        {
+          "type": "irregular_verbs",
+          "title": "Irregular Verbs Practice",
+          "description": "Practice common irregular past forms.",
+          "difficulty": 2,
+          "verbs": [
+            {"base": "go", "past": "went", "past_participle": "gone", "example": "Yesterday I went to the store."},
+            {"base": "see", "past": "saw", "past_participle": "seen", "example": "We saw a great movie last night."},
+            {"base": "take", "past": "took", "past_participle": "taken", "example": "She took the bus to work."}
+          ],
+          "xp_reward": 20
+        }
+      ]
+    },
+    {
+      "code": "past_continuous",
+      "name": "Past Continuous",
+      "description": "Used for actions in progress at a specific past time, interrupted actions, parallel past actions, and background descriptions in stories.",
+      "keywords": ["while", "when", "as", "at 5 PM yesterday", "all morning", "during"],
+      "structure": "Subject + was/were + verb-ing",
+      "examples": [
+        {"sentence": "I was studying at 10 PM last night.", "translation": "Estaba estudiando a las 10 PM anoche.", "note": "Action in progress at specific past time"},
+        {"sentence": "She was cooking when the phone rang.", "translation": "Ella estaba cocinando cuando el teléfono sonó.", "note": "Interrupted action (Past Continuous + Past Simple)"},
+        {"sentence": "While I was reading, he was watching TV.", "translation": "Mientras yo leía, él veía la tele.", "note": "Two simultaneous past actions"},
+        {"sentence": "It was raining heavily yesterday afternoon.", "translation": "Estaba lloviendo fuertemente ayer por la tarde.", "note": "Background description"},
+        {"sentence": "They weren't listening during the meeting.", "translation": "No estaban escuchando durante la reunión.", "note": "Negative form"}
+      ],
+      "common_mistakes": [
+        "Using Past Continuous for completed actions: 'I was finishing my work at 5 PM' (implies interruption) vs 'I finished my work at 5 PM'",
+        "Confusing when to use 'when' vs 'while': 'When' usually + Past Simple; 'While' usually + Past Continuous"
+      ],
+      "activities": [
+        {
+          "type": "quiz",
+          "title": "Interrupted Actions",
+          "description": "Practice describing interrupted past actions.",
+          "difficulty": 2,
+          "questions": [
+            {"kind": "multiple_choice", "prompt": "Complete: I ____ (walk) home when I ____ (meet) an old friend.", "options": ["walked, was meeting", "was walking, met", "walked, met", "was walking, was meeting"], "correct_answer": "was walking, met", "explanation": "Long action (walking) interrupted by short action (met)", "xp_reward": 15, "sort_order": 1},
+            {"kind": "multiple_choice", "prompt": "Which sentence describes two simultaneous actions?", "options": ["He was cooking while she set the table.", "When he arrived, she left.", "I was eating when the phone rang.", "They visited Paris last year."], "correct_answer": "He was cooking while she set the table.", "explanation": "'While' often connects two continuous actions", "xp_reward": 15, "sort_order": 2},
+            {"kind": "multiple_choice", "prompt": "Complete: At 9 AM yesterday, we ____ (have) breakfast.", "options": ["had", "were having", "have had", "have"], "correct_answer": "were having", "explanation": "Specific past time + action in progress → Past Continuous", "xp_reward": 15, "sort_order": 3},
+            {"kind": "sentence_combination", "prompt": "Combine: I (watch TV). The power (go out).", "correct_answer": "I was watching TV when the power went out.", "explanation": "Past Continuous for ongoing action interrupted by Past Simple", "xp_reward": 20, "sort_order": 4}
+          ]
+        },
+        {
+          "type": "picture_description",
+          "title": "What Was Happening?",
+          "description": "Describe what people were doing at a specific past time.",
+          "difficulty": 2,
+          "scenarios": [
+            {"image_description": "A busy cafe at 5 PM yesterday", "prompt": "Describe what people were doing:", "sample_answer": "People were drinking coffee, talking with friends, and working on laptops. A barista was making coffee behind the counter.", "xp_reward": 20}
+          ]
+        }
+      ]
+    },
+    {
+      "code": "past_perfect_simple",
+      "name": "Past Perfect Simple",
+      "description": "Used to show that one past action happened before another past action (the 'past before the past'). Often used in reported speech and conditional sentences.",
+      "keywords": ["already", "just", "never", "before", "by the time", "until", "when", "after"],
+      "structure": "Subject + had + past participle",
+      "examples": [
+        {"sentence": "She had already left when I arrived.", "translation": "Ella ya se había ido cuando yo llegué.", "note": "Earlier past action (left) before later past action (arrived)"},
+        {"sentence": "They had finished the project before the deadline.", "translation": "Habían terminado el proyecto antes de la fecha límite.", "note": "Action completed before another past time"},
+        {"sentence": "I had never seen such a beautiful sunset before that day.", "translation": "Nunca había visto un atardecer tan hermoso antes de ese día.", "note": "Experience before a specific past time"},
+        {"sentence": "He realized he had forgotten his keys.", "translation": "Se dio cuenta de que había olvidado sus llaves.", "note": "Reported realization (forgetting happened before realizing)"},
+        {"sentence": "By 2020, she had published three books.", "translation": "Para 2020, ella había publicado tres libros.", "note": "Completed before a specific past date"}
+      ],
+      "common_mistakes": [
+        "Using Past Perfect when simple past sequence is clear: 'After I had eaten, I went out' (redundant) vs 'After I ate, I went out'",
+        "Forgetting that Past Perfect needs a second past reference point"
+      ],
+      "activities": [
+        {
+          "type": "quiz",
+          "title": "The Earlier Past",
+          "description": "Identify which action happened first.",
+          "difficulty": 3,
+          "questions": [
+            {"kind": "multiple_choice", "prompt": "Complete: When we got to the cinema, the movie ____ (already/start).", "options": ["already started", "had already started", "has already started", "was already starting"], "correct_answer": "had already started", "explanation": "The starting happened before the arriving", "xp_reward": 20, "sort_order": 1},
+            {"kind": "multiple_choice", "prompt": "Which action happened first: 'She was tired because she hadn't slept well.'", "options": ["Being tired", "Not sleeping well", "Both happened at same time", "Can't tell"], "correct_answer": "Not sleeping well", "explanation": "The not sleeping (Past Perfect) happened before being tired (Past Simple)", "xp_reward": 20, "sort_order": 2},
+            {"kind": "multiple_choice", "prompt": "Complete: I ____ (never/see) such a large crowd until that concert.", "options": ["never saw", "had never seen", "have never seen", "never seen"], "correct_answer": "had never seen", "explanation": "Experience before a specific past event", "xp_reward": 20, "sort_order": 3},
+            {"kind": "sentence_combination", "prompt": "Combine with Past Perfect: I (finish work). Then I (go) to the party.", "correct_answer": "After I had finished work, I went to the party.", "explanation": "Shows the sequence clearly (finishing happened first)", "xp_reward": 25, "sort_order": 4}
+          ]
+        },
+        {
+          "type": "timeline_ordering",
+          "title": "Past Sequence",
+          "description": "Order events on a timeline.",
+          "difficulty": 3,
+          "events": [
+            {"event": "The train left", "time": "8:00 AM"},
+            {"event": "I arrived at the station", "time": "8:05 AM"},
+            {"prompt": "Combine these events:", "correct_answer": "The train had left when I arrived at the station.", "explanation": "The train leaving happened before my arrival"}
+          ],
+          "xp_reward": 25
+        }
+      ]
+    },
+    {
+      "code": "past_perfect_continuous",
+      "name": "Past Perfect Continuous",
+      "description": "Emphasizes the duration of an action that was in progress before another past action or time. Often shows cause of a past result.",
+      "keywords": ["for", "since", "how long", "before", "when", "all day/morning"],
+      "structure": "Subject + had + been + verb-ing",
+      "examples": [
+        {"sentence": "I had been waiting for two hours when the bus finally arrived.", "translation": "Había estado esperando por dos horas cuando finalmente llegó el autobús.", "note": "Emphasizes duration before another past action"},
+        {"sentence": "Her eyes were red because she had been crying.", "translation": "Sus ojos estaban rojos porque había estado llorando.", "note": "Shows cause of a past state"},
+        {"sentence": "They had been working on the project for months before they presented it.", "translation": "Habían estado trabajando en el proyecto por meses antes de presentarlo.", "note": "Long activity before a past event"},
+        {"sentence": "How long had you been living there before you moved?", "translation": "¿Cuánto tiempo habías estado viviendo ahí antes de mudarte?", "note": "Question about duration before past event"},
+        {"sentence": "The ground was wet. It had been raining all night.", "translation": "El suelo estaba mojado. Había estado lloviendo toda la noche.", "note": "Explains a past situation"}
+      ],
+      "common_mistakes": [
+        "Using with state verbs: 'I had been knowing him' ❌ → 'I had known him' ✅",
+        "Using when the simple past is sufficient: Often the continuous form is optional for emphasis"
+      ],
+      "activities": [
+        {
+          "type": "quiz",
+          "title": "Duration Before the Past",
+          "description": "Practice emphasizing how long something had been happening.",
+          "difficulty": 3,
+          "questions": [
+            {"kind": "multiple_choice", "prompt": "Complete: She was tired because she ____ (study) all day.", "options": ["studied", "had studied", "had been studying", "was studying"], "correct_answer": "had been studying", "explanation": "Emphasizes the prolonged activity that caused tiredness", "xp_reward": 20, "sort_order": 1},
+            {"kind": "multiple_choice", "prompt": "Which sentence emphasizes duration of an ongoing past activity?", "options": ["He had repaired the car.", "He had been repairing the car for hours.", "He repaired the car yesterday.", "He was repairing the car."], "correct_answer": "He had been repairing the car for hours.", "explanation": "Focuses on the time spent before another past point", "xp_reward": 20, "sort_order": 2},
+            {"kind": "sentence_transformation", "prompt": "Add emphasis on duration: 'They worked there for years before retiring.'", "correct_answer": "They had been working there for years before retiring.", "explanation": "Past Perfect Continuous emphasizes the extended period", "xp_reward": 20, "sort_order": 3},
+            {"kind": "multiple_choice", "prompt": "Complete: How long ____ (you/wait) before the doctor called you?", "options": ["had you waited", "had you been waiting", "were you waiting", "did you wait"], "correct_answer": "had you been waiting", "explanation": "Question about duration before another past action", "xp_reward": 20, "sort_order": 4}
+          ]
+        }
+      ]
+    },
+    {
+      "code": "future_simple_will",
+      "name": "Future Simple (will)",
+      "description": "Used for spontaneous decisions, predictions, promises, offers, and future facts. Often used with 'think', 'probably', 'maybe'.",
+      "keywords": ["tomorrow", "next week/year", "soon", "later", "in the future", "probably", "maybe", "I think"],
+      "structure": "Subject + will + base verb",
+      "examples": [
+        {"sentence": "I'll help you with those bags.", "translation": "Te ayudaré con esas bolsas.", "note": "Spontaneous decision/offer"},
+        {"sentence": "It will rain tomorrow.", "translation": "Lloverá mañana.", "note": "Prediction (not arranged)"},
+        {"sentence": "I will always love you.", "translation": "Siempre te amaré.", "note": "Promise"},
+        {"sentence": "She'll probably arrive around 7.", "translation": "Ella probablemente llegará alrededor de las 7.", "note": "Prediction with probability"},
+        {"sentence": "Will you marry me?", "translation": "¿Te casarás conmigo?", "note": "Question about future"}
+      ],
+      "common_mistakes": [
+        "Using 'will' for pre-arranged plans: 'I will meet my friend at 6' (spontaneous) vs 'I'm meeting my friend at 6' (arranged)",
+        "Confusing 'will' and 'going to' for predictions: 'Will' for general predictions; 'going to' for predictions with evidence"
+      ],
+      "activities": [
+        {
+          "type": "quiz",
+          "title": "Decisions and Predictions",
+          "description": "Practice spontaneous decisions and predictions.",
+          "difficulty": 1,
+          "questions": [
+            {"kind": "multiple_choice", "prompt": "Phone rings. You say: 'I ____ answer it.'", "options": ["am going to", "will", "am", "do"], "correct_answer": "will", "explanation": "Spontaneous decision at moment of speaking", "xp_reward": 10, "sort_order": 1},
+            {"kind": "multiple_choice", "prompt": "Which is a prediction without evidence?", "options": ["Look at those clouds! It's going to rain.", "I think robots will do all our work one day.", "She's going to have a baby in June.", "We're meeting at 5 PM."], "correct_answer": "I think robots will do all our work one day.", "explanation": "'Will' for general future predictions", "xp_reward": 10, "sort_order": 2},
+            {"kind": "multiple_choice", "prompt": "Negative of: 'They will come to the party.'", "options": ["They won't come to the party.", "They willn't come to the party.", "They don't will come to the party.", "They not will come to the party."], "correct_answer": "They won't come to the party.", "explanation": "Negative: will + not = won't", "xp_reward": 10, "sort_order": 3},
+            {"kind": "multiple_choice", "prompt": "Complete: ____ you ____ (be) at the meeting tomorrow?", "options": ["Will, be", "Do, be", "Are, being", "Will, are"], "correct_answer": "Will, be", "explanation": "Question form: Will + subject + base verb", "xp_reward": 10, "sort_order": 4},
+            {"kind": "situation_response", "prompt": "Your friend says they're cold. Respond with an offer.", "sample_answer": "I'll close the window.", "explanation": "'Will' for spontaneous offers", "xp_reward": 15, "sort_order": 5}
+          ]
+        }
+      ]
+    },
+    {
+      "code": "future_going_to",
+      "name": "Future (going to)",
+      "description": "Used for intentions, plans, and predictions based on current evidence. Emphasizes pre-meditation and visible signs.",
+      "keywords": ["plan to", "intend to", "look at", "based on", "going to", "next", "tomorrow"],
+      "structure": "Subject + am/is/are + going to + base verb",
+      "examples": [
+        {"sentence": "I'm going to study medicine at university.", "translation": "Voy a estudiar medicina en la universidad.", "note": "Future intention/plan"},
+        {"sentence": "Look at those dark clouds! It's going to rain.", "translation": "¡Mira esas nubes oscuras! Va a llover.", "note": "Prediction based on current evidence"},
+        {"sentence": "We're going to get married next year.", "translation": "Vamos a casarnos el año que viene.", "note": "Definite plan"},
+        {"sentence": "She's going to have a baby in June.", "translation": "Ella va a tener un bebé en junio.", "note": "Fixed future event"},
+        {"sentence": "Are you going to apply for that job?", "translation": "¿Vas a solicitar ese trabajo?", "note": "Question about plans"}
+      ],
+      "common_mistakes": [
+        "Using 'going to' for spontaneous decisions: 'The phone is ringing.' 'I'm going to answer it.' ❌ → 'I'll answer it.' ✅",
+        "Confusing structure: 'He is going to study' NOT 'He is going study'"
+      ],
+      "activities": [
+        {
+          "type": "quiz",
+          "title": "Plans and Evidence-Based Predictions",
+          "description": "Practice intentions and evidence-based predictions.",
+          "difficulty": 1,
+          "questions": [
+            {"kind": "multiple_choice", "prompt": "Complete: She ____ (travel) to Japan next summer.", "options": ["will travel", "travels", "is going to travel", "is traveling"], "correct_answer": "is going to travel", "explanation": "Future plan/intention", "xp_reward": 10, "sort_order": 1},
+            {"kind": "multiple_choice", "prompt": "Which shows a prediction with evidence?", "options": ["I think it will snow tomorrow.", "Look! He's going to fall off that ladder!", "I'll probably see her later.", "Maybe we'll go to the beach."], "correct_answer": "Look! He's going to fall off that ladder!", "explanation": "Current situation (on ladder) provides evidence", "xp_reward": 10, "sort_order": 2},
+            {"kind": "multiple_choice", "prompt": "Negative of: 'They are going to buy a house.'", "options": ["They aren't going to buy a house.", "They don't going to buy a house.", "They not going to buy a house.", "They won't going to buy a house."], "correct_answer": "They aren't going to buy a house.", "explanation": "Negative: am/is/are + not + going to + base verb", "xp_reward": 10, "sort_order": 3},
+            {"kind": "picture_prediction", "prompt": "A person is holding an umbrella and dark clouds are above. Predict:", "sample_answer": "It's going to rain.", "explanation": "Visible evidence (umbrella + clouds) suggests rain", "xp_reward": 15, "sort_order": 4}
+          ]
+        },
+        {
+          "type": "planning_dialogue",
+          "title": "Weekend Plans",
+          "description": "Create a dialogue about future plans.",
+          "difficulty": 2,
+          "scenario": "Two friends discussing weekend plans",
+          "sample_dialogue": "A: What are you going to do this weekend? B: I'm going to visit my parents on Saturday. On Sunday, I'm going to study for my exam. What about you? A: I'm going to go hiking if the weather is nice.",
+          "xp_reward": 20
+        }
+      ]
+    },
+    {
+      "code": "future_continuous",
+      "name": "Future Continuous",
+      "description": "Used for actions that will be in progress at a specific future time, polite inquiries about plans, and describing future scenes.",
+      "keywords": ["at this time tomorrow", "next week at 3 PM", "will be ...ing", "in progress", "during"],
+      "structure": "Subject + will be + verb-ing",
+      "examples": [
+        {"sentence": "This time tomorrow, I'll be flying to Paris.", "translation": "Mañana a esta hora, estaré volando a París.", "note": "Action in progress at specific future time"},
+        {"sentence": "Will you be using the car tonight?", "translation": "¿Estarás usando el auto esta noche?", "note": "Polite inquiry about plans"},
+        {"sentence": "Don't call at 8 PM - we'll be having dinner.", "translation": "No llames a las 8 PM - estaremos cenando.", "note": "Future action that will be in progress"},
+        {"sentence": "In 2030, people will be living longer.", "translation": "En 2030, la gente estará viviendo más tiempo.", "note": "Describing a future scene/situation"},
+        {"sentence": "They won't be working next Friday.", "translation": "No estarán trabajando el próximo viernes.", "note": "Negative form"}
+      ],
+      "common_mistakes": [
+        "Confusing with Future Simple: 'I will study at 8 PM' (decision) vs 'I will be studying at 8 PM' (in progress)",
+        "Using for completed actions: 'I will be finishing by 5 PM' (in progress at 5) vs 'I will finish by 5 PM' (completed before 5)"
+      ],
+      "activities": [
+        {
+          "type": "quiz",
+          "title": "Future in Progress",
+          "description": "Practice actions that will be happening at specific future times.",
+          "difficulty": 2,
+          "questions": [
+            {"kind": "multiple_choice", "prompt": "Complete: At 9 PM tonight, I ____ (watch) the game.", "options": ["will watch", "will be watching", "am watching", "watch"], "correct_answer": "will be watching", "explanation": "Specific future time + action in progress", "xp_reward": 15, "sort_order": 1},
+            {"kind": "multiple_choice", "prompt": "Which is a polite question about plans?", "options": ["Will you go to the store?", "Will you be going to the store later?", "Are you going to the store?", "Do you go to the store?"], "correct_answer": "Will you be going to the store later?", "explanation": "Future Continuous is often used for polite inquiries", "xp_reward": 15, "sort_order": 2},
+            {"kind": "sentence_transformation", "prompt": "Transform to emphasize action in progress: 'I (study) from 7 to 10 PM tomorrow.'", "correct_answer": "I will be studying from 7 to 10 PM tomorrow.", "explanation": "Future Continuous emphasizes the ongoing nature", "xp_reward": 15, "sort_order": 3},
+            {"kind": "multiple_choice", "prompt": "Complete: This time next year, we ____ (live) in a new city.", "options": ["will live", "will be living", "are living", "live"], "correct_answer": "will be living", "explanation": "Describing a future scene/situation in progress", "xp_reward": 15, "sort_order": 4}
+          ]
+        }
+      ]
+    },
+    {
+      "code": "future_perfect_simple",
+      "name": "Future Perfect Simple",
+      "description": "Used to say that an action will be completed before a specific future time or event. Focuses on the result of the action.",
+      "keywords": ["by", "by the time", "before", "until", "when", "already"],
+      "structure": "Subject + will have + past participle",
+      "examples": [
+        {"sentence": "By next month, I will have finished this course.", "translation": "Para el próximo mes, habré terminado este curso.", "note": "Action completed before a future deadline"},
+        {"sentence": "She will have arrived by 6 PM.", "translation": "Ella habrá llegado antes de las 6 PM.", "note": "Completed before specific future time"},
+        {"sentence": "Will you have eaten before we meet?", "translation": "¿Habrás comido antes de que nos encontremos?", "note": "Question about completion before future event"},
+        {"sentence": "They won't have completed the building by December.", "translation": "No habrán completado el edificio para diciembre.", "note": "Negative prediction about completion"},
+        {"sentence": "By 2050, scientists will have discovered new energy sources.", "translation": "Para 2050, los científicos habrán descubierto nuevas fuentes de energía.", "note": "Prediction about future achievement"}
+      ],
+      "common_mistakes": [
+        "Confusing with Future Simple: 'I will finish by Friday' (focus on action) vs 'I will have finished by Friday' (focus on completion)",
+        "Using without a future reference point: 'I will have done it' (needs 'by when?')"
+      ],
+      "activities": [
+        {
+          "type": "quiz",
+          "title": "Completion Before Future Points",
+          "description": "Practice talking about what will be completed by future deadlines.",
+          "difficulty": 3,
+          "questions": [
+            {"kind": "multiple_choice", "prompt": "Complete: By 2030, I ____ (work) here for 20 years.", "options": ["will work", "will be working", "will have worked", "work"], "correct_answer": "will have worked", "explanation": "Future Perfect for duration completed by future date", "xp_reward": 20, "sort_order": 1},
+            {"kind": "multiple_choice", "prompt": "Which sentence focuses on completion before a future time?", "options": ["I will study tomorrow.", "I will be studying all day tomorrow.", "I will have studied all the material by tomorrow.", "I'm going to study later."], "correct_answer": "I will have studied all the material by tomorrow.", "explanation": "Emphasizes completion before 'tomorrow'", "xp_reward": 20, "sort_order": 2},
+            {"kind": "multiple_choice", "prompt": "Complete: Call me after 7 PM. I ____ (finish) dinner by then.", "options": ["finish", "will finish", "will have finished", "am finishing"], "correct_answer": "will have finished", "explanation": "Completed before 'by then' (7 PM)", "xp_reward": 20, "sort_order": 3},
+            {"kind": "deadline_prediction", "prompt": "Project start: Jan 1. Project duration: 6 months. What can you say by July 1?", "sample_answer": "By July 1, we will have completed the project.", "explanation": "Future Perfect for completion before specific date", "xp_reward": 25, "sort_order": 4}
+          ]
+        }
+      ]
+    }
+  ]
+}
