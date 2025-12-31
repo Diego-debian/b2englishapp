@@ -43,6 +43,10 @@ The easiest way to run the project is using Docker.
     - **Backend API:** [http://localhost:8000](http://localhost:8000)
     - **API Docs:** [http://localhost:8000/docs](http://localhost:8000/docs)
 
+### 🚩 Feature Flags
+Puedes activar funcionalidades experimentales en tu `.env`:
+- `NEXT_PUBLIC_PRACTICE_VARIETY_V2="1"`: Activa el nuevo algoritmo de selección de preguntas (Pool Ampliado + Soft Filter) para reducir la repetición. Default: "0".
+
 ### 🕹️ Features
 - **Practice Mode**:
     - **Classic:** Free practice with randomized question pools (Warmup, Main, Boss).
