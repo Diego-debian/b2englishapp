@@ -13,6 +13,7 @@ import { api } from "@/lib/api";
 import { usePracticeStore } from "@/store/practiceStore";
 import { useAuthStore } from "@/store/authStore";
 import type { ActivityOut, QuestionOut, SubmitAnswerOut } from "@/lib/types";
+import { MillionaireGameView } from "@/components/MillionaireGameView";
 
 /**
  * Shuffle an array using the Fisher-Yates algorithm.
@@ -43,14 +44,44 @@ function normalizeAnswer(val: string): string {
  * Pedagogical prompt normalizer.
  * Separates instruction from content.
  */
-function normalizePrompt(raw: string) {
-  const text = raw.trim();
+/**
+ * Pedagogical prompt normalizer.
+ * Separates instruction from content.
+ * Robustness: Handles {prompt}, {text}, {question} or string.
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function normalizePrompt(raw: any) {
+  let text = "";
+
+  // 1. Resolve raw to string
+  if (typeof raw === "string") {
+    text = raw;
+  } else if (raw && typeof raw === "object") {
+    // If it has a 'prompt' property
+    if (raw.prompt) {
+      if (typeof raw.prompt === "string") text = raw.prompt;
+      else if (typeof raw.prompt === "object") {
+        // Nested object structure
+        return {
+          instruction: raw.prompt.instruction || "Elige la mejor respuesta.",
+          content: raw.prompt.content || ""
+        };
+      }
+    }
+    // Fallbacks if strictly 'prompt' failed or wasn't there
+    if (!text) text = raw.text || raw.question || raw.content || raw.statement || "";
+  }
+
+  // 2. Normalize string
+  text = text?.trim() || "";
+
   if (text.startsWith("Complete:")) {
     return {
-      instruction: "Completa la oración eligiendo la opción correcta.",
+      instruction: "Completa la oración",
       content: text.replace(/^Complete:\s*/i, "")
     };
   }
+
   // Default for questions (Which, What, etc) or others
   return {
     instruction: "Elige la mejor respuesta.",
@@ -977,158 +1008,145 @@ function PracticeInner() {
 
           {/* ACTIVE GAME STATE */}
           {isRunReady && !isFinished && currentQ && (
-            <div className="space-y-4">
-              {/* Phase / Info Cards (Horizontal Bar) */}
-              <div className="grid grid-cols-3 gap-2">
-                {practiceMode === "millionaire" ? (
-                  <Card className="col-span-3 border-2 border-amber-200 bg-amber-50 p-3 flex items-center justify-between">
-                    <div>
-                      <p className="text-[10px] font-bold text-amber-700 uppercase tracking-widest">Modo Millionaire</p>
-                      <p className="text-xs text-amber-900">Muerte súbita activa</p>
-                    </div>
-                    {timeLeft !== null && (
-                      <div className={`text-lg font-black font-mono px-3 py-1 rounded-lg ${timeLeft < 10 ? "bg-red-100 text-red-600 animate-pulse" : "bg-white text-slate-700"}`}>
-                        {Math.floor(timeLeft / 60)}:{String(timeLeft % 60).padStart(2, '0')}
-                      </div>
-                    )}
+            practiceMode === "millionaire" ? (
+              <MillionaireGameView
+                currentQ={currentQ}
+                currentIndex={currentIndex}
+                timeLeft={timeLeft}
+                lifelines={lifelines}
+                lastFeedback={lastFeedback}
+                loading={loading}
+                answer={answer}
+                uiState={uiState}
+                onAnswerChange={setAnswer}
+                onSubmit={submit}
+                onNext={next}
+                onSwap={useSwap}
+                onTime={useTime}
+                onDouble={useDouble}
+              />
+            ) : (
+              <div className="space-y-4">
+                {/* Phase / Info Cards (Horizontal Bar) */}
+                <div className="grid grid-cols-3 gap-2">
+                  <Card className={`p-2 border-b-4 text-center transition-all ${questPhase === "WARMUP" ? "border-emerald-500 bg-emerald-50 opacity-100 shadow-sm" : "border-transparent opacity-60 bg-slate-50 grayscale"}`}>
+                    <p className={`text-[10px] font-bold uppercase tracking-widest ${questPhase === "WARMUP" ? "text-emerald-800" : "text-slate-400"}`}>Warm-up</p>
                   </Card>
-                ) : (
-                  <>
-                    {/* Classic Phases - Compact & highlighted */}
-                    <Card className={`p-2 border-b-4 text-center transition-all ${questPhase === "WARMUP" ? "border-emerald-500 bg-emerald-50 opacity-100 shadow-sm" : "border-transparent opacity-60 bg-slate-50 grayscale"}`}>
-                      <p className={`text-[10px] font-bold uppercase tracking-widest ${questPhase === "WARMUP" ? "text-emerald-800" : "text-slate-400"}`}>Warm-up</p>
-                    </Card>
-                    <Card className={`p-2 border-b-4 text-center transition-all ${questPhase === "MAIN" ? "border-violet-500 bg-violet-50 opacity-100 shadow-sm" : "border-transparent opacity-60 bg-slate-50 grayscale"}`}>
-                      <p className={`text-[10px] font-bold uppercase tracking-widest ${questPhase === "MAIN" ? "text-violet-800" : "text-slate-400"}`}>Main</p>
-                    </Card>
-                    <Card className={`p-2 border-b-4 text-center transition-all ${questPhase === "BOSS" ? "border-rose-500 bg-rose-50 opacity-100 shadow-sm" : "border-transparent opacity-60 bg-slate-50 grayscale"}`}>
-                      <p className={`text-[10px] font-bold uppercase tracking-widest ${questPhase === "BOSS" ? "text-rose-800" : "text-slate-400"}`}>Boss</p>
-                    </Card>
-                  </>
-                )}
-              </div>
+                  <Card className={`p-2 border-b-4 text-center transition-all ${questPhase === "MAIN" ? "border-violet-500 bg-violet-50 opacity-100 shadow-sm" : "border-transparent opacity-60 bg-slate-50 grayscale"}`}>
+                    <p className={`text-[10px] font-bold uppercase tracking-widest ${questPhase === "MAIN" ? "text-violet-800" : "text-slate-400"}`}>Main</p>
+                  </Card>
+                  <Card className={`p-2 border-b-4 text-center transition-all ${questPhase === "BOSS" ? "border-rose-500 bg-rose-50 opacity-100 shadow-sm" : "border-transparent opacity-60 bg-slate-50 grayscale"}`}>
+                    <p className={`text-[10px] font-bold uppercase tracking-widest ${questPhase === "BOSS" ? "text-rose-800" : "text-slate-400"}`}>Boss</p>
+                  </Card>
+                </div>
 
-              {/* Main Context Card */}
-              <Card className={`relative overflow-hidden min-h-[350px] transition-colors duration-500 ${practiceMode === "millionaire" ? "bg-slate-900 text-white border-slate-800" : "bg-white border-slate-200"}`}>
-                {/* Progress Line (Classic) */}
-                {practiceMode !== "millionaire" && (
+                {/* Main Context Card */}
+                <Card className="relative overflow-hidden min-h-[350px] transition-colors duration-500 bg-white border-slate-200">
+                  {/* Progress Line (Classic) */}
                   <div
                     className={`absolute top-0 left-0 h-1 transition-all duration-1000 ${questPhase === "WARMUP" ? "bg-emerald-500" :
                       questPhase === "MAIN" ? "bg-violet-500" : "bg-rose-500"
                       }`}
                     style={{ width: `${progressValue}%` }}
                   />
-                )}
 
-                <div className="p-4 md:p-6 text-base">
-                  {/* Question Metadata */}
-                  <div className="flex items-center gap-3 mb-4">
-                    <span className={`px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-widest ${practiceMode === "millionaire" ? "bg-amber-500/20 text-amber-400" : "bg-slate-100 text-slate-500"}`}>
-                      #{currentIndex + 1}
-                    </span>
-                    <span className={`px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-widest ${["choice", "mcq", "multiple_choice", "true_false"].includes(currentQ.kind)
-                      ? "bg-blue-50 text-blue-600"
-                      : "bg-orange-50 text-orange-600"
-                      }`}>
-                      {["choice", "mcq", "multiple_choice", "true_false"].includes(currentQ.kind) ? "Opción" : "Escritura"}
-                    </span>
-                  </div>
-
-                  {/* The Question */}
-                  <div className="mb-6">
-                    <p className={`text-[10px] font-bold uppercase tracking-widest mb-2 ${practiceMode === "millionaire" ? "text-slate-400" : "text-slate-400"}`}>
-                      {normalizePrompt(currentQ.prompt).instruction}
-                    </p>
-                    <h2 className={`text-xl md:text-2xl font-black leading-snug ${practiceMode === "millionaire" ? "text-white" : "text-slate-900"}`}>
-                      {normalizePrompt(currentQ.prompt).content}
-                    </h2>
-                  </div>
-
-                  {/* Millionaire Lifelines (Inside Card for context) */}
-                  {practiceMode === "millionaire" && isRunReady && !isFinished && (
-                    <div className="grid grid-cols-3 gap-2 mb-6">
-                      <Button variant="secondary" onClick={useSwap} disabled={lifelines.swap || !!lastFeedback} className={`text-xs py-1 h-8 ${lifelines.swap ? "opacity-40" : ""}`}>🔄 Swap</Button>
-                      <Button variant="secondary" onClick={useTime} disabled={lifelines.time || !!lastFeedback} className={`text-xs py-1 h-8 ${lifelines.time ? "opacity-40" : ""}`}>⏳ Time</Button>
-                      <Button variant="secondary" onClick={useDouble} disabled={lifelines.double || !!lastFeedback} className={`text-xs py-1 h-8 ${lifelines.double ? "opacity-40" : ""}`}>✨ XP</Button>
+                  <div className="p-4 md:p-6 text-base">
+                    {/* Question Metadata */}
+                    <div className="flex items-center gap-3 mb-4">
+                      <span className="px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-widest bg-slate-100 text-slate-500">
+                        #{currentIndex + 1}
+                      </span>
+                      <span className={`px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-widest ${["choice", "mcq", "multiple_choice", "true_false"].includes(currentQ.kind)
+                        ? "bg-blue-50 text-blue-600"
+                        : "bg-orange-50 text-orange-600"
+                        }`}>
+                        {["choice", "mcq", "multiple_choice", "true_false"].includes(currentQ.kind) ? "Opción" : "Escritura"}
+                      </span>
                     </div>
-                  )}
 
-                  {/* Content: Options or Input */}
-                  <div className="space-y-6">
-                    {loading && <div className="py-4"><Spinner /></div>}
+                    {/* The Question */}
+                    <div className="mb-6">
+                      <p className="text-[10px] font-bold uppercase tracking-widest mb-2 text-slate-400">
+                        {normalizePrompt(currentQ).instruction}
+                      </p>
+                      <h2 className="text-xl md:text-2xl font-black leading-snug text-slate-900">
+                        {normalizePrompt(currentQ).content}
+                      </h2>
+                    </div>
 
-                    {["choice", "mcq", "multiple_choice", "true_false"].includes(currentQ.kind) ? (
-                      <ChoiceQuestion
-                        key={currentQ.id}
-                        options={currentQ.options}
-                        userAnswer={answer}
-                        onChange={setAnswer}
-                        disabled={loading || lastFeedback !== null}
-                        onConfirm={submit}
-                        prompt={currentQ.prompt}
-                        uiState={uiState}
-                        correctOption={lastFeedback?.correct_answer ?? null}
-                      />
-                    ) : (
-                      <InputQuestion
-                        key={currentQ.id}
-                        userAnswer={answer}
-                        onChange={setAnswer}
-                        disabled={loading || lastFeedback !== null}
-                        onConfirm={submit}
-                        prompt={currentQ.prompt}
-                      />
-                    )}
+                    {/* Content: Options or Input */}
+                    <div className="space-y-6">
+                      {loading && <div className="py-4"><Spinner /></div>}
 
-                    {/* Feedback Area */}
-                    {lastFeedback === null ? (
-                      <div className="pt-2">
-                        <Button
-                          className={`w-full py-3 text-sm font-bold tracking-wide shadow-md hover:shadow-lg transition-all active:scale-[0.98] ${practiceMode === "millionaire"
-                            ? "bg-amber-600 hover:bg-amber-700 text-white"
-                            : "bg-slate-900 hover:bg-slate-800 text-white"
-                            }`}
-                          onClick={submit}
-                          disabled={loading || !answer.trim()}
-                        >
-                          COMPROBAR
-                        </Button>
-                      </div>
-                    ) : (
-                      /* Feedback UI */
-                      <div className="animate-in fade-in slide-in-from-bottom-2 duration-300 space-y-4 pt-4 border-t border-slate-100">
-                        <div className={`rounded-xl p-4 flex gap-4 ${lastFeedback.is_correct ? "bg-emerald-50 text-emerald-800" : "bg-red-50 text-red-800"}`}>
-                          <div className="text-2xl">{lastFeedback.is_correct ? "✅" : "❌"}</div>
-                          <div>
-                            <p className="font-black uppercase tracking-tight">{lastFeedback.is_correct ? "¡Correcto!" : "Incorrecto"}</p>
-                            <p className="text-sm opacity-80">{lastFeedback.is_correct ? `+${lastFeedback.xp_awarded} XP` : "Revisa la solución abajo"}</p>
-                          </div>
+                      {["choice", "mcq", "multiple_choice", "true_false"].includes(currentQ.kind) ? (
+                        <ChoiceQuestion
+                          key={currentQ.id}
+                          options={currentQ.options}
+                          userAnswer={answer}
+                          onChange={setAnswer}
+                          disabled={loading || lastFeedback !== null}
+                          onConfirm={submit}
+                          prompt={currentQ.prompt}
+                          uiState={uiState}
+                          correctOption={lastFeedback?.correct_answer ?? null}
+                        />
+                      ) : (
+                        <InputQuestion
+                          key={currentQ.id}
+                          userAnswer={answer}
+                          onChange={setAnswer}
+                          disabled={loading || lastFeedback !== null}
+                          onConfirm={submit}
+                          prompt={currentQ.prompt}
+                        />
+                      )}
+
+                      {/* Feedback Area */}
+                      {lastFeedback === null ? (
+                        <div className="pt-2">
+                          <Button
+                            className="w-full py-3 text-sm font-bold tracking-wide shadow-md hover:shadow-lg transition-all active:scale-[0.98] bg-slate-900 hover:bg-slate-800 text-white"
+                            onClick={submit}
+                            disabled={loading || !answer.trim()}
+                          >
+                            COMPROBAR
+                          </Button>
                         </div>
-
-                        {!lastFeedback.is_correct && lastFeedback.correct_answer && (
-                          <div className="p-4 bg-emerald-50 border border-emerald-100 rounded-xl">
-                            <p className="text-[10px] font-bold text-emerald-600 uppercase">Respuesta Correcta</p>
-                            <p className="font-bold text-emerald-900 text-lg">{lastFeedback.correct_answer}</p>
+                      ) : (
+                        /* Feedback UI */
+                        <div className="animate-in fade-in slide-in-from-bottom-2 duration-300 space-y-4 pt-4 border-t border-slate-100">
+                          <div className={`rounded-xl p-4 flex gap-4 ${lastFeedback.is_correct ? "bg-emerald-50 text-emerald-800" : "bg-red-50 text-red-800"}`}>
+                            <div className="text-2xl">{lastFeedback.is_correct ? "✅" : "❌"}</div>
+                            <div>
+                              <p className="font-black uppercase tracking-tight">{lastFeedback.is_correct ? "¡Correcto!" : "Incorrecto"}</p>
+                              <p className="text-sm opacity-80">{lastFeedback.is_correct ? `+${lastFeedback.xp_awarded} XP` : "Revisa la solución abajo"}</p>
+                            </div>
                           </div>
-                        )}
 
-                        {currentQ.explanation && (
-                          <div className="p-4 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-600">
-                            <p className="text-[10px] font-bold text-slate-400 uppercase mb-1">💡 Explicación</p>
-                            {currentQ.explanation}
-                          </div>
-                        )}
+                          {!lastFeedback.is_correct && lastFeedback.correct_answer && (
+                            <div className="p-4 bg-emerald-50 border border-emerald-100 rounded-xl">
+                              <p className="text-[10px] font-bold text-emerald-600 uppercase">Respuesta Correcta</p>
+                              <p className="font-bold text-emerald-900 text-lg">{lastFeedback.correct_answer}</p>
+                            </div>
+                          )}
 
-                        <Button onClick={next} className="w-full py-4 bg-violet-600 hover:bg-violet-700 text-white font-black uppercase tracking-widest shadow-lg">
-                          Continuar →
-                        </Button>
-                      </div>
-                    )}
+                          {currentQ.explanation && (
+                            <div className="p-4 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-600">
+                              <p className="text-[10px] font-bold text-slate-400 uppercase mb-1">💡 Explicación</p>
+                              {currentQ.explanation}
+                            </div>
+                          )}
+
+                          <Button onClick={next} className="w-full py-4 bg-violet-600 hover:bg-violet-700 text-white font-black uppercase tracking-widest shadow-lg">
+                            Continuar →
+                          </Button>
+                        </div>
+                      )}
+                    </div>
                   </div>
-
-                </div>
-              </Card>
-            </div>
+                </Card>
+              </div>
+            )
           )}
 
           {/* FINISHED STATE */}

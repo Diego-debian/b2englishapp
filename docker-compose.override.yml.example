@@ -1,0 +1,8 @@
+# docker-compose.override.yml
+# This file is automatically loaded by Docker Compose and overrides settings from docker-compose.yml
+# Use this for production deployment to switch to the minimal 'runner' target
+
+services:
+  frontend:
+    build:
+      target: runner  # Override to use production target
