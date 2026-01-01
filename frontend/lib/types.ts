@@ -94,3 +94,19 @@ export type UserProgressUpdate = {
   correct: boolean;
   xp: number;
 };
+
+// --- Exercise Schema (Frontend Foundation) ---
+
+export type ExerciseType = 'mcq' | 'fill_blank' | 'order_words';
+export type ExerciseLevel = 'easy' | 'medium' | 'hard';
+
+export interface Exercise {
+  id: string;
+  tenseSlug: string;
+  type: ExerciseType;
+  prompt: string;
+  choices?: string[];
+  answer: string | string[];
+  explanation: string;
+  level: ExerciseLevel;
+}
