@@ -96,7 +96,9 @@ export default function PracticePage() {
   return (
     <Protected>
       <PracticeTenseBanner />
-      <PracticeInner />
+      <div id="practice-area">
+        <PracticeInner />
+      </div>
     </Protected>
   );
 }
