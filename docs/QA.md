@@ -47,4 +47,36 @@
 
 #### Check 3: Network Resilience
 1.  Simular Network Offline parcialmente (bloquear request en DevTools si es posible, o asumir Promise.allSettled test).
-2.  Resultado esperado: El juego inicia aunque algunas calls fallen, reportando en métricas `requests_failed > 0`.
+
+---
+
+## Day 3 & 4: Onboarding & Stability
+
+**Goal:** Ensure smooth new user entry and overall system stability.
+
+### Manual QA Checklist
+
+#### 1. Onboarding Flow (`/tenses`)
+- [ ] **Banner Visibility:** "Master English Tenses" banner appears at the top (Desktop & Mobile).
+- [ ] **Content Check:** Reads "Read -> Practice -> Repeat" clearly.
+- [ ] **Interactions:**
+    - [ ] "Start with a tense" -> Smoothly scrolls to the tense grid.
+    - [ ] "Go to Practice" -> Navigates to `/practice`.
+
+#### 2. Practice Focus Mode (`/practice?tense=slug`)
+- [ ] **Banner:** Shows the specific Tense Focus banner (e.g. Past Continuous).
+- [ ] **Style:** Dark/Glass premium card style matches the Tenses banner.
+- [ ] **Filtering:** (UX Only) Confirms user is "Reviewing [Tense Name]".
+
+#### 3. Standard Practice (`/practice`)
+- [ ] **No Banner:** When no `?tense=` param is present, only the standard practice UI is shown.
+- [ ] **Layout:** Spacing at top is correct (no overlap with header).
+
+#### 4. Regression Testing
+- [ ] **Classic Mode:** Game starts, questions load, submission works.
+- [ ] **Millionaire Mode:** Timer works, lifelines work (frontend check).
+- [ ] **Mobile Layout:** Stacked correctly, no horizontal overflow.
+
+#### 5. Build
+- [ ] `npm run build` passes with zero errors.
+
