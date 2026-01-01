@@ -89,10 +89,12 @@ export function MillionaireGameView({
     onTime,
     onDouble,
 }: MillionaireGameViewProps) {
+    const __DEV__ = process.env.NODE_ENV !== "production";
+
     // Pass entire object to let robustifier find the best property (prompt, text, question...)
     const normPrompt = normalizePrompt(currentQ);
 
-    if (process.env.NODE_ENV === "development") {
+    if (__DEV__) {
         console.log("[MillionaireDebug] Prompt:", {
             raw: currentQ.prompt,
             keys: Object.keys(currentQ),
