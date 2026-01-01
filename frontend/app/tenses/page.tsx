@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Protected } from "@/components/Protected";
 import { Card } from "@/components/Card";
 import { Button } from "@/components/Button";
+import { OnboardingBanner } from "@/components/OnboardingBanner";
 
 export default function GrammarReferencePage() {
   return (
@@ -37,7 +38,7 @@ function GrammarReferenceInner() {
   ];
 
   return (
-    <div className="max-w-7xl mx-auto px-4 md:px-6 py-10 space-y-10">
+    <div className="max-w-7xl mx-auto px-4 md:px-6 py-10 space-y-12">
       {/* Header */}
       <div className="flex flex-wrap items-start justify-between gap-6">
         <div className="space-y-1">
@@ -62,8 +63,11 @@ function GrammarReferenceInner() {
         </div>
       </div>
 
+      {/* Onboarding Banner */}
+      <OnboardingBanner />
+
       {/* Three Main Blocks */}
-      <div className="grid md:grid-cols-3 gap-8">
+      <div id="tense-list" className="grid md:grid-cols-3 gap-8 pt-4">
         {/* Present Time */}
         <Card className="bg-gradient-to-br from-violet-50 to-white border-violet-200">
           <div className="space-y-4">
