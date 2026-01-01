@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { Card } from "@/components/Card";
 import { Button } from "@/components/Button";
 import { Spinner } from "@/components/Spinner";
@@ -91,6 +91,9 @@ export function MillionaireGameView({
 }: MillionaireGameViewProps) {
     const __DEV__ = process.env.NODE_ENV !== "production";
 
+    // XP Popover state
+    const [showXpInfo, setShowXpInfo] = useState(false);
+
     // Pass entire object to let robustifier find the best property (prompt, text, question...)
     const normPrompt = normalizePrompt(currentQ);
 
@@ -101,6 +104,9 @@ export function MillionaireGameView({
             normalized: normPrompt
         });
     }
+
+    // Get XP reward from question
+    const xpReward = currentQ.xp_reward || "—";
 
     return (
         <div className="space-y-4">
@@ -161,9 +167,90 @@ export function MillionaireGameView({
 
                     {/* Lifelines */}
                     <div className="grid grid-cols-3 gap-2 mb-6">
-                        <Button variant="secondary" onClick={onSwap} disabled={lifelines.swap || !!lastFeedback} className={`text-xs py-1 h-8 ${lifelines.swap ? "opacity-40" : ""}`}>🔄 Swap</Button>
-                        <Button variant="secondary" onClick={onTime} disabled={lifelines.time || !!lastFeedback} className={`text-xs py-1 h-8 ${lifelines.time ? "opacity-40" : ""}`}>⏳ Time</Button>
-                        <Button variant="secondary" onClick={onDouble} disabled={lifelines.double || !!lastFeedback} className={`text-xs py-1 h-8 ${lifelines.double ? "opacity-40" : ""}`}>✨ XP</Button>
+                        {/* Swap Button */}
+                        <div className="relative group">
+                            <Button
+                                variant="secondary"
+                                onClick={onSwap}
+                                disabled={lifelines.swap || !!lastFeedback}
+                                className={`text-xs py-1 h-8 w-full transition-all ${lifelines.swap || lastFeedback
+                                        ? "opacity-50 cursor-not-allowed"
+                                        : "hover:scale-105"
+                                    }`}
+                            >
+                                🔄 Swap
+                            </Button>
+                            {/* Tooltip */}
+                            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-slate-800 text-white text-[10px] rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">
+                                Cambiar pregunta
+                            </div>
+                        </div>
+
+                        {/* Time Button */}
+                        <div className="relative group">
+                            <Button
+                                variant="secondary"
+                                onClick={onTime}
+                                disabled={lifelines.time || !!lastFeedback}
+                                className={`text-xs py-1 h-8 w-full transition-all ${lifelines.time
+                                        ? "opacity-50 cursor-not-allowed bg-green-100 border-green-300"
+                                        : lastFeedback
+                                            ? "opacity-50 cursor-not-allowed"
+                                            : "hover:scale-105"
+                                    }`}
+                            >
+                                ⏳ Time {lifelines.time && "✓"}
+                            </Button>
+                            {/* Tooltip */}
+                            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-slate-800 text-white text-[10px] rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">
+                                +30 segundos
+                            </div>
+                        </div>
+
+                        {/* XP Button */}
+                        <div className="relative group">
+                            <Button
+                                variant="secondary"
+                                onClick={() => setShowXpInfo(!showXpInfo)}
+                                disabled={lifelines.double || !!lastFeedback}
+                                className={`text-xs py-1 h-8 w-full transition-all ${lifelines.double || lastFeedback
+                                        ? "opacity-50 cursor-not-allowed"
+                                        : "hover:scale-105"
+                                    }`}
+                            >
+                                ✨ XP
+                            </Button>
+                            {/* Tooltip */}
+                            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-slate-800 text-white text-[10px] rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">
+                                Ver info XP
+                            </div>
+
+                            {/* XP Info Popover */}
+                            {showXpInfo && !lifelines.double && !lastFeedback && (
+                                <>
+                                    {/* Backdrop */}
+                                    <div
+                                        className="fixed inset-0 z-40"
+                                        onClick={() => setShowXpInfo(false)}
+                                    />
+                                    {/* Popover */}
+                                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-48 bg-white border-2 border-amber-200 rounded-lg shadow-xl p-3 z-50 animate-in fade-in slide-in-from-bottom-2 duration-200">
+                                        <div className="text-center space-y-2">
+                                            <div className="text-2xl font-black text-amber-600">
+                                                {xpReward}
+                                            </div>
+                                            <p className="text-[11px] text-slate-600 leading-relaxed">
+                                                Ganas XP al responder correctamente.
+                                            </p>
+                                        </div>
+                                        {/* Arrow */}
+                                        <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-[2px]">
+                                            <div className="w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[6px] border-t-amber-200" />
+                                        </div>
+                                    </div>
+                                </>
+                            )}
+                        </div>
                     </div>
 
                     {/* Content: Options or Input */}

@@ -173,12 +173,24 @@ function PracticeInner() {
 
   // Stage 3 States
   const [timeLeft, setTimeLeft] = useState<number | null>(null);
-  const [timerPaused, setTimerPaused] = useState(false);
   const [timeExpired, setTimeExpired] = useState(false);
+  const [timerStarted, setTimerStarted] = useState(false);
+
+  // Answer and feedback states (must be before handleTimeout that uses lastFeedback)
+  const [answer, setAnswer] = useState("");
+  const [lastFeedback, setLastFeedback] = useState<SubmitAnswerOut | null>(null);
+  const [questPhase, setQuestPhase] = useState<QuestPhase>("WARMUP");
+
+  // Timeout flag to prevent double submission
+  const timeoutTriggeredRef = useRef(false);
+
+  // Ref to submit function (synced after declaration to avoid hoisting issues)
+  const submitRef = useRef<null | (() => Promise<void>)>(null);
 
   const handleTimeout = useCallback(() => {
     // 100% Frontend Fail Handling
-    if (isFinished) return;
+    // Guard: Don't timeout if already finished or showing feedback
+    if (isFinished || lastFeedback !== null) return;
 
     setTimeExpired(true);
 
@@ -188,30 +200,41 @@ function PracticeInner() {
     // End Run Immediately -> jump to end
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (usePracticeStore.setState as any)({ currentIndex: questions.length });
-  }, [currentIndex, isFinished, questions.length]);
+  }, [currentIndex, isFinished, questions.length, lastFeedback]);
 
   // Timer Effect
   useEffect(() => {
-    if (practiceMode !== "millionaire" || timeLeft === null || timerPaused || isFinished) return;
-
-    if (timeLeft <= 0) {
-      handleTimeout();
-      return;
-    }
+    // Only run timer in millionaire mode, when timer is started, when not finished, and when no feedback is showing
+    if (practiceMode !== "millionaire" || timeLeft === null || !timerStarted || isFinished || lastFeedback !== null || timeExpired) return;
 
     const timer = setInterval(() => {
       setTimeLeft(prev => {
-        if (prev === null || prev <= 0) return 0;
+        if (prev === null) return prev;
+
+        // When timer reaches 0, trigger auto-submit
+        if (prev <= 1) {
+          // Clear interval immediately
+          clearInterval(timer);
+
+          // Auto-submit only once using ref flag
+          if (!timeoutTriggeredRef.current && !lastFeedback) {
+            timeoutTriggeredRef.current = true;
+            setTimeExpired(true);
+            // Trigger submit in next tick to avoid state update conflicts
+            setTimeout(() => {
+              // Call submit function via ref to avoid hoisting issues
+              submitRef.current?.();
+            }, 0);
+          }
+          return 0;
+        }
+
         return prev - 1;
       });
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [practiceMode, timeLeft, timerPaused, isFinished, handleTimeout]);
-
-  const [answer, setAnswer] = useState("");
-  const [lastFeedback, setLastFeedback] = useState<SubmitAnswerOut | null>(null);
-  const [questPhase, setQuestPhase] = useState<QuestPhase>("WARMUP");
+  }, [practiceMode, timerStarted, isFinished, lastFeedback, timeExpired]);
 
   // Determine UI State
   let uiState: QuestionUIState = "idle";
@@ -290,8 +313,8 @@ function PracticeInner() {
     setAnswer("");
     // Reset Timer State
     setTimeLeft(null);
-    setTimerPaused(false);
     setTimeExpired(false);
+    setTimerStarted(false);
 
     resetRun();
 
@@ -407,6 +430,11 @@ function PracticeInner() {
           setAttempt(attempt.attempt_id);
           // Pre-cache primary attempt
           usePracticeStore.getState().setAttemptForActivity(firstActId, attempt.attempt_id);
+
+          // Initialize Timer for Millionaire (30 seconds per question, not started)
+          setTimeLeft(30);
+          setTimeExpired(false);
+          setTimerStarted(false);
         }
 
       } else {
@@ -679,6 +707,8 @@ function PracticeInner() {
     if (!currentQ) return;
 
     // Note: attemptId might be null if we haven't started one for this specific activity yet.
+
+    // Note: attemptId might be null if we haven't started one for this specific activity yet.
     // relying on dynamic fetch below.
 
     setLoading(true);
@@ -803,6 +833,11 @@ function PracticeInner() {
     }
   }, [attemptId, currentQ, answer, currentIndex, addResult, questions.length, questions, timeLeft]);
 
+  // Sync submitRef with submit function after it's declared
+  useEffect(() => {
+    submitRef.current = submit;
+  }, [submit]);
+
   const useSwap = useCallback(async () => {
     if (lifelines.swap || !currentQ) return;
 
@@ -857,11 +892,8 @@ function PracticeInner() {
   const useTime = () => {
     if (lifelines.time) return;
     useLifeline('time');
-    setTimerPaused(true); // Pause effectively or...
-    // Prompt says "Pausa / +Tiempo". 
-    // Let's add 30 seconds AND pause for a bit? Or just add 30s.
-    // "Si hay timer: pausa o agrega +20–30s".
-    setTimeLeft(prev => (prev || 0) + 30);
+    // Start the countdown timer
+    setTimerStarted(true);
   };
 
   const useDouble = () => {
@@ -873,8 +905,19 @@ function PracticeInner() {
   const next = useCallback(() => {
     setLastFeedback(null);
     setAnswer("");
+
+    // Reset timeout flag for next question
+    timeoutTriggeredRef.current = false;
+
+    // Reset timer for next question in Millionaire mode
+    if (practiceMode === "millionaire") {
+      setTimeLeft(30);
+      setTimeExpired(false);
+      setTimerStarted(false);
+    }
+
     advance();
-  }, [advance]);
+  }, [advance, practiceMode]);
 
   const currentLevel = Math.floor(sessionXp / 100) + 1; // Visual session level
 
@@ -1161,7 +1204,7 @@ function PracticeInner() {
                 </div>
                 <div className="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm">
                   <p className="text-xs text-slate-400 font-bold uppercase">Aciertos</p>
-                  <p className="text-3xl font-black text-slate-700">{Math.round((sessionCorrect / results.length) * 100)}%</p>
+                  <p className="text-3xl font-black text-slate-700">{results.length > 0 ? Math.round((sessionCorrect / results.length) * 100) : 0}%</p>
                 </div>
               </div>
               <div className="flex gap-3 justify-center">
