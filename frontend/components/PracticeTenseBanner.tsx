@@ -31,25 +31,31 @@ function TenseBannerContent() {
     };
 
     return (
-        <div className="w-full bg-slate-900/5 border-b border-slate-900/10 backdrop-blur-sm">
+        <div className="w-full bg-slate-50/80 backdrop-blur-md border-b border-slate-200/50 shadow-sm relative z-10 transition-colors duration-300">
             <div className="max-w-6xl mx-auto px-4 py-8 md:py-10">
-                <div className="flex flex-col md:flex-row gap-8 items-start">
+                <div className="flex flex-col md:flex-row gap-6 md:gap-10 items-start">
                     <div className="flex-1 space-y-4">
-                        <div className="flex items-center gap-2 text-sm text-slate-500 mb-1">
-                            <span>Practice focus:</span>
-                            <span className="font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-md border border-indigo-100">{info.title}</span>
+                        <div className="flex items-center gap-3">
+                            <span className="inline-flex px-3 py-1 rounded-full bg-indigo-100 text-indigo-700 text-xs font-bold uppercase tracking-wide">
+                                Practice Focus
+                            </span>
+                            <h2 className="text-2xl md:text-3xl font-black text-slate-900 tracking-tight">
+                                {info.title}
+                            </h2>
                         </div>
 
-                        <p className="text-lg text-slate-700 leading-relaxed max-w-2xl">
+                        <p className="text-base md:text-lg text-slate-600 leading-relaxed max-w-2xl font-medium">
                             {content.description}
                         </p>
 
-                        <div className="bg-white/50 rounded-xl p-5 border border-slate-200/60 shadow-sm">
-                            <h4 className="text-sm font-semibold text-slate-900 mb-3 uppercase tracking-wide opacity-80">Quick Tips</h4>
-                            <ul className="space-y-2">
+                        <div className="bg-white/60 rounded-2xl p-6 border border-slate-200/60 shadow-sm ring-1 ring-slate-900/5">
+                            <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">
+                                Key Concepts
+                            </h4>
+                            <ul className="space-y-2.5">
                                 {content.tips.map((tip, i) => (
-                                    <li key={i} className="flex items-start gap-2.5 text-slate-600 text-sm">
-                                        <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-indigo-400 shrink-0" />
+                                    <li key={i} className="flex items-start gap-3 text-slate-700 text-sm">
+                                        <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-indigo-500 shrink-0" />
                                         <span>{tip}</span>
                                     </li>
                                 ))}
@@ -57,13 +63,13 @@ function TenseBannerContent() {
                         </div>
                     </div>
 
-                    <div className="md:self-end md:mb-2 shrink-0 w-full md:w-auto">
+                    <div className="md:self-center shrink-0 w-full md:w-auto pt-2 md:pt-0">
                         <button
                             onClick={handleStart}
-                            className="w-full md:w-auto px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg shadow-md hover:shadow-lg transition-all active:scale-95 flex items-center justify-center gap-2 group"
+                            className="w-full md:w-auto px-8 py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-lg hover:shadow-indigo-500/20 transition-all active:scale-95 flex items-center justify-center gap-3 group"
                         >
                             <span>Start focused practice</span>
-                            <svg className="w-4 h-4 group-hover:translate-y-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg className="w-4 h-4 text-indigo-100 group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
                             </svg>
                         </button>
