@@ -1,3 +1,6 @@
+# =============================================================================
+# Stage 1: Dependencies
+# =============================================================================
 FROM node:20-alpine AS deps
 WORKDIR /app
 
@@ -9,6 +12,9 @@ COPY package.json ./
 RUN npm install --legacy-peer-deps
 
 
+# =============================================================================
+# Stage 2: Builder
+# =============================================================================
 FROM node:20-alpine AS builder
 WORKDIR /app
 
@@ -24,6 +30,30 @@ COPY . .
 RUN npm run build
 
 
+# =============================================================================
+# Stage 3: Development Target (for local dev with full rebuild capability)
+# =============================================================================
+FROM node:20-alpine AS dev
+WORKDIR /app
+
+ENV NODE_ENV=development
+ENV PORT=3000
+
+# ✅ Runtime env
+ARG NEXT_PUBLIC_API_URL
+ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
+
+# Copy full dependencies and source code to allow `npm run build` inside container
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+
+EXPOSE 3000
+CMD ["npm", "run", "dev"]
+
+
+# =============================================================================
+# Stage 4: Production Runner (minimal standalone for prod deployment)
+# =============================================================================
 FROM node:20-alpine AS runner
 WORKDIR /app
 
@@ -34,7 +64,7 @@ ENV PORT=3000
 ARG NEXT_PUBLIC_API_URL
 ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
 
-# Next standalone
+# Next standalone (minimal production bundle)
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
 COPY --from=builder /app/public ./public
