@@ -14,6 +14,7 @@ import { usePracticeStore } from "@/store/practiceStore";
 import { useAuthStore } from "@/store/authStore";
 import type { ActivityOut, QuestionOut, SubmitAnswerOut } from "@/lib/types";
 import { MillionaireGameView } from "@/components/MillionaireGameView";
+import { PracticeTenseBanner } from "@/components/PracticeTenseBanner";
 
 /**
  * Shuffle an array using the Fisher-Yates algorithm.
@@ -94,6 +95,7 @@ type QuestPhase = "WARMUP" | "MAIN" | "BOSS";
 export default function PracticePage() {
   return (
     <Protected>
+      <PracticeTenseBanner />
       <PracticeInner />
     </Protected>
   );

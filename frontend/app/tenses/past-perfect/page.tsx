@@ -356,9 +356,9 @@ export default function PastPerfectPage() {
                                 Test your understanding with interactive exercises.
                             </p>
                         </div>
-                        <Link href="/practice">
+                        <Link href="/practice?tense=past-perfect">
                             <Button className="bg-violet-600 hover:bg-violet-700">
-                                Go to Practice →
+                                Practice this tense →
                             </Button>
                         </Link>
                     </div>
@@ -429,8 +429,8 @@ export default function PastPerfectPage() {
                                                 onClick={() => goToSlide(idx)}
                                                 aria-label={`Go to slide ${idx + 1}: ${slide.title}`}
                                                 className={`rounded-full transition-all focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 ${idx === activeIndex
-                                                        ? "bg-violet-600 w-8 h-3"
-                                                        : "bg-slate-300 hover:bg-slate-400 w-3 h-3"
+                                                    ? "bg-violet-600 w-8 h-3"
+                                                    : "bg-slate-300 hover:bg-slate-400 w-3 h-3"
                                                     }`}
                                             />
                                         ))}
