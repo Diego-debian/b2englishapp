@@ -8,6 +8,7 @@ import { TENSES, TenseSlug } from "@/lib/tenses";
 import { FOCUS_QUESTION_BANKS, FocusQuestion } from "@/lib/focusQuestions";
 import { FillBlankQuestion } from "@/components/FillBlankQuestion";
 import { OrderWordsQuestion } from "@/components/OrderWordsQuestion";
+import { focusStorage, FocusStats } from "@/lib/focusStorage";
 
 // Group tenses by category
 const TENSE_LIST: Array<{ slug: TenseSlug; category: "present" | "past" | "future" }> = [
@@ -76,6 +77,7 @@ function FocusPageInner() {
         isCorrect: null,
         correctCount: 0,
     });
+    const [deviceStats, setDeviceStats] = useState<FocusStats | null>(null);
 
     // Auto-select tense from query parameter on mount
     useEffect(() => {
@@ -168,6 +170,9 @@ function FocusPageInner() {
     const handleNext = () => {
         const nextIndex = session.currentIndex + 1;
         if (nextIndex >= session.questions.length) {
+            // Save local stats on session completion
+            const latestStats = focusStorage.saveSession(session.correctCount, session.questions.length);
+            setDeviceStats(latestStats || null);
             setSession({ ...session, phase: "summary" });
         } else {
             setSession({
@@ -604,6 +609,33 @@ function FocusPageInner() {
                             </div>
                         )}
 
+                        {/* Device Stats (Local Storage) */}
+                        {deviceStats && (
+                            <div className="mb-8 p-4 rounded-xl bg-slate-800/50 border border-slate-700/50 text-left">
+                                <h3 className="font-bold text-slate-400 text-xs uppercase tracking-wide mb-3 flex items-center gap-2">
+                                    <span>📱</span> This Device Stats
+                                </h3>
+                                <div className="grid grid-cols-3 gap-4">
+                                    <div className="text-center">
+                                        <div className="text-lg font-bold text-white">{deviceStats.sessions}</div>
+                                        <div className="text-[10px] uppercase text-slate-500 font-bold">Sessions</div>
+                                    </div>
+                                    <div className="text-center">
+                                        <div className="text-lg font-bold text-indigo-400">
+                                            {deviceStats.totalQuestions > 0
+                                                ? Math.round((deviceStats.totalCorrect / deviceStats.totalQuestions) * 100)
+                                                : 0}%
+                                        </div>
+                                        <div className="text-[10px] uppercase text-slate-500 font-bold">Accuracy</div>
+                                    </div>
+                                    <div className="text-center">
+                                        <div className="text-lg font-bold text-emerald-400">{deviceStats.totalCorrect}</div>
+                                        <div className="text-[10px] uppercase text-slate-500 font-bold">Total Correct</div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
                         <div className="flex flex-col gap-3 w-full max-w-xs mx-auto">
                             {/* Repeat Mistakes */}
                             {mistakes.length > 0 && (
@@ -639,7 +671,7 @@ function FocusPageInner() {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div >
         );
     }
 
