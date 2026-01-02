@@ -1,47 +1,4 @@
-Actúa como Senior Frontend Engineer.
-Objetivo: crear un componente FillBlankQuestion reutilizable para Focus Practice.
-Reglas: frontend-only, NO backend, NO tocar Classic/Millionaire, NO tocar frontend/app/practice/page.tsx.
-
-Implementa:
-
-Nuevo componente frontend/components/FillBlankQuestion.tsx (o ubicación consistente con el repo).
-
-Props sugeridas (ajústalas al tipado real del repo):
-
-prompt: string
-
-answer: string (respuesta correcta)
-
-explanation?: string
-
-onSubmit: (isCorrect: boolean, userAnswer: string) => void
-
-disabled?: boolean
-
-UX:
-
-input con focus ring claro en dark theme
-
-botón Submit
-
-Enter envía (si no está disabled)
-
-feedback visual (correct / wrong) + explicación
-
-Normalización de respuesta (clave del Excel):
-
-trim
-
-colapsar espacios múltiples
-
-comparar case-insensitive
-
-opcional: tolerar punto final/espacios extra (mínimo)
-
-Entrega: diff + QA manual + npm run build + commit message EXACTO:
-feat(focus): add FillBlankQuestion component
-
-No refactorices nada."use client";
+"use client";
 
 import React, { useState, KeyboardEvent } from "react";
 
@@ -149,8 +106,8 @@ export function FillBlankQuestion({
                     {/* Correctness Indicator */}
                     <div
                         className={`p-4 rounded-xl border-2 ${isCorrect
-                                ? "bg-emerald-500/20 border-emerald-400 text-emerald-200"
-                                : "bg-red-500/20 border-red-400 text-red-200"
+                            ? "bg-emerald-500/20 border-emerald-400 text-emerald-200"
+                            : "bg-red-500/20 border-red-400 text-red-200"
                             }`}
                     >
                         <div className="font-bold mb-1 flex items-center gap-2">
