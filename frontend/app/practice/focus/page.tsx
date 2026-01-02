@@ -190,6 +190,22 @@ function FocusPageInner() {
         });
     };
 
+    const handleRepeatMistakes = () => {
+        const failedIds = new Set(session.results.filter(r => !r.isCorrect).map(r => r.id));
+        const questionsToRepeat = session.questions.filter(q => failedIds.has(q.id));
+        const shuffled = shuffleArray(questionsToRepeat);
+
+        setSession({
+            phase: "playing",
+            questions: shuffled,
+            results: [],
+            currentIndex: 0,
+            userAnswer: "",
+            isCorrect: null,
+            correctCount: 0,
+        });
+    };
+
     // RENDER: Selection Screen
     if (session.phase === "selection") {
         return (
@@ -559,12 +575,22 @@ function FocusPageInner() {
                             </div>
                         )}
 
-                        <button
-                            onClick={handleRestart}
-                            className="w-full sm:w-auto px-8 py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-lg hover:shadow-indigo-500/30 transition-all active:scale-95"
-                        >
-                            {mistakes.length > 0 ? "Try Again" : "New Session"}
-                        </button>
+                        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                            {mistakes.length > 0 && (
+                                <button
+                                    onClick={handleRepeatMistakes}
+                                    className="px-8 py-4 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-xl shadow-lg hover:shadow-amber-500/30 transition-all active:scale-95"
+                                >
+                                    Repeat Mistakes
+                                </button>
+                            )}
+                            <button
+                                onClick={handleRestart}
+                                className="px-8 py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-lg hover:shadow-indigo-500/30 transition-all active:scale-95"
+                            >
+                                {mistakes.length > 0 ? "New Session" : "Practice Another Tense"}
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
