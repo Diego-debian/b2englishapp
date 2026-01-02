@@ -549,7 +549,7 @@ function FocusPageInner() {
                                 </h3>
                                 <div className="space-y-4 text-left">
                                     {mistakes.map((mistake) => (
-                                        <div key={mistake.id} className="bg-red-500/10 border border-red-500/20 rounded-xl p-4">
+                                        <div key={mistake.id} className="backdrop-blur-md bg-black/20 border border-white/10 rounded-xl p-4">
                                             <p className="text-white font-medium mb-2">{mistake.prompt}</p>
                                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
                                                 <div className="text-red-300">
@@ -561,16 +561,18 @@ function FocusPageInner() {
                                                     {mistake.correctAnswer}
                                                 </div>
                                             </div>
-                                            <div className="mt-3 pt-3 border-t border-red-500/10 text-slate-300 text-xs italic">
-                                                {mistake.explanation}
-                                            </div>
+                                            {mistake.explanation && (
+                                                <div className="mt-3 pt-3 border-t border-white/10 text-slate-300 text-xs italic">
+                                                    {mistake.explanation}
+                                                </div>
+                                            )}
                                         </div>
                                     ))}
                                 </div>
                             </div>
                         ) : (
                             <div className="mb-8 p-6 bg-emerald-500/10 border border-emerald-500/20 rounded-xl">
-                                <h3 className="text-xl font-bold text-emerald-300 mb-2">Perfect Score! 🌟</h3>
+                                <h3 className="text-xl font-bold text-emerald-300 mb-2">Perfect run</h3>
                                 <p className="text-emerald-200/80">You nailed it! Ready for the next challenge?</p>
                             </div>
                         )}
@@ -588,7 +590,7 @@ function FocusPageInner() {
                                 onClick={handleRestart}
                                 className="px-8 py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-lg hover:shadow-indigo-500/30 transition-all active:scale-95"
                             >
-                                {mistakes.length > 0 ? "New Session" : "Practice Another Tense"}
+                                {mistakes.length > 0 ? "New Session" : "New session"}
                             </button>
                         </div>
                     </div>
