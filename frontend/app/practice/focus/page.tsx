@@ -304,21 +304,21 @@ function FocusPageInner() {
                                     key={slug}
                                     onClick={() => setSelectedTense(slug)}
                                     className={`
-                                        group relative p - 5 sm: p - 6 rounded - xl backdrop - blur - xl transition - all duration - 300
-border - 2 text - left transform
+                                        group relative p-5 sm:p-6 rounded-xl transition-all duration-300 border-2 text-left transform
                                         ${isSelected
                                             ? "bg-white/10 border-indigo-500 shadow-2xl shadow-indigo-500/30 scale-105 ring-2 ring-indigo-400/30"
-                                            : "bg-white/5 border-white/10 hover:bg-white/10 hover:border-indigo-400/50 hover:scale-[1.02] hover:shadow-xl hover:shadow-indigo-500/10"
+                                            : "bg-black/20 border-white/5 hover:bg-white/5 hover:border-indigo-400/50 hover:scale-[1.02] hover:shadow-xl hover:shadow-indigo-500/10"
                                         }
-`}
+                                        backdrop-blur-md
+                                    `}
                                 >
                                     {/* Category Badge */}
                                     <div className="flex items-center gap-2 mb-3">
                                         <span
                                             className={`
-text - xs font - bold uppercase tracking - wider px - 2.5 py - 1 rounded - full ring - 1
+                                                text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full ring-1
                                                 ${getCategoryBadgeStyle(category)}
-`}
+                                            `}
                                         >
                                             {getCategoryLabel(category)}
                                         </span>
@@ -403,12 +403,12 @@ text - xs font - bold uppercase tracking - wider px - 2.5 py - 1 rounded - full 
                                         key={idx}
                                         onClick={() => setSession({ ...session, userAnswer: choice })}
                                         className={`
-w - full p - 4 text - left rounded - xl border - 2 transition - all
+                                            w-full p-4 text-left rounded-xl border-2 transition-all font-medium text-lg flex items-center justify-between group
                                             ${session.userAnswer === choice
-                                                ? "bg-indigo-500/30 border-indigo-400 text-white"
-                                                : "bg-white/5 border-white/20 text-slate-300 hover:bg-white/10 hover:border-indigo-400/50"
+                                                ? "bg-indigo-600 border-indigo-500 text-white shadow-lg shadow-indigo-500/20"
+                                                : "bg-white/5 border-white/10 text-slate-200 hover:bg-white/10 hover:border-indigo-400/50 hover:text-white"
                                             }
-`}
+                                        `}
                                     >
                                         {choice}
                                     </button>
@@ -497,22 +497,22 @@ w - full p - 4 text - left rounded - xl border - 2 transition - all
 
                         {/* Submit Button (MCQ only) */}
                         {session.phase === "playing" && current.type === "mcq" && (
-                            <div className="space-y-2">
+                            <div className="mt-4">
                                 <button
                                     onClick={handleSubmit}
                                     disabled={!session.userAnswer.trim()}
                                     className={`
-mt - 6 w - full py - 4 rounded - xl font - bold transition - all
+                                        w-full min-h-[48px] px-4 py-3 text-base font-bold rounded-xl transition-all
                                         ${session.userAnswer.trim()
-                                            ? "bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg active:scale-95"
+                                            ? "bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg"
                                             : "bg-slate-700 text-slate-500 cursor-not-allowed"
                                         }
-`}
+                                    `}
                                 >
                                     Submit Answer
                                 </button>
                                 {!session.userAnswer.trim() && (
-                                    <div className="text-center">
+                                    <div className="text-center mt-2">
                                         <span className="text-xs text-slate-500 font-medium opacity-70">Answer required</span>
                                     </div>
                                 )}
