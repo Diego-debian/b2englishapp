@@ -27,9 +27,22 @@ const TENSE_LIST: Array<{ slug: TenseSlug; category: "present" | "past" | "futur
 
 type SessionPhase = "selection" | "playing" | "feedback" | "summary";
 
+type FocusQType = "mcq" | "fill_blank" | "order_words";
+
+interface FocusResult {
+    id: string;
+    type: FocusQType;
+    prompt: string;
+    userAnswer: string;
+    isCorrect: boolean;
+    correctAnswer: string;
+    explanation: string;
+}
+
 interface SessionState {
     phase: SessionPhase;
     questions: FocusQuestion[];
+    results: FocusResult[];
     currentIndex: number;
     userAnswer: string;
     isCorrect: boolean | null;
@@ -57,6 +70,7 @@ function FocusPageInner() {
     const [session, setSession] = useState<SessionState>({
         phase: "selection",
         questions: [],
+        results: [],
         currentIndex: 0,
         userAnswer: "",
         isCorrect: null,
@@ -108,6 +122,7 @@ function FocusPageInner() {
         setSession({
             phase: "playing",
             questions: picked,
+            results: [],
             currentIndex: 0,
             userAnswer: "",
             isCorrect: null,
@@ -119,9 +134,29 @@ function FocusPageInner() {
         const current = session.questions[session.currentIndex];
         const correct = normalizeAnswer(session.userAnswer) === normalizeAnswer(current.answer);
 
+        const newResult: FocusResult = {
+            id: current.id,
+            type: current.type,
+            prompt: current.prompt,
+            userAnswer: session.userAnswer,
+            isCorrect: correct,
+            correctAnswer: current.answer,
+            explanation: current.explanation
+        };
+
+        // Avoid duplicates if user somehow retries
+        const existingIndex = session.results.findIndex(r => r.id === current.id);
+        const newResults = [...session.results];
+        if (existingIndex >= 0) {
+            newResults[existingIndex] = newResult;
+        } else {
+            newResults.push(newResult);
+        }
+
         setSession({
             ...session,
             phase: "feedback",
+            results: newResults,
             isCorrect: correct,
             correctCount: session.correctCount + (correct ? 1 : 0),
         });
@@ -147,6 +182,7 @@ function FocusPageInner() {
         setSession({
             phase: "selection",
             questions: [],
+            results: [],
             currentIndex: 0,
             userAnswer: "",
             isCorrect: null,
@@ -312,11 +348,30 @@ function FocusPageInner() {
                                 answer={current.answer}
                                 explanation={current.explanation}
                                 onSubmit={(isCorrect, userAnswer) => {
+                                    const newResult: FocusResult = {
+                                        id: current.id,
+                                        type: current.type,
+                                        prompt: current.prompt,
+                                        userAnswer: userAnswer,
+                                        isCorrect: isCorrect,
+                                        correctAnswer: current.answer,
+                                        explanation: current.explanation
+                                    };
+
+                                    const existingIndex = session.results.findIndex(r => r.id === current.id);
+                                    const newResults = [...session.results];
+                                    if (existingIndex >= 0) {
+                                        newResults[existingIndex] = newResult;
+                                    } else {
+                                        newResults.push(newResult);
+                                    }
+
                                     setSession({
                                         ...session,
                                         phase: "feedback",
                                         isCorrect,
                                         userAnswer,
+                                        results: newResults,
                                         correctCount: session.correctCount + (isCorrect ? 1 : 0),
                                     });
                                 }}
@@ -332,11 +387,30 @@ function FocusPageInner() {
                                 answer={current.answer}
                                 explanation={current.explanation}
                                 onSubmit={(isCorrect, userAnswer) => {
+                                    const newResult: FocusResult = {
+                                        id: current.id,
+                                        type: current.type,
+                                        prompt: current.prompt,
+                                        userAnswer: userAnswer,
+                                        isCorrect: isCorrect,
+                                        correctAnswer: current.answer,
+                                        explanation: current.explanation
+                                    };
+
+                                    const existingIndex = session.results.findIndex(r => r.id === current.id);
+                                    const newResults = [...session.results];
+                                    if (existingIndex >= 0) {
+                                        newResults[existingIndex] = newResult;
+                                    } else {
+                                        newResults.push(newResult);
+                                    }
+
                                     setSession({
                                         ...session,
                                         phase: "feedback",
                                         isCorrect,
                                         userAnswer,
+                                        results: newResults,
                                         correctCount: session.correctCount + (isCorrect ? 1 : 0),
                                     });
                                 }}
