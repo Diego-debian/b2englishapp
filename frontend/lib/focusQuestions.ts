@@ -161,6 +161,32 @@ export const PRESENT_SIMPLE_QUESTIONS: FocusQuestion[] = [
         tokens: ["always", "early", "He", "arrives"],
         answer: "He always arrives early",
         explanation: "Frequency adverbs (always) usually go before the main verb."
+    },
+    {
+        id: "ps_018",
+        tenseSlug: "present-simple",
+        type: "mcq",
+        prompt: "My parents ______ in New York.",
+        choices: ["live", "lives", "living", "are live"],
+        answer: "live",
+        explanation: "Plural subject (My parents) takes the base verb 'live'."
+    },
+    {
+        id: "ps_019",
+        tenseSlug: "present-simple",
+        type: "fill_blank",
+        prompt: "______ (you/want) some water?",
+        answer: "Do you want",
+        explanation: "Question form: Do + subject + base verb."
+    },
+    {
+        id: "ps_020",
+        tenseSlug: "present-simple",
+        type: "order_words",
+        prompt: "Order the words to form a sentence:",
+        tokens: ["usually", "gets", "up", "He", "late"],
+        answer: "He usually gets up late",
+        explanation: "Adverb 'usually' comes before the main verb 'gets'."
     }
 ];
 
@@ -295,8 +321,33 @@ export const PRESENT_CONTINUOUS_QUESTIONS: FocusQuestion[] = [
         tokens: ["learning", "am", "I", "French", "this", "year"],
         answer: "I am learning French this year",
         explanation: "Use Present Continuous for long-term temporary actions (this year)."
+    },
+    {
+        id: "pc_016",
+        tenseSlug: "present-continuous",
+        type: "fill_blank",
+        prompt: "I ______ (not/listen) to you.",
+        answer: "am not listening",
+        explanation: "Negative form: I am not + verb-ing."
+    },
+    {
+        id: "pc_017",
+        tenseSlug: "present-continuous",
+        type: "order_words",
+        prompt: "Order the words to form a question:",
+        tokens: ["working", "Why", "you", "aren't", "?"],
+        answer: "Why aren't you working?",
+        explanation: "Negative question: Why + aren't + subject + verb-ing?"
+    },
+    {
+        id: "pc_018",
+        tenseSlug: "present-continuous",
+        type: "mcq",
+        prompt: "Look! The cat ______ the tree.",
+        choices: ["is climbing", "climb", "climbs", "climbing"],
+        answer: "is climbing",
+        explanation: "Action happening right now (Look!)."
     }
-
 ];
 
 // Present Perfect Question Bank
@@ -430,8 +481,33 @@ export const PRESENT_PERFECT_QUESTIONS: FocusQuestion[] = [
         tokens: ["not", "My", "has", "arrived", "package", "yet"],
         answer: "My package has not arrived yet",
         explanation: "Negative form: Subject + has + not + past participle + yet."
+    },
+    {
+        id: "pp_016",
+        tenseSlug: "present-perfect",
+        type: "mcq",
+        prompt: "I ______ this book three times.",
+        choices: ["have read", "read", "has read", "reading"],
+        answer: "have read",
+        explanation: "Repeated action in an unfinished time period (life experience)."
+    },
+    {
+        id: "pp_017",
+        tenseSlug: "present-perfect",
+        type: "fill_blank",
+        prompt: "She ______ (never/eat) octopus.",
+        answer: "has never eaten",
+        explanation: "Experience: has + never + past participle (eaten)."
+    },
+    {
+        id: "pp_018",
+        tenseSlug: "present-perfect",
+        type: "order_words",
+        prompt: "Order the words to form a question:",
+        tokens: ["seen", "Have", "recently", "him", "you", "?"],
+        answer: "Have you seen him recently?",
+        explanation: "Question: Have + subject + past participle + time marker?"
     }
-
 ];
 
 // Present Perfect Continuous Question Bank
@@ -565,8 +641,33 @@ export const PRESENT_PERFECT_CONTINUOUS_QUESTIONS: FocusQuestion[] = [
         tokens: ["not", "exercising", "He", "been", "recently", "has"],
         answer: "He has not been exercising recently",
         explanation: "Negative structure: Subject + has not been + verb-ing."
+    },
+    {
+        id: "ppc_016",
+        tenseSlug: "present-perfect-continuous",
+        type: "fill_blank",
+        prompt: "We ______ (cook) all morning.",
+        answer: "have been cooking",
+        explanation: "Action in progress for the whole morning."
+    },
+    {
+        id: "ppc_017",
+        tenseSlug: "present-perfect-continuous",
+        type: "order_words",
+        prompt: "Order the words to form a sentence:",
+        tokens: ["been", "has", "It", "snowing", "yesterday", "since"],
+        answer: "It has been snowing since yesterday",
+        explanation: "Subject + has been + verb-ing + since + time."
+    },
+    {
+        id: "ppc_018",
+        tenseSlug: "present-perfect-continuous",
+        type: "mcq",
+        prompt: "My eyes are tired. I ______ reading too much.",
+        choices: ["have been", "am", "was", "had"],
+        answer: "have been",
+        explanation: "Present result (tired eyes) from recent continuous activity."
     }
-
 ];
 
 // Past Simple Question Bank
@@ -708,6 +809,32 @@ export const PAST_SIMPLE_QUESTIONS: FocusQuestion[] = [
         tokens: ["house", "bought", "He", "a", "year", "last"],
         answer: "He bought a house last year",
         explanation: "Subject (He) + past verb (bought) + object (a house) + time (last year)."
+    },
+    {
+        id: "pas_017",
+        tenseSlug: "past-simple",
+        type: "fill_blank",
+        prompt: "I ______ (wake) up late yesterday.",
+        answer: "woke",
+        explanation: "Irregular verb: wake → woke."
+    },
+    {
+        id: "pas_018",
+        tenseSlug: "past-simple",
+        type: "order_words",
+        prompt: "Order the words to form a negative sentence:",
+        tokens: ["didn't", "We", "the", "like", "hotel"],
+        answer: "We didn't like the hotel",
+        explanation: "Subject + didn't + base verb (like) + object."
+    },
+    {
+        id: "pas_019",
+        tenseSlug: "past-simple",
+        type: "mcq",
+        prompt: "Where ______ you buy that shirt?",
+        choices: ["did", "do", "were", "had"],
+        answer: "did",
+        explanation: "Question in Past Simple: Question word + did + subject + base verb?"
     }
 ];
 
@@ -850,6 +977,32 @@ export const PAST_CONTINUOUS_QUESTIONS: FocusQuestion[] = [
         tokens: ["sun", "shining", "was", "The", "brightly"],
         answer: "The sun was shining brightly",
         explanation: "Subject (The sun) + was + verb-ing + adverb."
+    },
+    {
+        id: "pc_past_017",
+        tenseSlug: "past-continuous",
+        type: "order_words",
+        prompt: "Order the words to form a sentence:",
+        tokens: ["sleeping", "while", "I", "working", "was", "were", "You"],
+        answer: "You were sleeping while I was working",
+        explanation: "Two parallel actions: Subject 1 + were ... while + Subject 2 + was ..."
+    },
+    {
+        id: "pc_past_018",
+        tenseSlug: "past-continuous",
+        type: "fill_blank",
+        prompt: "It ______ (snow) when we left the house.",
+        answer: "was snowing",
+        explanation: "Background action (was snowing) when a specific event occurred."
+    },
+    {
+        id: "pc_past_019",
+        tenseSlug: "past-continuous",
+        type: "mcq",
+        prompt: "What were you doing when the phone ______?",
+        choices: ["rang", "was ringing", "rings", "ring"],
+        answer: "rang",
+        explanation: "Shorter interrupting action takes Past Simple (rang)."
     }
 ];
 
@@ -992,6 +1145,32 @@ export const PAST_PERFECT_QUESTIONS: FocusQuestion[] = [
         tokens: ["cooked", "already", "She", "dinner", "had"],
         answer: "She had already cooked dinner",
         explanation: "Adverbs like 'already' go between 'had' and the past participle."
+    },
+    {
+        id: "pp_past_017",
+        tenseSlug: "past-perfect",
+        type: "order_words",
+        prompt: "Order the words to form a sentence:",
+        tokens: ["had", "The", "started", "game", "already"],
+        answer: "The game had already started",
+        explanation: "Subject + had + adverb + past participle."
+    },
+    {
+        id: "pp_past_018",
+        tenseSlug: "past-perfect",
+        type: "mcq",
+        prompt: "She felt sick because she ______ too much.",
+        choices: ["had eaten", "has eaten", "was eating", "ate"],
+        answer: "had eaten",
+        explanation: "The cause (had eaten) happened before the effect (felt sick)."
+    },
+    {
+        id: "pp_past_019",
+        tenseSlug: "past-perfect",
+        type: "fill_blank",
+        prompt: "He ______ (work) as a teacher before he became a writer.",
+        answer: "had worked",
+        explanation: "Action completed before another past event (became)."
     }
 ];
 
@@ -1134,6 +1313,32 @@ export const PAST_PERFECT_CONTINUOUS_QUESTIONS: FocusQuestion[] = [
         tokens: ["living", "had", "there", "He", "since", "2010", "been"],
         answer: "He had been living there since 2010",
         explanation: "Subject + had been + verb-ing + since + date."
+    },
+    {
+        id: "ppc_past_017",
+        tenseSlug: "past-perfect-continuous",
+        type: "fill_blank",
+        prompt: "The grass was yellow. It ______ (not/rain) for months.",
+        answer: "had not been raining",
+        explanation: "Negative duration causing a past state."
+    },
+    {
+        id: "ppc_past_018",
+        tenseSlug: "past-perfect-continuous",
+        type: "mcq",
+        prompt: "They ______ waiting for 20 minutes when the bus came.",
+        choices: ["had been", "have been", "were", "are"],
+        answer: "had been",
+        explanation: "Duration up to a past moment requires Past Perfect Continuous."
+    },
+    {
+        id: "ppc_past_019",
+        tenseSlug: "past-perfect-continuous",
+        type: "order_words",
+        prompt: "Order the words to form a question:",
+        tokens: ["been", "had", "crying", "She", "?"],
+        answer: "Had she been crying?",
+        explanation: "Question form: Had + subject + been + verb-ing?"
     }
 ];
 
@@ -1276,6 +1481,32 @@ export const FUTURE_WILL_QUESTIONS: FocusQuestion[] = [
         tokens: ["think", "pass", "I", "exam", "she", "will", "the"],
         answer: "I think she will pass the exam",
         explanation: "Opinion + Prediction: I think + subject + will + verb."
+    },
+    {
+        id: "will_017",
+        tenseSlug: "will",
+        type: "fill_blank",
+        prompt: "I'm hungry. I ______ (make) a sandwich.",
+        answer: "will make",
+        explanation: "Spontaneous decision at the moment of speaking."
+    },
+    {
+        id: "will_018",
+        tenseSlug: "will",
+        type: "order_words",
+        prompt: "Order the words to form a sentence:",
+        tokens: ["tell", "won't", "I", "anyone", "promise", "I"],
+        answer: "I promise I won't tell anyone",
+        explanation: "Promise: I promise + I + won't + verb."
+    },
+    {
+        id: "will_019",
+        tenseSlug: "will",
+        type: "mcq",
+        prompt: "Do you think it ______ snow?",
+        choices: ["will", "is", "goes to", "did"],
+        answer: "will",
+        explanation: "Asking for a prediction."
     }
 ];
 
@@ -1418,6 +1649,32 @@ export const FUTURE_GOING_TO_QUESTIONS: FocusQuestion[] = [
         tokens: ["soon", "going", "call", "He's", "to", "us"],
         answer: "He's going to call us soon",
         explanation: "Subject + is (He's) + going to + verb + object + time."
+    },
+    {
+        id: "going_to_017",
+        tenseSlug: "going-to",
+        type: "order_words",
+        prompt: "Order the words to form a sentence:",
+        tokens: ["going", "visit", "to", "We", "are", "Paris"],
+        answer: "We are going to visit Paris",
+        explanation: "Intention/Plan: Subject + are + going to + visit."
+    },
+    {
+        id: "going_to_018",
+        tenseSlug: "going-to",
+        type: "fill_blank",
+        prompt: "Look at the traffic. We ______ (be) late.",
+        answer: "are going to be",
+        explanation: "Prediction based on evidence (traffic)."
+    },
+    {
+        id: "going_to_019",
+        tenseSlug: "going-to",
+        type: "mcq",
+        prompt: "What ______ you going to do?",
+        choices: ["are", "do", "will", "have"],
+        answer: "are",
+        explanation: "Question form: What + are + subject + going to do?"
     }
 ];
 
@@ -1560,6 +1817,32 @@ export const FUTURE_CONTINUOUS_QUESTIONS: FocusQuestion[] = [
         tokens: ["taking", "She", "exam", "be", "will", "her", "soon"],
         answer: "She will be taking her exam soon",
         explanation: "Subject (She) + will be + verb-ing (taking) + object + time."
+    },
+    {
+        id: "fc_017",
+        tenseSlug: "future-continuous",
+        type: "fill_blank",
+        prompt: "This time tomorrow, I ______ (fly) to Tokyo.",
+        answer: "will be flying",
+        explanation: "Action in progress at a specific future time."
+    },
+    {
+        id: "fc_018",
+        tenseSlug: "future-continuous",
+        type: "order_words",
+        prompt: "Order the words to form a negative sentence:",
+        tokens: ["be", "sleeping", "won't", "I", "midnight", "at"],
+        answer: "I won't be sleeping at midnight",
+        explanation: "Subject + won't be + verb-ing + time."
+    },
+    {
+        id: "fc_019",
+        tenseSlug: "future-continuous",
+        type: "mcq",
+        prompt: "______ you be using the car later?",
+        choices: ["Will", "Do", "Are", "Have"],
+        answer: "Will",
+        explanation: "Polite inquiry about plans: Will + subject + be + verb-ing?"
     }
 ];
 
@@ -1702,6 +1985,32 @@ export const FUTURE_PERFECT_QUESTIONS: FocusQuestion[] = [
         tokens: ["forgotten", "She", "name", "will", "have", "my", "then", "by"],
         answer: "She will have forgotten my name by then",
         explanation: "Subject + will have + past participle + object + time expression."
+    },
+    {
+        id: "fp_017",
+        tenseSlug: "future-perfect",
+        type: "fill_blank",
+        prompt: "By 2030, humans ______ (land) on Mars.",
+        answer: "will have landed",
+        explanation: "Action completed by a future date."
+    },
+    {
+        id: "fp_018",
+        tenseSlug: "future-perfect",
+        type: "order_words",
+        prompt: "Order the words to form a sentence:",
+        tokens: ["finished", "have", "will", "We", "by", "8", "p.m."],
+        answer: "We will have finished by 8 p.m.",
+        explanation: "Subject + will have + past participle + time constraint."
+    },
+    {
+        id: "fp_019",
+        tenseSlug: "future-perfect",
+        type: "mcq",
+        prompt: "I ______ left by the time you arrive.",
+        choices: ["will have", "will", "am", "have"],
+        answer: "will have",
+        explanation: "Action completed before another future event."
     }
 ];
 
