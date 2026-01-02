@@ -2,57 +2,34 @@
 
 [English Version](#english-documentation) | [Versión en Español](#documentación-en-español)
 
+## Live Demo
+Try the current version of **B2 English**:
+👉 https://english.diegodebian.online
+
 ---
 
 <a name="english-documentation"></a>
 ## 🇬🇧 English Documentation
 
 ### 🚀 Overview
-The **B2 English Learning Platform** is a gamified application designed to help users master English verbs and tenses at a B2 level. It features a modern, interactive interface (Millionaire-style quizzes, classic practice) backed by a robust API.
+The **B2 English Learning Platform** is a gamified application designed to help users master English verbs and tenses at a B2 level. It features a modern, interactive interface optimized for short, intensive practice sessions.
+
+### 🕹️ Features
+- **Practice Modes**:
+    - **Classic:** Free practice with randomized question pools from Warmup to Boss battle difficulty.
+    - **Millionaire:** High-stakes mode with lifelines (50/50, +Time, Double XP).
+    - **Focus:** Targeted practice for specific tenses (e.g., Present Simple, Future Perfect) to master weak points.
+- **Engagement:**
+    - **Smart Feedback:** Instant validation with explanations for every answer.
+    - **Streak System:** Build a daily habit with "one run more" mechanics.
+- **Reference Tools:**
+    - **Verb Dictionary:** Search and study irregular verb forms.
+    - **Tenses Guide:** Detailed grammar explanations with examples.
+- **Progress:** Detailed dashboard tracking XP, Level status, and effective mastery.
 
 ### 🛠️ Tech Stack
 - **Backend:** FastAPI (Python), SQLAlchemy, PostgreSQL.
 - **Frontend:** Next.js 14 (App Router), TypeScript, Tailwind CSS, Zustand.
-- **Infrastructure:** Docker, Docker Compose.
-
-### 📋 Prerequisites
-- **Docker & Docker Compose** (Recommended)
-- *Or for manual setup:* Python 3.10+, Node.js 18+, PostgreSQL.
-
-### ⚡ Quick Start (Docker)
-The easiest way to run the project is using Docker.
-
-1.  **Clone the repository**:
-    ```bash
-    git clone <repository-url>
-    cd b2english
-    ```
-
-2.  **Environment Setup**:
-    Copy the example environment file:
-    ```bash
-    cp .env.example .env
-    ```
-    *Note: The default values in `.env.example` are configured for the Docker setup.*
-
-3.  **Run with Docker Compose**:
-    ```bash
-    docker-compose up --build
-    ```
-    - **Frontend:** [http://localhost:3000](http://localhost:3000)
-    - **Backend API:** [http://localhost:8000](http://localhost:8000)
-    - **API Docs:** [http://localhost:8000/docs](http://localhost:8000/docs)
-
-### 🚩 Feature Flags
-Puedes activar funcionalidades experimentales en tu `.env`:
-- `NEXT_PUBLIC_PRACTICE_VARIETY_V2="1"`: Activa el nuevo algoritmo de selección de preguntas (Pool Ampliado + Soft Filter) para reducir la repetición. Default: "0".
-
-### 🕹️ Features
-- **Practice Mode**:
-    - **Classic:** Free practice with randomized question pools (Warmup, Main, Boss).
-    - **Millionaire:** High-stakes mode with lifelines (50/50, +Time, Double XP).
-- **Dashboard:** Track daily streaks, XP progress, and level.
-- **Verb Dictionary:** Search and study verb forms and examples.
 
 ---
 
@@ -60,44 +37,32 @@ Puedes activar funcionalidades experimentales en tu `.env`:
 ## 🇪🇸 Documentación en Español
 
 ### 🚀 Visión General
-La **Plataforma de Aprendizaje de Inglés B2** es una aplicación gamificada diseñada para ayudar a los usuarios a dominar verbos y tiempos verbales en inglés (nivel B2). Cuenta con una interfaz moderna e interactiva (quizzes estilo "Quién quiere ser millonario", práctica clásica) respaldada por una API robusta.
+La **Plataforma de Aprendizaje de Inglés B2** es una aplicación gamificada diseñada para ayudar a los usuarios a dominar verbos y tiempos verbales en inglés (nivel B2). Cuenta con una interfaz moderna optimizada para sesiones de práctica rápidas e intensivas.
+
+### 🕹️ Funcionalidades
+- **Modos de Práctica**:
+    - **Clásico:** Práctica libre con dificultad progresiva.
+    - **Millonario:** Modo de alto riesgo con comodines y presión de tiempo.
+    - **Focus:** Práctica enfocada en tiempos verbales específicos para pulir errores.
+- **Compromiso**:
+    - **Feedback Inteligente:** Validación instantánea con explicaciones gramaticales.
+    - **Sistema de Rachas:** Diseñado para crear hábito diario.
+- **Herramientas de Referencia**:
+    - **Diccionario de Verbos:** Consulta formas verbales irregulares.
+    - **Guía de Tiempos:** Explicaciones gramaticales detalladas.
+- **Progreso:** Dashboard con seguimiento de XP, Nivel y estadísticas de dominio.
 
 ### 🛠️ Tecnologías
 - **Backend:** FastAPI (Python), SQLAlchemy, PostgreSQL.
 - **Frontend:** Next.js 14 (App Router), TypeScript, Tailwind CSS, Zustand.
-- **Infraestructura:** Docker, Docker Compose.
 
-### 📋 Requisitos Previos
-- **Docker y Docker Compose** (Recomendado)
-- *O para instalación manual:* Python 3.10+, Node.js 18+, PostgreSQL.
+---
 
-### ⚡ Inicio Rápido (Docker)
-La forma más sencilla de ejecutar el proyecto es usando Docker.
+## Feedback & Contact
+We’re actively improving **B2 English**.
+For feedback, issues, or collaboration:
+📧 b2english.app@gmail.com
 
-1.  **Clonar el repositorio**:
-    ```bash
-    git clone <url-del-repositorio>
-    cd b2english
-    ```
-
-2.  **Configuración de Entorno**:
-    Copia el archivo de ejemplo de variables de entorno:
-    ```bash
-    cp .env.example .env
-    ```
-    *Nota: Los valores por defecto en `.env.example` están configurados para el entorno Docker.*
-
-3.  **Ejecutar con Docker Compose**:
-    ```bash
-    docker-compose up --build
-    ```
-    - **Frontend:** [http://localhost:3000](http://localhost:3000)
-    - **Backend API:** [http://localhost:8000](http://localhost:8000)
-    - **Documentación API:** [http://localhost:8000/docs](http://localhost:8000/docs)
-
-### 🕹️ Funcionalidades
-- **Modo Práctica**:
-    - **Clásico:** Práctica libre con pools de preguntas aleatorios (Calentamiento, Principal, Jefe).
-    - **Millonario:** Modo de alto riesgo con comodines (50/50, +Tiempo, Doble XP).
-- **Dashboard:** Sigue tus rachas diarias (streaks), progreso de XP y nivel.
-- **Diccionario de Verbos:** Busca y estudia formas verbales y ejemplos.
+## License
+This project is licensed under the **GNU General Public License v3.0 (GPL-3.0)**.
+See the `LICENSE` file for details.
