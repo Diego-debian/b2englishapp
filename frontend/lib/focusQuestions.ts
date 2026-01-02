@@ -853,7 +853,150 @@ export const PAST_CONTINUOUS_QUESTIONS: FocusQuestion[] = [
     }
 ];
 
+// Past Perfect Question Bank
+export const PAST_PERFECT_QUESTIONS: FocusQuestion[] = [
+    {
+        id: "pp_past_001",
+        tenseSlug: "past-perfect",
+        type: "mcq",
+        prompt: "When I arrived at the station, the train ______ left.",
+        choices: ["has", "have", "had", "was"],
+        answer: "had",
+        explanation: "Use Past Perfect (had + past participle) for an action that happened before another past action."
+    },
+    {
+        id: "pp_past_002",
+        tenseSlug: "past-perfect",
+        type: "mcq",
+        prompt: "She was hungry because she ______ eaten all day.",
+        choices: ["hadn't", "hasn't", "didn't", "don't"],
+        answer: "hadn't",
+        explanation: "Negative form: Subject + had not (hadn't) + past participle. Explains the cause of a past state."
+    },
+    {
+        id: "pp_past_003",
+        tenseSlug: "past-perfect",
+        type: "mcq",
+        prompt: "By the time we got there, the movie ______.",
+        choices: ["finished", "has finished", "had finished", "finishes"],
+        answer: "had finished",
+        explanation: "'By the time' is a common marker for Past Perfect. The movie finished *before* we got there."
+    },
+    {
+        id: "pp_past_004",
+        tenseSlug: "past-perfect",
+        type: "fill_blank",
+        prompt: "I ______ (never/see) such a beautiful beach before that trip.",
+        answer: "had never seen",
+        explanation: "Use Past Perfect for experiences before a specific time in the past."
+    },
+    {
+        id: "pp_past_005",
+        tenseSlug: "past-perfect",
+        type: "fill_blank",
+        prompt: "They ______ (live) in London for ten years before they moved to Paris.",
+        answer: "had lived",
+        explanation: "Action happening for a duration *before* another past event (moved)."
+    },
+    {
+        id: "pp_past_006",
+        tenseSlug: "past-perfect",
+        type: "order_words",
+        prompt: "Order the words to form a sentence:",
+        tokens: ["forgotten", "wallet", "He", "had", "his"],
+        answer: "He had forgotten his wallet",
+        explanation: "Subject (He) + had + past participle (forgotten) + object."
+    },
+    {
+        id: "pp_past_007",
+        tenseSlug: "past-perfect",
+        type: "mcq",
+        prompt: "______ you finished your homework before you went out?",
+        choices: ["Did", "Had", "Have", "Were"],
+        answer: "Had",
+        explanation: "Question form: Had + subject + past participle?"
+    },
+    {
+        id: "pp_past_008",
+        tenseSlug: "past-perfect",
+        type: "fill_blank",
+        prompt: "She ______ (study) English before she visited the US.",
+        answer: "had studied",
+        explanation: "Action completed (studied) before another past action (visited)."
+    },
+    {
+        id: "pp_past_009",
+        tenseSlug: "past-perfect",
+        type: "order_words",
+        prompt: "Order the words to form a negative sentence:",
+        tokens: ["hadn't", "I", "met", "before", "him"],
+        answer: "I hadn't met him before",
+        explanation: "Subject (I) + hadn't + past participle (met) + time marker."
+    },
+    {
+        id: "pp_past_010",
+        tenseSlug: "past-perfect",
+        type: "fill_blank",
+        prompt: "The garden was dead because it ______ (be) dry all summer.",
+        answer: "had been",
+        explanation: "Irregular participle: be → been. Explains the reason for the garden's state."
+    },
+    {
+        id: "pp_past_011",
+        tenseSlug: "past-perfect",
+        type: "mcq",
+        prompt: "We were late. The meeting ______ already started.",
+        choices: ["has", "had", "have", "was"],
+        answer: "had",
+        explanation: "Use 'had' + 'already' to emphasize the action happened earlier than expected relative to the past moment."
+    },
+    {
+        id: "pp_past_012",
+        tenseSlug: "past-perfect",
+        type: "order_words",
+        prompt: "Order the words to form a question:",
+        tokens: ["they", "left", "Had", "arrived", "before", "you", "?"],
+        answer: "Had they left before you arrived?",
+        explanation: "Had + subject + past participle ... before + subject + past simple?"
+    },
+    {
+        id: "pp_past_013",
+        tenseSlug: "past-perfect",
+        type: "fill_blank",
+        prompt: "I realized I ______ (loose) my keys.",
+        answer: "had lost",
+        explanation: "Realized in the past that something *had happened* even earlier. Note: 'lost' is the past participle of 'lose'."
+    },
+    {
+        id: "pp_past_014",
+        tenseSlug: "past-perfect",
+        type: "mcq",
+        prompt: "After he ______ his work, he went home.",
+        choices: ["had finished", "finished", "finishes", "has finished"],
+        answer: "had finished",
+        explanation: "'After' + Past Perfect makes the sequence of events clear (finished first, then went home)."
+    },
+    {
+        id: "pp_past_015",
+        tenseSlug: "past-perfect",
+        type: "fill_blank",
+        prompt: "The streets were wet. It ______ (rain) during the night.",
+        answer: "had rained",
+        explanation: "Past evidence (wet streets) of a previous action (had rained)."
+    },
+    {
+        id: "pp_past_016",
+        tenseSlug: "past-perfect",
+        type: "order_words",
+        prompt: "Order the words to form a sentence:",
+        tokens: ["cooked", "already", "She", "dinner", "had"],
+        answer: "She had already cooked dinner",
+        explanation: "Adverbs like 'already' go between 'had' and the past participle."
+    }
+];
+
 // Map of all question banks by tense slug
+// Note: Keys match the TenseSlug type in tenses.ts (kebab-case)
 export const FOCUS_QUESTION_BANKS: Record<string, FocusQuestion[]> = {
     "present-simple": PRESENT_SIMPLE_QUESTIONS,
     "present-continuous": PRESENT_CONTINUOUS_QUESTIONS,
@@ -861,4 +1004,5 @@ export const FOCUS_QUESTION_BANKS: Record<string, FocusQuestion[]> = {
     "present-perfect-continuous": PRESENT_PERFECT_CONTINUOUS_QUESTIONS,
     "past-simple": PAST_SIMPLE_QUESTIONS,
     "past-continuous": PAST_CONTINUOUS_QUESTIONS,
+    "past-perfect": PAST_PERFECT_QUESTIONS,
 };
