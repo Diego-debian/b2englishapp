@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Protected } from "@/components/Protected";
 import { TENSES, TenseSlug } from "@/lib/tenses";
 import { FOCUS_QUESTION_BANKS, FocusQuestion } from "@/lib/focusQuestions";
+import { FillBlankQuestion } from "@/components/FillBlankQuestion";
 
 // Group tenses by category
 const TENSE_LIST: Array<{ slug: TenseSlug; category: "present" | "past" | "future" }> = [
@@ -278,19 +279,27 @@ function FocusPageInner() {
                             </div>
                         )}
 
-                        {/* Fill Blank Input */}
-                        {current.type === "fill_blank" && session.phase === "playing" && (
-                            <input
-                                type="text"
-                                value={session.userAnswer}
-                                onChange={(e) => setSession({ ...session, userAnswer: e.target.value })}
-                                placeholder="Type your answer..."
-                                className="w-full p-4 rounded-xl bg-white/5 border-2 border-white/20 text-white placeholder-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-500/50 outline-none transition-all"
+                        {/* Fill Blank Component */}
+                        {current.type === "fill_blank" && (session.phase === "playing" || session.phase === "feedback") && (
+                            <FillBlankQuestion
+                                prompt={current.prompt}
+                                answer={current.answer}
+                                explanation={current.explanation}
+                                onSubmit={(isCorrect, userAnswer) => {
+                                    setSession({
+                                        ...session,
+                                        phase: "feedback",
+                                        isCorrect,
+                                        userAnswer,
+                                        correctCount: session.correctCount + (isCorrect ? 1 : 0),
+                                    });
+                                }}
+                                disabled={session.phase === "feedback"}
                             />
                         )}
 
-                        {/* Submit Button */}
-                        {session.phase === "playing" && (
+                        {/* Submit Button (MCQ only) */}
+                        {session.phase === "playing" && current.type === "mcq" && (
                             <button
                                 onClick={handleSubmit}
                                 disabled={!session.userAnswer.trim()}
@@ -306,8 +315,8 @@ function FocusPageInner() {
                             </button>
                         )}
 
-                        {/* Feedback */}
-                        {session.phase === "feedback" && (
+                        {/* Feedback (MCQ only, FillBlank handles its own) */}
+                        {session.phase === "feedback" && current.type === "mcq" && (
                             <div className="mt-6 space-y-4">
                                 <div
                                     className={`p-4 rounded-xl border-2 ${session.isCorrect
@@ -339,6 +348,18 @@ function FocusPageInner() {
                                         : "View Summary"}
                                 </button>
                             </div>
+                        )}
+
+                        {/* Next Button for Fill Blank (in feedback phase) */}
+                        {session.phase === "feedback" && current.type === "fill_blank" && (
+                            <button
+                                onClick={handleNext}
+                                className="mt-6 w-full py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-lg transition-all active:scale-95"
+                            >
+                                {session.currentIndex + 1 < session.questions.length
+                                    ? "Next Question"
+                                    : "View Summary"}
+                            </button>
                         )}
                     </div>
                 </div>
