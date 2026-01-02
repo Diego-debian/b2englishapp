@@ -33,3 +33,10 @@ yarn-error.log*
 
 # Docker
 .docker/
+
+# Security & Misc
+coverage/
+.mypy_cache/
+*.swp
+*.sqlite3
+*.db
