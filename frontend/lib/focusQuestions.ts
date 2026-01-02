@@ -299,8 +299,144 @@ export const PRESENT_CONTINUOUS_QUESTIONS: FocusQuestion[] = [
 
 ];
 
+// Present Perfect Question Bank
+export const PRESENT_PERFECT_QUESTIONS: FocusQuestion[] = [
+    {
+        id: "pp_001",
+        tenseSlug: "present-perfect",
+        type: "mcq",
+        prompt: "I ______ sushi before.",
+        choices: ["have eaten", "ate", "eating", "eat"],
+        answer: "have eaten",
+        explanation: "Use Present Perfect (have + past participle) for general life experiences (unspecified time)."
+    },
+    {
+        id: "pp_002",
+        tenseSlug: "present-perfect",
+        type: "mcq",
+        prompt: "She ______ her keys. She can't open the door.",
+        choices: ["has lost", "lost", "have lost", "lose"],
+        answer: "has lost",
+        explanation: "Use Present Perfect for past actions with a result in the present (She can't open the door now)."
+    },
+    {
+        id: "pp_003",
+        tenseSlug: "present-perfect",
+        type: "fill_blank",
+        prompt: "We ______ (not/see) him today.",
+        answer: "have not seen",
+        explanation: "Use Present Perfect with unfinished time periods like 'today'. 'Haven't seen' is also correct."
+    },
+    {
+        id: "pp_004",
+        tenseSlug: "present-perfect",
+        type: "mcq",
+        prompt: "______ you seen this movie?",
+        choices: ["Have", "Did", "Has", "Do"],
+        answer: "Have",
+        explanation: "Question form: Have/Has + subject + past participle."
+    },
+    {
+        id: "pp_005",
+        tenseSlug: "present-perfect",
+        type: "fill_blank",
+        prompt: "She ______ (write) three books so far.",
+        answer: "has written",
+        explanation: "Use Present Perfect for achievements or quantities 'so far'."
+    },
+    {
+        id: "pp_006",
+        tenseSlug: "present-perfect",
+        type: "order_words",
+        prompt: "Order the words to form a sentence:",
+        tokens: ["already", "lunch", "eaten", "have", "I"],
+        answer: "I have already eaten lunch",
+        explanation: "'Already' usually goes between the auxiliary 'have' and the main verb 'eaten'."
+    },
+    {
+        id: "pp_007",
+        tenseSlug: "present-perfect",
+        type: "mcq",
+        prompt: "They ______ here for ten years.",
+        choices: ["have lived", "lived", "live", "living"],
+        answer: "have lived",
+        explanation: "Use Present Perfect with 'for' or 'since' to describe situations that started in the past and continue now."
+    },
+    {
+        id: "pp_008",
+        tenseSlug: "present-perfect",
+        type: "fill_blank",
+        prompt: "______ (you/ever/be) to Paris?",
+        answer: "Have you ever been",
+        explanation: "Use 'Have you ever been' to ask about life experiences."
+    },
+    {
+        id: "pp_009",
+        tenseSlug: "present-perfect",
+        type: "order_words",
+        prompt: "Order the words to form a question:",
+        tokens: ["yet", "finished", "Have", "they", "?"],
+        answer: "Have they finished yet?",
+        explanation: "'Yet' is used in questions and negatives, usually at the end of the sentence."
+    },
+    {
+        id: "pp_010",
+        tenseSlug: "present-perfect",
+        type: "mcq",
+        prompt: "He ______ just finished his homework.",
+        choices: ["has", "have", "is", "did"],
+        answer: "has",
+        explanation: "Use 'has' (third person singular) + 'just' + past participle for very recent actions."
+    },
+    {
+        id: "pp_011",
+        tenseSlug: "present-perfect",
+        type: "fill_blank",
+        prompt: "I ______ (know) him since 2010.",
+        answer: "have known",
+        explanation: "Stative verbs like 'know' often use Present Perfect with 'since' to show duration."
+    },
+    {
+        id: "pp_012",
+        tenseSlug: "present-perfect",
+        type: "order_words",
+        prompt: "Order the words to form a negative sentence:",
+        tokens: ["never", "We", "to", "been", "have", "Spain"],
+        answer: "We have never been to Spain",
+        explanation: "'Never' goes between 'have' and the past participle 'been'."
+    },
+    {
+        id: "pp_013",
+        tenseSlug: "present-perfect",
+        type: "mcq",
+        prompt: "Look! Someone ______ the window.",
+        choices: ["has broken", "broke", "breaks", "is breaking"],
+        answer: "has broken",
+        explanation: "Use Present Perfect for a past action with visible evidence now (broken window)."
+    },
+    {
+        id: "pp_014",
+        tenseSlug: "present-perfect",
+        type: "fill_blank",
+        prompt: "They ______ (eat) all the cake!",
+        answer: "have eaten",
+        explanation: "Result in the present: There is no cake left."
+    },
+    {
+        id: "pp_015",
+        tenseSlug: "present-perfect",
+        type: "order_words",
+        prompt: "Order the words to form a sentence:",
+        tokens: ["not", "My", "has", "arrived", "package", "yet"],
+        answer: "My package has not arrived yet",
+        explanation: "Negative form: Subject + has + not + past participle + yet."
+    }
+
+];
+
 // Map of all question banks by tense slug
 export const FOCUS_QUESTION_BANKS: Record<string, FocusQuestion[]> = {
     "present-simple": PRESENT_SIMPLE_QUESTIONS,
     "present-continuous": PRESENT_CONTINUOUS_QUESTIONS,
+    "present-perfect": PRESENT_PERFECT_QUESTIONS,
 };
