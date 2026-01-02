@@ -1421,6 +1421,148 @@ export const FUTURE_GOING_TO_QUESTIONS: FocusQuestion[] = [
     }
 ];
 
+// Future Continuous Question Bank
+export const FUTURE_CONTINUOUS_QUESTIONS: FocusQuestion[] = [
+    {
+        id: "fc_001",
+        tenseSlug: "future-continuous",
+        type: "mcq",
+        prompt: "At 10 a.m. tomorrow, I ______ in my office.",
+        choices: ["will be working", "will work", "work", "am working"],
+        answer: "will be working",
+        explanation: "Action in progress at a specific time in the future (10 a.m. tomorrow)."
+    },
+    {
+        id: "fc_002",
+        tenseSlug: "future-continuous",
+        type: "mcq",
+        prompt: "Don't call me at 6. I ______ dinner.",
+        choices: ["will be cooking", "cook", "will cook", "am cooking"],
+        answer: "will be cooking",
+        explanation: "Action in progress (cooking) at a future moment (6 o'clock)."
+    },
+    {
+        id: "fc_003",
+        tenseSlug: "future-continuous",
+        type: "mcq",
+        prompt: "This time next week, we ______ on the beach.",
+        choices: ["will be lying", "are lying", "will lie", "lie"],
+        answer: "will be lying",
+        explanation: "Use Future Continuous for something happening at specific moment in the future (This time next week)."
+    },
+    {
+        id: "fc_004",
+        tenseSlug: "future-continuous",
+        type: "fill_blank",
+        prompt: "I ______ (wait) for you when you arrive.",
+        answer: "will be waiting",
+        explanation: "Action in progress (waiting) when another future event occurs (arrive)."
+    },
+    {
+        id: "fc_005",
+        tenseSlug: "future-continuous",
+        type: "fill_blank",
+        prompt: "She ______ (not/sleep) when you get home.",
+        answer: "won't be sleeping",
+        explanation: "Negative form: will + not + be + sleeping. 'will not be sleeping' is also correct."
+    },
+    {
+        id: "fc_006",
+        tenseSlug: "future-continuous",
+        type: "order_words",
+        prompt: "Order the words to form a sentence:",
+        tokens: ["be", "I", "working", "tomorrow", "will", "all", "day"],
+        answer: "I will be working all day tomorrow",
+        explanation: "Subject (I) + will be + verb-ing (working) + time expression."
+    },
+    {
+        id: "fc_007",
+        tenseSlug: "future-continuous",
+        type: "mcq",
+        prompt: "______ using your computer tonight?",
+        choices: ["Will you be", "Are you", "Do you", "Will you"],
+        answer: "Will you be",
+        explanation: "Polite question about someone's plans: Will + you + be + verb-ing?"
+    },
+    {
+        id: "fc_008",
+        tenseSlug: "future-continuous",
+        type: "fill_blank",
+        prompt: "What ______ (you/do) at 8 o'clock?",
+        answer: "will you be doing",
+        explanation: "Question about activity in progress at a specific time: What + will + subject + be + verb-ing?"
+    },
+    {
+        id: "fc_009",
+        tenseSlug: "future-continuous",
+        type: "order_words",
+        prompt: "Order the words to form a negative sentence:",
+        tokens: ["using", "won't", "the", "be", "car", "We"],
+        answer: "We won't be using the car",
+        explanation: "Subject (We) + won't be + verb-ing (using) + object."
+    },
+    {
+        id: "fc_010",
+        tenseSlug: "future-continuous",
+        type: "fill_blank",
+        prompt: "They ______ (stay) with us for a week.",
+        answer: "will be staying",
+        explanation: "Future arrangement/plan viewed as an activity in progress over a period."
+    },
+    {
+        id: "fc_011",
+        tenseSlug: "future-continuous",
+        type: "mcq",
+        prompt: "Unfortunately, I ______ attending the meeting.",
+        choices: ["won't be", "am not", "don't", "won't"],
+        answer: "won't be",
+        explanation: "Polite way to say you are unable to do something (won't be attending)."
+    },
+    {
+        id: "fc_012",
+        tenseSlug: "future-continuous",
+        type: "order_words",
+        prompt: "Order the words to form a question:",
+        tokens: ["be", "Will", "passing", "you", "post", "office", "the", "?"],
+        answer: "Will you be passing the post office?",
+        explanation: "Question about future progress/route: Will + you + be + passing...?"
+    },
+    {
+        id: "fc_013",
+        tenseSlug: "future-continuous",
+        type: "fill_blank",
+        prompt: "In a few years, everyone ______ (drive) electric cars.",
+        answer: "will be driving",
+        explanation: "Prediction about general state/activity in progress in the future."
+    },
+    {
+        id: "fc_014",
+        tenseSlug: "future-continuous",
+        type: "mcq",
+        prompt: "We ______ thinking of you while you're away.",
+        choices: ["will be", "are", "will", "going to"],
+        answer: "will be",
+        explanation: "Continuous future emotional state: will be + thinking."
+    },
+    {
+        id: "fc_015",
+        tenseSlug: "future-continuous",
+        type: "fill_blank",
+        prompt: "I ______ (miss) you when you leave.",
+        answer: "will be missing",
+        explanation: "Note: 'will miss' is also common, but 'will be missing' emphasizes the ongoing feeling."
+    },
+    {
+        id: "fc_016",
+        tenseSlug: "future-continuous",
+        type: "order_words",
+        prompt: "Order the words to form a sentence:",
+        tokens: ["taking", "She", "exam", "be", "will", "her", "soon"],
+        answer: "She will be taking her exam soon",
+        explanation: "Subject (She) + will be + verb-ing (taking) + object + time."
+    }
+];
+
 // Map of all question banks by tense slug
 // Note: Keys match the TenseSlug type in tenses.ts (kebab-case)
 export const FOCUS_QUESTION_BANKS: Record<string, FocusQuestion[]> = {
@@ -1434,4 +1576,5 @@ export const FOCUS_QUESTION_BANKS: Record<string, FocusQuestion[]> = {
     "past-perfect-continuous": PAST_PERFECT_CONTINUOUS_QUESTIONS,
     "will": FUTURE_WILL_QUESTIONS,
     "going-to": FUTURE_GOING_TO_QUESTIONS,
+    "future-continuous": FUTURE_CONTINUOUS_QUESTIONS,
 };
