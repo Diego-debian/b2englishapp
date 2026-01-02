@@ -605,20 +605,37 @@ function FocusPageInner() {
                             </div>
                         )}
 
-                        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                        <div className="flex flex-col gap-3 w-full max-w-xs mx-auto">
+                            {/* Repeat Mistakes */}
                             {mistakes.length > 0 && (
                                 <button
                                     onClick={handleRepeatMistakes}
-                                    className="px-8 py-4 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-xl shadow-lg hover:shadow-amber-500/30 transition-all active:scale-95"
+                                    className="w-full px-6 py-4 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-xl shadow-lg hover:shadow-amber-500/30 transition-all active:scale-95 flex items-center justify-center gap-2"
                                 >
-                                    Repeat Mistakes
+                                    <span>↺</span> Repeat Mistakes
                                 </button>
                             )}
+
+                            {/* New Session (Same Tense) */}
+                            <button
+                                onClick={startSession}
+                                className={`
+                                    w-full px-6 py-4 font-bold rounded-xl shadow-lg transition-all active:scale-95 flex items-center justify-center gap-2
+                                    ${mistakes.length === 0
+                                        ? "bg-indigo-600 hover:bg-indigo-700 text-white hover:shadow-indigo-500/30"
+                                        : "bg-white/10 hover:bg-white/20 text-white border border-white/10"
+                                    }
+                                `}
+                            >
+                                <span>▶</span> New Session
+                            </button>
+
+                            {/* Change Tense (Selection) */}
                             <button
                                 onClick={handleRestart}
-                                className="px-8 py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-lg hover:shadow-indigo-500/30 transition-all active:scale-95"
+                                className="w-full px-6 py-4 text-slate-400 hover:text-white font-medium hover:bg-white/5 rounded-xl transition-all flex items-center justify-center gap-2"
                             >
-                                {mistakes.length > 0 ? "New Session" : "New session"}
+                                <span>≡</span> Change Tense
                             </button>
                         </div>
                     </div>
