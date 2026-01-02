@@ -434,9 +434,145 @@ export const PRESENT_PERFECT_QUESTIONS: FocusQuestion[] = [
 
 ];
 
+// Present Perfect Continuous Question Bank
+export const PRESENT_PERFECT_CONTINUOUS_QUESTIONS: FocusQuestion[] = [
+    {
+        id: "ppc_001",
+        tenseSlug: "present-perfect-continuous",
+        type: "mcq",
+        prompt: "My hands are dirty. I ______ the car.",
+        choices: ["have been repairing", "repaired", "have repaired", "repair"],
+        answer: "have been repairing",
+        explanation: "Use Present Perfect Continuous for a past activity with visible results now (dirty hands)."
+    },
+    {
+        id: "ppc_002",
+        tenseSlug: "present-perfect-continuous",
+        type: "mcq",
+        prompt: "She ______ tennis for three years.",
+        choices: ["has been playing", "is playing", "plays", "played"],
+        answer: "has been playing",
+        explanation: "Use Present Perfect Continuous with 'for' to emphasize duration of an action starting in the past and continuing."
+    },
+    {
+        id: "ppc_003",
+        tenseSlug: "present-perfect-continuous",
+        type: "fill_blank",
+        prompt: "It ______ (rain) all day.",
+        answer: "has been raining",
+        explanation: "Emphasize the duration of the activity (all day) with Present Perfect Continuous."
+    },
+    {
+        id: "ppc_004",
+        tenseSlug: "present-perfect-continuous",
+        type: "mcq",
+        prompt: "Why are you tired? ______ you ______?",
+        choices: ["Have / been running", "Have / run", "Did / run", "Do / run"],
+        answer: "Have / been running",
+        explanation: "Use Present Perfect Continuous for recent activities explaining a present state (tiredness)."
+    },
+    {
+        id: "ppc_005",
+        tenseSlug: "present-perfect-continuous",
+        type: "fill_blank",
+        prompt: "We ______ (wait) for the bus since 2 PM.",
+        answer: "have been waiting",
+        explanation: "Action started in the past (2 PM) and is still continuing. Use have been + verb-ing."
+    },
+    {
+        id: "ppc_006",
+        tenseSlug: "present-perfect-continuous",
+        type: "order_words",
+        prompt: "Order the words to form a sentence:",
+        tokens: ["working", "here", "I", "been", "have", "since", "2015"],
+        answer: "I have been working here since 2015",
+        explanation: "Subject + have/has been + verb-ing + duration (since 2015)."
+    },
+    {
+        id: "ppc_007",
+        tenseSlug: "present-perfect-continuous",
+        type: "mcq",
+        prompt: "They ______ TV for hours.",
+        choices: ["have been watching", "are watching", "watched", "have watched"],
+        answer: "have been watching",
+        explanation: "Use Present Perfect Continuous to emphasize the length of time (for hours)."
+    },
+    {
+        id: "ppc_008",
+        tenseSlug: "present-perfect-continuous",
+        type: "fill_blank",
+        prompt: "______ (you/feel) okay lately?",
+        answer: "Have you been feeling",
+        explanation: "Question about recent continuous state: Have + subject + been + verb-ing."
+    },
+    {
+        id: "ppc_009",
+        tenseSlug: "present-perfect-continuous",
+        type: "order_words",
+        prompt: "Order the words to form a question:",
+        tokens: ["been", "How", "learning", "long", "you", "have", "English", "?"],
+        answer: "How long have you been learning English?",
+        explanation: "Standard duration question: How long + have/has + subject + been + verb-ing."
+    },
+    {
+        id: "ppc_010",
+        tenseSlug: "present-perfect-continuous",
+        type: "mcq",
+        prompt: "He ______ too much recently. He gained weight.",
+        choices: ["has been eating", "eats", "ate", "is eating"],
+        answer: "has been eating",
+        explanation: "Recent repetitive action with a present result (gained weight)."
+    },
+    {
+        id: "ppc_011",
+        tenseSlug: "present-perfect-continuous",
+        type: "fill_blank",
+        prompt: "She ______ (not/sleep) well lately.",
+        answer: "has not been sleeping",
+        explanation: "Negative form: Subject + has/have + not + been + verb-ing."
+    },
+    {
+        id: "ppc_012",
+        tenseSlug: "present-perfect-continuous",
+        type: "order_words",
+        prompt: "Order the words to form a sentence:",
+        tokens: ["swimming", "wet", "is", "She", "because", "she", "been", "has"],
+        answer: "She is wet because she has been swimming",
+        explanation: "Explaining a present physical state (wet) with a recent continuous action."
+    },
+    {
+        id: "ppc_013",
+        tenseSlug: "present-perfect-continuous",
+        type: "mcq",
+        prompt: "How long ______ on this project?",
+        choices: ["have you been working", "do you work", "are you working", "have you worked"],
+        answer: "have you been working",
+        explanation: "'How long' typically triggers Present Perfect Continuous for ongoing actions."
+    },
+    {
+        id: "ppc_014",
+        tenseSlug: "present-perfect-continuous",
+        type: "fill_blank",
+        prompt: "I ______ (try) to fix this computer all morning.",
+        answer: "have been trying",
+        explanation: "Single ongoing action filling a time period (all morning)."
+    },
+    {
+        id: "ppc_015",
+        tenseSlug: "present-perfect-continuous",
+        type: "order_words",
+        prompt: "Order the words to form a negative sentence:",
+        tokens: ["not", "exercising", "He", "been", "recently", "has"],
+        answer: "He has not been exercising recently",
+        explanation: "Negative structure: Subject + has not been + verb-ing."
+    }
+
+];
+
 // Map of all question banks by tense slug
 export const FOCUS_QUESTION_BANKS: Record<string, FocusQuestion[]> = {
     "present-simple": PRESENT_SIMPLE_QUESTIONS,
     "present-continuous": PRESENT_CONTINUOUS_QUESTIONS,
     "present-perfect": PRESENT_PERFECT_QUESTIONS,
+    "present-perfect-continuous": PRESENT_PERFECT_CONTINUOUS_QUESTIONS,
 };
