@@ -578,9 +578,9 @@ mt - 6 w - full py - 4 rounded - xl font - bold transition - all
         const mistakes = session.results.filter(r => !r.isCorrect);
 
         return (
-            <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
-                <div className="max-w-2xl mx-auto px-4 py-12">
-                    <div className="backdrop-blur-xl bg-white/10 border-2 border-white/20 rounded-2xl p-8 sm:p-12 shadow-2xl text-center">
+            <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center p-4">
+                <div className="w-full max-w-lg md:max-w-4xl mx-auto">
+                    <div className="backdrop-blur-xl bg-white/10 border-2 border-white/20 rounded-2xl p-6 sm:p-12 shadow-2xl text-center">
                         <div className="text-5xl sm:text-6xl mb-4 animate-bounce">
                             {percentage >= 80 ? "🎉" : percentage >= 60 ? "👍" : "💪"}
                         </div>
@@ -589,157 +589,159 @@ mt - 6 w - full py - 4 rounded - xl font - bold transition - all
                             {selectedTense && TENSES[selectedTense].title}
                         </p>
 
-                        <div className="bg-white/5 rounded-xl p-6 mb-8 border border-white/10">
-                            <div className="text-4xl sm:text-5xl font-black text-white mb-2">
-                                {score} / {total}
-                            </div>
-                            <div className="text-slate-400">Correct Answers</div>
-                        </div>
+                        {/* Grid Layout for Desktop */}
+                        <div className="md:grid md:grid-cols-2 md:gap-8 text-left">
 
-                        {/* Mistakes to Fix Section */}
-                        {mistakes.length > 0 ? (
-                            <div className="mb-8">
-                                <h3 className="text-xl font-bold text-red-300 mb-4 flex items-center justify-center gap-2">
-                                    <span>⚠️</span> Mistakes to Fix (Top 3)
-                                </h3>
-                                <div className="space-y-4 text-left">
-                                    {mistakes.slice(0, 3).map((mistake) => (
-                                        <div key={mistake.id} className="backdrop-blur-md bg-black/20 border border-white/10 rounded-xl p-4">
-                                            <p className="text-white font-medium mb-2">{mistake.prompt}</p>
-                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
-                                                <div className="text-red-300">
-                                                    <span className="font-bold opacity-70 block text-xs uppercase">Your Answer</span>
-                                                    {mistake.userAnswer}
+                            {/* Left Col: Mistakes & Coach */}
+                            <div className="flex flex-col gap-6">
+                                {/* Score Card (Mobile/Desktop) - Moved inside grid for better layout */}
+                                <div className="bg-white/5 rounded-xl p-6 border border-white/10 text-center">
+                                    <div className="text-4xl sm:text-5xl font-black text-white mb-2">
+                                        {score} / {total}
+                                    </div>
+                                    <div className="text-slate-400">Correct Answers</div>
+                                </div>
+
+                                {/* Mistakes to Fix Section */}
+                                {mistakes.length > 0 ? (
+                                    <div className="mb-8 md:mb-0">
+                                        <h3 className="font-bold text-red-400 text-xs uppercase tracking-wide mb-3 flex items-center gap-2">
+                                            <span>⚠️</span> Mistakes to Fix
+                                        </h3>
+                                        <div className="space-y-3">
+                                            {mistakes.slice(0, 3).map((m, i) => (
+                                                <div key={i} className="bg-red-500/10 border border-red-500/20 rounded-lg p-4 text-left">
+                                                    <div className="text-sm text-slate-300 mb-1">{m.prompt}</div>
+                                                    <div className="text-xs text-red-400 line-through mb-1">{m.userAnswer}</div>
+                                                    <div className="text-sm font-bold text-emerald-400">{m.correctAnswer}</div>
+                                                    <div className="mt-2 text-xs text-slate-400 italic border-l-2 border-slate-600 pl-2">
+                                                        {m.explanation}
+                                                        <span className="ml-2 inline-block px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 text-[10px] font-bold tracking-wider">REPEAT THIS</span>
+                                                    </div>
                                                 </div>
-                                                <div className="text-emerald-300">
-                                                    <span className="font-bold opacity-70 block text-xs uppercase">Correct Answer</span>
-                                                    {mistake.correctAnswer}
-                                                </div>
-                                            </div>
-                                            {mistake.explanation && (
-                                                <div className="mt-3 pt-3 border-t border-white/10 text-slate-300 text-xs italic flex justify-between items-center gap-2">
-                                                    <span>{mistake.explanation}</span>
-                                                    <span className="text-[10px] uppercase font-bold text-indigo-300 border border-indigo-500/30 px-2 py-1 rounded bg-indigo-500/10 whitespace-nowrap">Repeat This</span>
+                                            ))}
+                                            {mistakes.length > 3 && (
+                                                <div className="text-center text-xs text-slate-500 italic mt-2">
+                                                    + {mistakes.length - 3} more mistakes to review in "Repeat Mistakes"
                                                 </div>
                                             )}
                                         </div>
-                                    ))}
-                                </div>
+                                    </div>
+                                ) : (
+                                    <div className="mb-8 p-6 bg-emerald-500/10 border border-emerald-500/20 rounded-xl">
+                                        <h3 className="text-xl font-bold text-emerald-300 mb-2">Perfect run</h3>
+                                        <p className="text-emerald-200/80">You nailed it! Ready for the next challenge?</p>
+                                    </div>
+                                )}
+
+                                {/* Device Stats (Local Storage) */}
+                                {deviceStats && (
+                                    <div className="p-4 rounded-xl bg-slate-800/50 border border-slate-700/50 text-left">
+                                        <h3 className="font-bold text-slate-400 text-xs uppercase tracking-wide mb-3 flex items-center gap-2">
+                                            <span>📱</span> This Device Stats
+                                        </h3>
+                                        <div className="grid grid-cols-3 gap-4">
+                                            <div className="text-center">
+                                                <div className="text-lg font-bold text-white">{deviceStats.sessions}</div>
+                                                <div className="text-[10px] uppercase text-slate-500 font-bold">Sessions</div>
+                                            </div>
+                                            <div className="text-center">
+                                                <div className="text-lg font-bold text-indigo-400">
+                                                    {deviceStats.totalQuestions > 0
+                                                        ? Math.round((deviceStats.totalCorrect / deviceStats.totalQuestions) * 100)
+                                                        : 0}%
+                                                </div>
+                                                <div className="text-[10px] uppercase text-slate-500 font-bold">Accuracy</div>
+                                            </div>
+                                            <div className="text-center">
+                                                <div className="text-lg font-bold text-emerald-400">{deviceStats.totalCorrect}</div>
+                                                <div className="text-[10px] uppercase text-slate-500 font-bold">Total Correct</div>
+                                            </div>
+                                        </div>
+                                        <div className="mt-4 pt-4 border-t border-slate-700/50 grid grid-cols-2 gap-4">
+                                            <div className="text-center">
+                                                <div className="text-lg font-bold text-amber-400 flex items-center justify-center gap-1">
+                                                    <span>🔥</span> {deviceStats.streak || 0}
+                                                </div>
+                                                <div className="text-[10px] uppercase text-slate-500 font-bold">Day Streak</div>
+                                            </div>
+                                            <div className="text-center">
+                                                <div className="text-sm font-medium text-slate-300 mt-1">
+                                                    {deviceStats.lastPlayed ? new Date(deviceStats.lastPlayed).toLocaleDateString() : "-"}
+                                                </div>
+                                                <div className="text-[10px] uppercase text-slate-500 font-bold">Last Practice</div>
+                                            </div>
+                                        </div>
+                                        <div className="mt-4 pt-4 border-t border-slate-700/50">
+                                            <h4 className="font-bold text-slate-400 text-xs uppercase tracking-wide mb-3">Daily Goals</h4>
+
+                                            {/* Session Goal */}
+                                            <div className="mb-3">
+                                                <div className="flex justify-between text-sm mb-1">
+                                                    <span className="text-slate-300">Sessions</span>
+                                                    <span className="text-white font-bold">{deviceStats.dailySessions || 0} / 1</span>
+                                                </div>
+                                                <div className="h-2 bg-slate-700 rounded-full overflow-hidden">
+                                                    <div
+                                                        className={`h - full rounded - full transition - all duration - 500 ${(deviceStats.dailySessions || 0) >= 1 ? "bg-emerald-400" : "bg-indigo-500"
+                                                            } `}
+                                                        style={{ width: `${Math.min(100, ((deviceStats.dailySessions || 0) / 1) * 100)}% ` }}
+                                                    />
+                                                </div>
+                                            </div>
+
+                                            {/* Questions Goal */}
+                                            <div>
+                                                <div className="flex justify-between text-sm mb-1">
+                                                    <span className="text-slate-300">Questions</span>
+                                                    <span className="text-white font-bold">{deviceStats.dailyQuestions || 0} / 10</span>
+                                                </div>
+                                                <div className="h-2 bg-slate-700 rounded-full overflow-hidden">
+                                                    <div
+                                                        className={`h - full rounded - full transition - all duration - 500 ${(deviceStats.dailyQuestions || 0) >= 10 ? "bg-emerald-400" : "bg-indigo-500"
+                                                            } `}
+                                                        style={{ width: `${Math.min(100, ((deviceStats.dailyQuestions || 0) / 10) * 100)}% ` }}
+                                                    />
+                                                </div>
+                                            </div>
+
+                                            {(deviceStats.dailySessions || 0) >= 1 && (deviceStats.dailyQuestions || 0) >= 10 && (
+                                                <div className="mt-3 text-center text-sm font-bold text-emerald-400 animate-pulse">
+                                                    Daily goal completed ✅
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                )}
+
+                                {weeklyStats && (
+                                    <div className="p-4 rounded-xl bg-indigo-900/20 border border-indigo-500/20 text-left">
+                                        <h3 className="font-bold text-indigo-300 text-xs uppercase tracking-wide mb-3 flex items-center gap-2">
+                                            <span>📅</span> This Week
+                                        </h3>
+                                        <div className="flex justify-between items-center text-sm">
+                                            <div className="text-center">
+                                                <div className="text-white font-bold text-lg">{weeklyStats.daysPracticed}/7</div>
+                                                <div className="text-[10px] uppercase text-slate-500 font-bold">Days</div>
+                                            </div>
+                                            <div className="text-center">
+                                                <div className="text-white font-bold text-lg">{weeklyStats.totalSessions}</div>
+                                                <div className="text-[10px] uppercase text-slate-500 font-bold">Sessions</div>
+                                            </div>
+                                            <div className="text-center">
+                                                <div className={`text-lg font-bold ${weeklyStats.avgAccuracy >= 70 ? "text-emerald-400" : "text-amber-400"}`}>
+                                                    {weeklyStats.avgAccuracy}%
+                                                </div>
+                                                <div className="text-[10px] uppercase text-slate-500 font-bold">Avg Acc.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
                             </div>
-                        ) : (
-                            <div className="mb-8 p-6 bg-emerald-500/10 border border-emerald-500/20 rounded-xl">
-                                <h3 className="text-xl font-bold text-emerald-300 mb-2">Perfect run</h3>
-                                <p className="text-emerald-200/80">You nailed it! Ready for the next challenge?</p>
-                            </div>
-                        )}
-
-                        {/* Device Stats (Local Storage) */}
-                        {deviceStats && (
-                            <div className="mb-8 p-4 rounded-xl bg-slate-800/50 border border-slate-700/50 text-left">
-                                <h3 className="font-bold text-slate-400 text-xs uppercase tracking-wide mb-3 flex items-center gap-2">
-                                    <span>📱</span> This Device Stats
-                                </h3>
-                                <div className="grid grid-cols-3 gap-4">
-                                    <div className="text-center">
-                                        <div className="text-lg font-bold text-white">{deviceStats.sessions}</div>
-                                        <div className="text-[10px] uppercase text-slate-500 font-bold">Sessions</div>
-                                    </div>
-                                    <div className="text-center">
-                                        <div className="text-lg font-bold text-indigo-400">
-                                            {deviceStats.totalQuestions > 0
-                                                ? Math.round((deviceStats.totalCorrect / deviceStats.totalQuestions) * 100)
-                                                : 0}%
-                                        </div>
-                                        <div className="text-[10px] uppercase text-slate-500 font-bold">Accuracy</div>
-                                    </div>
-                                    <div className="text-center">
-                                        <div className="text-lg font-bold text-emerald-400">{deviceStats.totalCorrect}</div>
-                                        <div className="text-[10px] uppercase text-slate-500 font-bold">Total Correct</div>
-                                    </div>
-                                </div>
-                                <div className="mt-4 pt-4 border-t border-slate-700/50 grid grid-cols-2 gap-4">
-                                    <div className="text-center">
-                                        <div className="text-lg font-bold text-amber-400 flex items-center justify-center gap-1">
-                                            <span>🔥</span> {deviceStats.streak || 0}
-                                        </div>
-                                        <div className="text-[10px] uppercase text-slate-500 font-bold">Day Streak</div>
-                                    </div>
-                                    <div className="text-center">
-                                        <div className="text-sm font-medium text-slate-300 mt-1">
-                                            {deviceStats.lastPlayed ? new Date(deviceStats.lastPlayed).toLocaleDateString() : "-"}
-                                        </div>
-                                        <div className="text-[10px] uppercase text-slate-500 font-bold">Last Practice</div>
-                                    </div>
-                                </div>
-                                <div className="mt-4 pt-4 border-t border-slate-700/50">
-                                    <h4 className="font-bold text-slate-400 text-xs uppercase tracking-wide mb-3">Daily Goals</h4>
-
-                                    {/* Session Goal */}
-                                    <div className="mb-3">
-                                        <div className="flex justify-between text-sm mb-1">
-                                            <span className="text-slate-300">Sessions</span>
-                                            <span className="text-white font-bold">{deviceStats.dailySessions || 0} / 1</span>
-                                        </div>
-                                        <div className="h-2 bg-slate-700 rounded-full overflow-hidden">
-                                            <div
-                                                className={`h - full rounded - full transition - all duration - 500 ${(deviceStats.dailySessions || 0) >= 1 ? "bg-emerald-400" : "bg-indigo-500"
-                                                    } `}
-                                                style={{ width: `${Math.min(100, ((deviceStats.dailySessions || 0) / 1) * 100)}% ` }}
-                                            />
-                                        </div>
-                                    </div>
-
-                                    {/* Questions Goal */}
-                                    <div>
-                                        <div className="flex justify-between text-sm mb-1">
-                                            <span className="text-slate-300">Questions</span>
-                                            <span className="text-white font-bold">{deviceStats.dailyQuestions || 0} / 10</span>
-                                        </div>
-                                        <div className="h-2 bg-slate-700 rounded-full overflow-hidden">
-                                            <div
-                                                className={`h - full rounded - full transition - all duration - 500 ${(deviceStats.dailyQuestions || 0) >= 10 ? "bg-emerald-400" : "bg-indigo-500"
-                                                    } `}
-                                                style={{ width: `${Math.min(100, ((deviceStats.dailyQuestions || 0) / 10) * 100)}% ` }}
-                                            />
-                                        </div>
-                                    </div>
-
-                                    {(deviceStats.dailySessions || 0) >= 1 && (deviceStats.dailyQuestions || 0) >= 10 && (
-                                        <div className="mt-3 text-center text-sm font-bold text-emerald-400 animate-pulse">
-                                            Daily goal completed ✅
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
-                        )}
-
-                        {/* Weekly Stats Card */}
-                        {weeklyStats && (
-                            <div className="mb-8 p-4 rounded-xl bg-indigo-900/20 border border-indigo-500/20 text-left">
-                                <h3 className="font-bold text-indigo-300 text-xs uppercase tracking-wide mb-3 flex items-center gap-2">
-                                    <span>📅</span> This Week
-                                </h3>
-                                <div className="flex justify-between items-center text-sm">
-                                    <div className="text-center">
-                                        <div className="text-white font-bold text-lg">{weeklyStats.daysPracticed}/7</div>
-                                        <div className="text-[10px] uppercase text-slate-500 font-bold">Days</div>
-                                    </div>
-                                    <div className="text-center">
-                                        <div className="text-white font-bold text-lg">{weeklyStats.totalSessions}</div>
-                                        <div className="text-[10px] uppercase text-slate-500 font-bold">Sessions</div>
-                                    </div>
-                                    <div className="text-center">
-                                        <div className={`text-lg font-bold ${weeklyStats.avgAccuracy >= 70 ? "text-emerald-400" : "text-amber-400"}`}>
-                                            {weeklyStats.avgAccuracy}%
-                                        </div>
-                                        <div className="text-[10px] uppercase text-slate-500 font-bold">Avg Acc.</div>
-                                    </div>
-                                </div>
-                            </div>
-                        )}
+                        </div>
 
                         {/* Coach-like Next Step */}
-                        <div className="mb-8 font-medium text-slate-300">
+                        <div className="mt-8 mb-8 font-medium text-slate-300">
                             {percentage < 70 ? (
                                 <p className="animate-pulse text-amber-300">Coach says: Let's fix those slips before moving on. 👇</p>
                             ) : (
