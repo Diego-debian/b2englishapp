@@ -164,8 +164,143 @@ export const PRESENT_SIMPLE_QUESTIONS: FocusQuestion[] = [
     }
 ];
 
+// Present Continuous Question Bank
+export const PRESENT_CONTINUOUS_QUESTIONS: FocusQuestion[] = [
+    {
+        id: "pc_001",
+        tenseSlug: "present-continuous",
+        type: "mcq",
+        prompt: "Listen! The baby ______.",
+        choices: ["cries", "is crying", "cry", "crying"],
+        answer: "is crying",
+        explanation: "Use Present Continuous (is + verb-ing) for actions happening right now."
+    },
+    {
+        id: "pc_002",
+        tenseSlug: "present-continuous",
+        type: "mcq",
+        prompt: "They ______ for the bus at the moment.",
+        choices: ["wait", "waiting", "are waiting", "waits"],
+        answer: "are waiting",
+        explanation: "Use 'are' + verb-ing for plural subjects (they) describing a current action."
+    },
+    {
+        id: "pc_003",
+        tenseSlug: "present-continuous",
+        type: "fill_blank",
+        prompt: "I ______ (read) a really interesting book these days.",
+        answer: "am reading",
+        explanation: "Use Present Continuous (am reading) for temporary actions around now, even if not exactly at this moment."
+    },
+    {
+        id: "pc_004",
+        tenseSlug: "present-continuous",
+        type: "mcq",
+        prompt: "______ (you/work) on the project now?",
+        choices: ["Do you work", "Are you working", "Is you working", "You working"],
+        answer: "Are you working",
+        explanation: "In questions, put 'Are' before the subject 'you': Are + subject + verb-ing."
+    },
+    {
+        id: "pc_005",
+        tenseSlug: "present-continuous",
+        type: "fill_blank",
+        prompt: "She ______ (not/wear) a coat today because it's warm.",
+        answer: "is not wearing",
+        explanation: "For negatives, use is/am/are + not + verb-ing. 'isn't wearing' is also correct."
+    },
+    {
+        id: "pc_006",
+        tenseSlug: "present-continuous",
+        type: "order_words",
+        prompt: "Order the words to form a correct sentence:",
+        tokens: ["coming", "bus", "is", "The", "now"],
+        answer: "The bus is coming now",
+        explanation: "Subject (The bus) + is + verb-ing (coming) + time marker (now)."
+    },
+    {
+        id: "pc_007",
+        tenseSlug: "present-continuous",
+        type: "mcq",
+        prompt: "Why ______ a coat? It's hot inside!",
+        choices: ["do you wear", "are you wearing", "you wearing", "is you wearing"],
+        answer: "are you wearing",
+        explanation: "Use Present Continuous for actions happening around now. Structure: Why + are + subject + verb-ing."
+    },
+    {
+        id: "pc_008",
+        tenseSlug: "present-continuous",
+        type: "fill_blank",
+        prompt: "We ______ (stay) at a hotel until our house is ready.",
+        answer: "are staying",
+        explanation: "Use Present Continuous for temporary situations. 'We' takes 'are'."
+    },
+    {
+        id: "pc_009",
+        tenseSlug: "present-continuous",
+        type: "order_words",
+        prompt: "Order the words to form a question:",
+        tokens: ["you", "Are", "listening", "to", "me", "?"],
+        answer: "Are you listening to me?",
+        explanation: "Question structure: Are + subject + verb-ing + object."
+    },
+    {
+        id: "pc_010",
+        tenseSlug: "present-continuous",
+        type: "mcq",
+        prompt: "My brother ______ video games right now.",
+        choices: ["is playing", "plays", "play", "are playing"],
+        answer: "is playing",
+        explanation: "Use 'is playing' because the subject 'My brother' is singular (he) and it's happening now."
+    },
+    {
+        id: "pc_011",
+        tenseSlug: "present-continuous",
+        type: "fill_blank",
+        prompt: "Look at the sky! It ______ (rain).",
+        answer: "is raining",
+        explanation: "Use 'is' + verb-ing (raining) for singular subjects (it) happening now."
+    },
+    {
+        id: "pc_012",
+        tenseSlug: "present-continuous",
+        type: "order_words",
+        prompt: "Order the words to form a negative sentence:",
+        tokens: ["not", "is", "working", "He", "today"],
+        answer: "He is not working today",
+        explanation: "Negative structure: Subject + is/am/are + not + verb-ing."
+    },
+    {
+        id: "pc_013",
+        tenseSlug: "present-continuous",
+        type: "mcq",
+        prompt: "I ______ to music.",
+        choices: ["listening", "am listening", "is listening", "listen"],
+        answer: "am listening",
+        explanation: "Always use 'am' with 'I' in Present Continuous: I am listening."
+    },
+    {
+        id: "pc_014",
+        tenseSlug: "present-continuous",
+        type: "fill_blank",
+        prompt: "The children ______ (sleep) currently, please be quiet.",
+        answer: "are sleeping",
+        explanation: "Plural subject (children = they) takes 'are' + verb-ing (sleeping)."
+    },
+    {
+        id: "pc_015",
+        tenseSlug: "present-continuous",
+        type: "order_words",
+        prompt: "Order the words to form a sentence:",
+        tokens: ["learning", "am", "I", "French", "this", "year"],
+        answer: "I am learning French this year",
+        explanation: "Use Present Continuous for long-term temporary actions (this year)."
+    }
+
+];
+
 // Map of all question banks by tense slug
 export const FOCUS_QUESTION_BANKS: Record<string, FocusQuestion[]> = {
     "present-simple": PRESENT_SIMPLE_QUESTIONS,
-    // Other tenses: coming soon
+    "present-continuous": PRESENT_CONTINUOUS_QUESTIONS,
 };
