@@ -647,6 +647,45 @@ function FocusPageInner() {
                                         <div className="text-[10px] uppercase text-slate-500 font-bold">Last Practice</div>
                                     </div>
                                 </div>
+                                <div className="mt-4 pt-4 border-t border-slate-700/50">
+                                    <h4 className="font-bold text-slate-400 text-xs uppercase tracking-wide mb-3">Daily Goals</h4>
+
+                                    {/* Session Goal */}
+                                    <div className="mb-3">
+                                        <div className="flex justify-between text-sm mb-1">
+                                            <span className="text-slate-300">Sessions</span>
+                                            <span className="text-white font-bold">{deviceStats.dailySessions || 0} / 1</span>
+                                        </div>
+                                        <div className="h-2 bg-slate-700 rounded-full overflow-hidden">
+                                            <div
+                                                className={`h-full rounded-full transition-all duration-500 ${(deviceStats.dailySessions || 0) >= 1 ? "bg-emerald-400" : "bg-indigo-500"
+                                                    }`}
+                                                style={{ width: `${Math.min(100, ((deviceStats.dailySessions || 0) / 1) * 100)}%` }}
+                                            />
+                                        </div>
+                                    </div>
+
+                                    {/* Questions Goal */}
+                                    <div>
+                                        <div className="flex justify-between text-sm mb-1">
+                                            <span className="text-slate-300">Questions</span>
+                                            <span className="text-white font-bold">{deviceStats.dailyQuestions || 0} / 10</span>
+                                        </div>
+                                        <div className="h-2 bg-slate-700 rounded-full overflow-hidden">
+                                            <div
+                                                className={`h-full rounded-full transition-all duration-500 ${(deviceStats.dailyQuestions || 0) >= 10 ? "bg-emerald-400" : "bg-indigo-500"
+                                                    }`}
+                                                style={{ width: `${Math.min(100, ((deviceStats.dailyQuestions || 0) / 10) * 100)}%` }}
+                                            />
+                                        </div>
+                                    </div>
+
+                                    {(deviceStats.dailySessions || 0) >= 1 && (deviceStats.dailyQuestions || 0) >= 10 && (
+                                        <div className="mt-3 text-center text-sm font-bold text-emerald-400 animate-pulse">
+                                            Daily goal completed ✅
+                                        </div>
+                                    )}
+                                </div>
                             </div>
                         )}
 

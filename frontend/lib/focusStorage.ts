@@ -5,6 +5,8 @@ export interface FocusStats {
     lastPlayed: string | null; // ISO date string
     streak: number;
     lastStreakDate: string | null; // YYYY-MM-DD local
+    dailySessions: number;
+    dailyQuestions: number;
 }
 
 const KEY = "b2_focus_stats";
@@ -16,6 +18,8 @@ const DEFAULT_STATS: FocusStats = {
     lastPlayed: null,
     streak: 0,
     lastStreakDate: null,
+    dailySessions: 0,
+    dailyQuestions: 0,
 };
 
 export const focusStorage = {
@@ -41,7 +45,7 @@ export const focusStorage = {
     saveSession: (correct: number, total: number): FocusStats => {
         if (typeof window === "undefined") return DEFAULT_STATS;
         try {
-            // Streak Logic (Local Time)
+            // Streak & Daily Logic (Local Time)
             const current = focusStorage.getStats();
             const now = new Date();
             const today = now.toLocaleDateString("en-CA"); // YYYY-MM-DD
@@ -49,7 +53,16 @@ export const focusStorage = {
             let newStreak = current.streak || 0;
             const lastDate = current.lastStreakDate;
 
+            // Daily Stats Reset Check
+            let dSessions = current.dailySessions || 0;
+            let dQuestions = current.dailyQuestions || 0;
+
             if (lastDate !== today) {
+                // New Day -> Reset Daily Stats
+                dSessions = 0;
+                dQuestions = 0;
+
+                // Streak Calc
                 if (lastDate) {
                     const yesterdayDate = new Date();
                     yesterdayDate.setDate(yesterdayDate.getDate() - 1);
@@ -64,7 +77,11 @@ export const focusStorage = {
                     newStreak = 1; // First time
                 }
             }
-            // else: same day, keep streak
+            // else: same day, keep streak and daily stats
+
+            // Increment Daily Stats
+            dSessions += 1;
+            dQuestions += total;
 
             const updated: FocusStats = {
                 sessions: current.sessions + 1,
@@ -73,6 +90,8 @@ export const focusStorage = {
                 lastPlayed: now.toISOString(),
                 streak: newStreak,
                 lastStreakDate: today,
+                dailySessions: dSessions,
+                dailyQuestions: dQuestions,
             };
             localStorage.setItem(KEY, JSON.stringify(updated));
             return updated;
