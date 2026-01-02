@@ -191,13 +191,41 @@ function FocusPageInner() {
     };
 
     const handleRepeatMistakes = () => {
+        if (!selectedTense) return;
+
+        // 1. Identify failed questions
         const failedIds = new Set(session.results.filter(r => !r.isCorrect).map(r => r.id));
-        const questionsToRepeat = session.questions.filter(q => failedIds.has(q.id));
-        const shuffled = shuffleArray(questionsToRepeat);
+        const mistakesToRepeat = session.questions.filter(q => failedIds.has(q.id));
+
+        // 2. Identify potential new questions (from the bank, excluding current session's questions)
+        const currentSessionIds = new Set(session.questions.map(q => q.id));
+        const bank = FOCUS_QUESTION_BANKS[selectedTense] || [];
+        const availableNewQuestions = bank.filter(q => !currentSessionIds.has(q.id));
+
+        // 3. Fill up to 5 questions
+        const slotsNeeded = 5 - mistakesToRepeat.length;
+        let newQuestionsToAdd: FocusQuestion[] = [];
+
+        if (slotsNeeded > 0 && availableNewQuestions.length > 0) {
+            const shuffledNew = shuffleArray(availableNewQuestions);
+            newQuestionsToAdd = shuffledNew.slice(0, slotsNeeded);
+        }
+
+        // 4. Combine and shuffle (optional: keep mistakes first? User didn't specify, but shuffling mixture is usually better for practice)
+        // Re-reading rule: "Repeat mistakes sesión reinicia una sesión usando solo preguntas falladas"
+        // AND "Si hay menos de 5 errores: completar con preguntas nuevas"
+        // Let's mix them or put mistakes first. Usually mixing is best.
+        const nextQuestions = [...mistakesToRepeat, ...newQuestionsToAdd];
+
+        // Shuffle them so the user doesn't know which is which immediately? 
+        // Or keep mistakes first to ensure they are addressed?
+        // User said: "Repeat mistakes reinicia una sesión usando solo preguntas falladas... Si hay menos de 5... completar"
+        // I will shuffle the final set to treat it as a proper "session".
+        const finalQuestions = shuffleArray(nextQuestions);
 
         setSession({
             phase: "playing",
-            questions: shuffled,
+            questions: finalQuestions,
             results: [],
             currentIndex: 0,
             userAnswer: "",
