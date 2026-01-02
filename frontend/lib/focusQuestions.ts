@@ -995,6 +995,148 @@ export const PAST_PERFECT_QUESTIONS: FocusQuestion[] = [
     }
 ];
 
+// Past Perfect Continuous Question Bank
+export const PAST_PERFECT_CONTINUOUS_QUESTIONS: FocusQuestion[] = [
+    {
+        id: "ppc_past_001",
+        tenseSlug: "past-perfect-continuous",
+        type: "mcq",
+        prompt: "It ______ raining for two hours before it finally stopped.",
+        choices: ["had been", "has been", "was", "is"],
+        answer: "had been",
+        explanation: "Use Past Perfect Continuous (had been + -ing) for an action happening for a duration before another past event."
+    },
+    {
+        id: "ppc_past_002",
+        tenseSlug: "past-perfect-continuous",
+        type: "mcq",
+        prompt: "They were tired because they ______ playing football all afternoon.",
+        choices: ["had been", "have been", "were", "are"],
+        answer: "had been",
+        explanation: "Explains the cause (playing for a duration) of a past state (tired)."
+    },
+    {
+        id: "ppc_past_003",
+        tenseSlug: "past-perfect-continuous",
+        type: "mcq",
+        prompt: "How long ______ you ______ waiting when the bus arrived?",
+        choices: ["had / been", "have / been", "were / being", "did / be"],
+        answer: "had / been",
+        explanation: "Question about duration up to a past moment: Had you been waiting?"
+    },
+    {
+        id: "ppc_past_004",
+        tenseSlug: "past-perfect-continuous",
+        type: "fill_blank",
+        prompt: "He ______ (work) at the company for 10 years when he quit.",
+        answer: "had been working",
+        explanation: "Duration before a past event: had + been + working."
+    },
+    {
+        id: "ppc_past_005",
+        tenseSlug: "past-perfect-continuous",
+        type: "fill_blank",
+        prompt: "I ______ (not/sleep) well before the exam, so I was exhausted.",
+        answer: "had not been sleeping",
+        explanation: "Negative form: had + not + been + sleeping. 'hadn't been sleeping' is also correct."
+    },
+    {
+        id: "ppc_past_006",
+        tenseSlug: "past-perfect-continuous",
+        type: "order_words",
+        prompt: "Order the words to form a sentence:",
+        tokens: ["been", "She", "waiting", "had", "hours", "for", "two"],
+        answer: "She had been waiting for two hours",
+        explanation: "Subject (She) + had been + verb-ing (waiting) + duration."
+    },
+    {
+        id: "ppc_past_007",
+        tenseSlug: "past-perfect-continuous",
+        type: "mcq",
+        prompt: "The roads were wet. It ______ all night.",
+        choices: ["had been raining", "has rained", "was raining", "rains"],
+        answer: "had been raining",
+        explanation: "Past evidence (wet roads) of a prolonged recent activity (raining)."
+    },
+    {
+        id: "ppc_past_008",
+        tenseSlug: "past-perfect-continuous",
+        type: "fill_blank",
+        prompt: "We ______ (drive) for six hours when we ran out of gas.",
+        answer: "had been driving",
+        explanation: "Activity in progress (driving) for a duration leading up to another past event (ran out of gas)."
+    },
+    {
+        id: "ppc_past_009",
+        tenseSlug: "past-perfect-continuous",
+        type: "order_words",
+        prompt: "Order the words to form a negative sentence:",
+        tokens: ["paying", "been", "I", "attention", "hadn't"],
+        answer: "I hadn't been paying attention",
+        explanation: "Subject + hadn't been + verb-ing (paying attention)."
+    },
+    {
+        id: "ppc_past_010",
+        tenseSlug: "past-perfect-continuous",
+        type: "fill_blank",
+        prompt: "They ______ (try) to fix the car for hours before help arrived.",
+        answer: "had been trying",
+        explanation: "Had + been + verb-ing (trying) emphasizing the length of the attempt."
+    },
+    {
+        id: "ppc_past_011",
+        tenseSlug: "past-perfect-continuous",
+        type: "mcq",
+        prompt: "She went to the doctor because she ______ feeling well.",
+        choices: ["hadn't been", "hasn't been", "wasn't", "isn't"],
+        answer: "hadn't been",
+        explanation: "Continuous state leading up to a past action. 'hadn't been feeling' emphasizes the period of illness."
+    },
+    {
+        id: "ppc_past_012",
+        tenseSlug: "past-perfect-continuous",
+        type: "order_words",
+        prompt: "Order the words to form a question:",
+        tokens: ["long", "learning", "Had", "been", "he", "Spanish", "?"],
+        answer: "Had he been learning Spanish long?",
+        explanation: "Had + subject + been + verb-ing?"
+    },
+    {
+        id: "ppc_past_013",
+        tenseSlug: "past-perfect-continuous",
+        type: "fill_blank",
+        prompt: "I ______ (hope) to meet her, but she didn't come.",
+        answer: "had been hoping",
+        explanation: "Had been hoping: continuous desire up to a past moment."
+    },
+    {
+        id: "ppc_past_014",
+        tenseSlug: "past-perfect-continuous",
+        type: "mcq",
+        prompt: "By the time the race finished, they ______ for over an hour.",
+        choices: ["had been running", "ran", "were running", "run"],
+        answer: "had been running",
+        explanation: "'By the time' + duration often signals Past Perfect Continuous."
+    },
+    {
+        id: "ppc_past_015",
+        tenseSlug: "past-perfect-continuous",
+        type: "fill_blank",
+        prompt: "The kitchen was a mess because he ______ (cook).",
+        answer: "had been cooking",
+        explanation: "Result in the past (mess) of a recent continuous activity (cooking)."
+    },
+    {
+        id: "ppc_past_016",
+        tenseSlug: "past-perfect-continuous",
+        type: "order_words",
+        prompt: "Order the words to form a sentence:",
+        tokens: ["living", "had", "there", "He", "since", "2010", "been"],
+        answer: "He had been living there since 2010",
+        explanation: "Subject + had been + verb-ing + since + date."
+    }
+];
+
 // Map of all question banks by tense slug
 // Note: Keys match the TenseSlug type in tenses.ts (kebab-case)
 export const FOCUS_QUESTION_BANKS: Record<string, FocusQuestion[]> = {
@@ -1005,4 +1147,5 @@ export const FOCUS_QUESTION_BANKS: Record<string, FocusQuestion[]> = {
     "past-simple": PAST_SIMPLE_QUESTIONS,
     "past-continuous": PAST_CONTINUOUS_QUESTIONS,
     "past-perfect": PAST_PERFECT_QUESTIONS,
+    "past-perfect-continuous": PAST_PERFECT_CONTINUOUS_QUESTIONS,
 };
