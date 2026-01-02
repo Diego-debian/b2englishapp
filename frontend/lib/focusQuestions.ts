@@ -101,6 +101,66 @@ export const PRESENT_SIMPLE_QUESTIONS: FocusQuestion[] = [
         tokens: ["like", "you", "Do", "coffee", "?"],
         answer: "Do you like coffee?",
         explanation: "Questions in Present Simple: Do/Does + subject + base verb. 'Do' is used with 'you'."
+    },
+    {
+        id: "ps_011",
+        tenseSlug: "present-simple",
+        type: "mcq",
+        prompt: "He ______ know the answer.",
+        choices: ["don't", "doesn't", "isn't", "not"],
+        answer: "doesn't",
+        explanation: "Use 'doesn't' (does not) for negative sentences with third person singular (he/she/it)."
+    },
+    {
+        id: "ps_012",
+        tenseSlug: "present-simple",
+        type: "mcq",
+        prompt: "Where ______ your parents live?",
+        choices: ["do", "does", "are", "have"],
+        answer: "do",
+        explanation: "Use 'do' with plural subjects (parents = they) in questions."
+    },
+    {
+        id: "ps_013",
+        tenseSlug: "present-simple",
+        type: "fill_blank",
+        prompt: "______ (you/study) Spanish?",
+        answer: "Do you study",
+        explanation: "Form questions with 'Do' + subject + base verb."
+    },
+    {
+        id: "ps_014",
+        tenseSlug: "present-simple",
+        type: "fill_blank",
+        prompt: "The baby ______ (cry) when he is hungry.",
+        answer: "cries",
+        explanation: "For verbs ending in consonant + y, change 'y' to 'i' and add 'es'."
+    },
+    {
+        id: "ps_015",
+        tenseSlug: "present-simple",
+        type: "fill_blank",
+        prompt: "The library ______ (open) at 8 AM.",
+        answer: "opens",
+        explanation: "Use the -s form for singular subjects (the library = it)."
+    },
+    {
+        id: "ps_016",
+        tenseSlug: "present-simple",
+        type: "order_words",
+        prompt: "Order the words to form a negative sentence:",
+        tokens: ["not", "play", "tennis", "I", "do"],
+        answer: "I do not play tennis",
+        explanation: "Standard negative structure: Subject + do/does + not + base verb + object."
+    },
+    {
+        id: "ps_017",
+        tenseSlug: "present-simple",
+        type: "order_words",
+        prompt: "Order the words to form a correct sentence:",
+        tokens: ["always", "early", "He", "arrives"],
+        answer: "He always arrives early",
+        explanation: "Frequency adverbs (always) usually go before the main verb."
     }
 ];
 
