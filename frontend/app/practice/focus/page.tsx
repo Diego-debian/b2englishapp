@@ -504,6 +504,7 @@ function FocusPageInner() {
         const score = session.correctCount;
         const total = session.questions.length;
         const percentage = Math.round((score / total) * 100);
+        const mistakes = session.results.filter(r => !r.isCorrect);
 
         return (
             <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
@@ -524,11 +525,45 @@ function FocusPageInner() {
                             <div className="text-slate-400">Correct Answers</div>
                         </div>
 
+                        {/* Mistakes to Fix Section */}
+                        {mistakes.length > 0 ? (
+                            <div className="mb-8">
+                                <h3 className="text-xl font-bold text-red-300 mb-4 flex items-center justify-center gap-2">
+                                    <span>⚠️</span> Mistakes to Fix
+                                </h3>
+                                <div className="space-y-4 text-left">
+                                    {mistakes.map((mistake) => (
+                                        <div key={mistake.id} className="bg-red-500/10 border border-red-500/20 rounded-xl p-4">
+                                            <p className="text-white font-medium mb-2">{mistake.prompt}</p>
+                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
+                                                <div className="text-red-300">
+                                                    <span className="font-bold opacity-70 block text-xs uppercase">Your Answer</span>
+                                                    {mistake.userAnswer}
+                                                </div>
+                                                <div className="text-emerald-300">
+                                                    <span className="font-bold opacity-70 block text-xs uppercase">Correct Answer</span>
+                                                    {mistake.correctAnswer}
+                                                </div>
+                                            </div>
+                                            <div className="mt-3 pt-3 border-t border-red-500/10 text-slate-300 text-xs italic">
+                                                {mistake.explanation}
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        ) : (
+                            <div className="mb-8 p-6 bg-emerald-500/10 border border-emerald-500/20 rounded-xl">
+                                <h3 className="text-xl font-bold text-emerald-300 mb-2">Perfect Score! 🌟</h3>
+                                <p className="text-emerald-200/80">You nailed it! Ready for the next challenge?</p>
+                            </div>
+                        )}
+
                         <button
                             onClick={handleRestart}
-                            className="px-8 py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-lg hover:shadow-indigo-500/30 transition-all active:scale-95"
+                            className="w-full sm:w-auto px-8 py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-lg hover:shadow-indigo-500/30 transition-all active:scale-95"
                         >
-                            Practice Another Tense
+                            {mistakes.length > 0 ? "Try Again" : "New Session"}
                         </button>
                     </div>
                 </div>
