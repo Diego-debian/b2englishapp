@@ -5,6 +5,7 @@ import { Protected } from "@/components/Protected";
 import { TENSES, TenseSlug } from "@/lib/tenses";
 import { FOCUS_QUESTION_BANKS, FocusQuestion } from "@/lib/focusQuestions";
 import { FillBlankQuestion } from "@/components/FillBlankQuestion";
+import { OrderWordsQuestion } from "@/components/OrderWordsQuestion";
 
 // Group tenses by category
 const TENSE_LIST: Array<{ slug: TenseSlug; category: "present" | "past" | "future" }> = [
@@ -298,6 +299,26 @@ function FocusPageInner() {
                             />
                         )}
 
+                        {/* Order Words Component */}
+                        {current.type === "order_words" && current.tokens && (session.phase === "playing" || session.phase === "feedback") && (
+                            <OrderWordsQuestion
+                                prompt={current.prompt}
+                                tokens={current.tokens}
+                                answer={current.answer}
+                                explanation={current.explanation}
+                                onSubmit={(isCorrect, userAnswer) => {
+                                    setSession({
+                                        ...session,
+                                        phase: "feedback",
+                                        isCorrect,
+                                        userAnswer,
+                                        correctCount: session.correctCount + (isCorrect ? 1 : 0),
+                                    });
+                                }}
+                                disabled={session.phase === "feedback"}
+                            />
+                        )}
+
                         {/* Submit Button (MCQ only) */}
                         {session.phase === "playing" && current.type === "mcq" && (
                             <button
@@ -352,6 +373,18 @@ function FocusPageInner() {
 
                         {/* Next Button for Fill Blank (in feedback phase) */}
                         {session.phase === "feedback" && current.type === "fill_blank" && (
+                            <button
+                                onClick={handleNext}
+                                className="mt-6 w-full py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-lg transition-all active:scale-95"
+                            >
+                                {session.currentIndex + 1 < session.questions.length
+                                    ? "Next Question"
+                                    : "View Summary"}
+                            </button>
+                        )}
+
+                        {/* Next Button for Order Words (in feedback phase) */}
+                        {session.phase === "feedback" && current.type === "order_words" && (
                             <button
                                 onClick={handleNext}
                                 className="mt-6 w-full py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-lg transition-all active:scale-95"

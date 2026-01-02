@@ -4,9 +4,10 @@
 export interface FocusQuestion {
     id: string;
     tenseSlug: string;
-    type: "mcq" | "fill_blank";
+    type: "mcq" | "fill_blank" | "order_words";
     prompt: string;
     choices?: string[];
+    tokens?: string[];
     answer: string;
     explanation: string;
 }
@@ -82,6 +83,24 @@ export const PRESENT_SIMPLE_QUESTIONS: FocusQuestion[] = [
         choices: ["rise", "rises", "rising", "rose"],
         answer: "rises",
         explanation: "Use 'rises' for third person singular (it) in Present Simple. This is a general truth."
+    },
+    {
+        id: "ps_009",
+        tenseSlug: "present-simple",
+        type: "order_words",
+        prompt: "Order the words to form a correct sentence:",
+        tokens: ["studies", "English", "She", "every", "day"],
+        answer: "She studies English every day",
+        explanation: "Subject (She) + verb with -s (studies) + object (English) + time expression (every day)."
+    },
+    {
+        id: "ps_010",
+        tenseSlug: "present-simple",
+        type: "order_words",
+        prompt: "Order the words to form a correct question:",
+        tokens: ["like", "you", "Do", "coffee", "?"],
+        answer: "Do you like coffee?",
+        explanation: "Questions in Present Simple: Do/Does + subject + base verb. 'Do' is used with 'you'."
     }
 ];
 
