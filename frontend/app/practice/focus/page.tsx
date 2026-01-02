@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import { Protected } from "@/components/Protected";
 import { TENSES, TenseSlug } from "@/lib/tenses";
 import { FOCUS_QUESTION_BANKS, FocusQuestion } from "@/lib/focusQuestions";
@@ -50,6 +51,7 @@ function normalizeAnswer(val: string): string {
 }
 
 function FocusPageInner() {
+    const searchParams = useSearchParams();
     const [selectedTense, setSelectedTense] = useState<TenseSlug | null>(null);
     const [session, setSession] = useState<SessionState>({
         phase: "selection",
@@ -59,6 +61,18 @@ function FocusPageInner() {
         isCorrect: null,
         correctCount: 0,
     });
+
+    // Auto-select tense from query parameter on mount
+    useEffect(() => {
+        const tenseParam = searchParams?.get("tense");
+        if (tenseParam) {
+            // Check if the tense exists in our tense list
+            const tenseExists = TENSE_LIST.find((t) => t.slug === tenseParam);
+            if (tenseExists) {
+                setSelectedTense(tenseParam as TenseSlug);
+            }
+        }
+    }, [searchParams]);
 
     const getCategoryBadgeStyle = (category: "present" | "past" | "future") => {
         const styles = {
