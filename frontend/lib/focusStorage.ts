@@ -3,6 +3,8 @@ export interface FocusStats {
     totalQuestions: number;
     totalCorrect: number;
     lastPlayed: string | null; // ISO date string
+    streak: number;
+    lastStreakDate: string | null; // YYYY-MM-DD local
 }
 
 const KEY = "b2_focus_stats";
@@ -12,6 +14,8 @@ const DEFAULT_STATS: FocusStats = {
     totalQuestions: 0,
     totalCorrect: 0,
     lastPlayed: null,
+    streak: 0,
+    lastStreakDate: null,
 };
 
 export const focusStorage = {
@@ -37,12 +41,38 @@ export const focusStorage = {
     saveSession: (correct: number, total: number): FocusStats => {
         if (typeof window === "undefined") return DEFAULT_STATS;
         try {
+            // Streak Logic (Local Time)
             const current = focusStorage.getStats();
+            const now = new Date();
+            const today = now.toLocaleDateString("en-CA"); // YYYY-MM-DD
+
+            let newStreak = current.streak || 0;
+            const lastDate = current.lastStreakDate;
+
+            if (lastDate !== today) {
+                if (lastDate) {
+                    const yesterdayDate = new Date();
+                    yesterdayDate.setDate(yesterdayDate.getDate() - 1);
+                    const yesterday = yesterdayDate.toLocaleDateString("en-CA");
+
+                    if (lastDate === yesterday) {
+                        newStreak += 1;
+                    } else {
+                        newStreak = 1; // Streak broken or gap > 1 day
+                    }
+                } else {
+                    newStreak = 1; // First time
+                }
+            }
+            // else: same day, keep streak
+
             const updated: FocusStats = {
                 sessions: current.sessions + 1,
                 totalQuestions: current.totalQuestions + total,
                 totalCorrect: current.totalCorrect + correct,
-                lastPlayed: new Date().toISOString(),
+                lastPlayed: now.toISOString(),
+                streak: newStreak,
+                lastStreakDate: today,
             };
             localStorage.setItem(KEY, JSON.stringify(updated));
             return updated;

@@ -633,6 +633,20 @@ function FocusPageInner() {
                                         <div className="text-[10px] uppercase text-slate-500 font-bold">Total Correct</div>
                                     </div>
                                 </div>
+                                <div className="mt-4 pt-4 border-t border-slate-700/50 grid grid-cols-2 gap-4">
+                                    <div className="text-center">
+                                        <div className="text-lg font-bold text-amber-400 flex items-center justify-center gap-1">
+                                            <span>🔥</span> {deviceStats.streak || 0}
+                                        </div>
+                                        <div className="text-[10px] uppercase text-slate-500 font-bold">Day Streak</div>
+                                    </div>
+                                    <div className="text-center">
+                                        <div className="text-sm font-medium text-slate-300 mt-1">
+                                            {deviceStats.lastPlayed ? new Date(deviceStats.lastPlayed).toLocaleDateString() : "-"}
+                                        </div>
+                                        <div className="text-[10px] uppercase text-slate-500 font-bold">Last Practice</div>
+                                    </div>
+                                </div>
                             </div>
                         )}
 
