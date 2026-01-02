@@ -368,7 +368,7 @@ function FocusPageInner() {
                         </p>
 
                         {/* MCQ Choices */}
-                        {current.type === "mcq" && current.choices && session.phase === "playing" && (
+                        {current.type === "mcq" && current.choices && (session.phase === "playing" || session.phase === "feedback") && (
                             <div className="space-y-3">
                                 {current.choices.map((choice, idx) => (
                                     <button
@@ -391,6 +391,7 @@ function FocusPageInner() {
                         {/* Fill Blank Component */}
                         {current.type === "fill_blank" && (session.phase === "playing" || session.phase === "feedback") && (
                             <FillBlankQuestion
+                                key={current.id}
                                 prompt={current.prompt}
                                 answer={current.answer}
                                 explanation={current.explanation}
@@ -429,6 +430,7 @@ function FocusPageInner() {
                         {/* Order Words Component */}
                         {current.type === "order_words" && current.tokens && (session.phase === "playing" || session.phase === "feedback") && (
                             <OrderWordsQuestion
+                                key={current.id}
                                 prompt={current.prompt}
                                 tokens={current.tokens}
                                 answer={current.answer}
@@ -467,22 +469,29 @@ function FocusPageInner() {
 
                         {/* Submit Button (MCQ only) */}
                         {session.phase === "playing" && current.type === "mcq" && (
-                            <button
-                                onClick={handleSubmit}
-                                disabled={!session.userAnswer.trim()}
-                                className={`
-                                    mt-6 w-full py-4 rounded-xl font-bold transition-all
-                                    ${session.userAnswer.trim()
-                                        ? "bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg active:scale-95"
-                                        : "bg-slate-700 text-slate-500 cursor-not-allowed"
-                                    }
-                                `}
-                            >
-                                Submit Answer
-                            </button>
+                            <div className="space-y-2">
+                                <button
+                                    onClick={handleSubmit}
+                                    disabled={!session.userAnswer.trim()}
+                                    className={`
+                                        mt-6 w-full py-4 rounded-xl font-bold transition-all
+                                        ${session.userAnswer.trim()
+                                            ? "bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg active:scale-95"
+                                            : "bg-slate-700 text-slate-500 cursor-not-allowed"
+                                        }
+                                    `}
+                                >
+                                    Submit Answer
+                                </button>
+                                {!session.userAnswer.trim() && (
+                                    <div className="text-center">
+                                        <span className="text-xs text-slate-500 font-medium opacity-70">Answer required</span>
+                                    </div>
+                                )}
+                            </div>
                         )}
 
-                        {/* Feedback (MCQ only, FillBlank handles its own) */}
+                        {/* Feedback (MCQ only - FillBlank/OrderWords handle their own UI, but we share the unified Next button below) */}
                         {session.phase === "feedback" && current.type === "mcq" && (
                             <div className="mt-6 space-y-4">
                                 <div
@@ -505,39 +514,26 @@ function FocusPageInner() {
                                     </div>
                                     <div className="text-sm">{current.explanation}</div>
                                 </div>
-
-                                <button
-                                    onClick={handleNext}
-                                    className="w-full py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-lg transition-all active:scale-95"
-                                >
-                                    {session.currentIndex + 1 < session.questions.length
-                                        ? "Next Question"
-                                        : "View Summary"}
-                                </button>
                             </div>
                         )}
 
-                        {/* Next Button for Fill Blank (in feedback phase) */}
-                        {session.phase === "feedback" && current.type === "fill_blank" && (
+                        {/* Unified Next/Summary Button (Always visible in feedback phase for ALL types) */}
+                        {session.phase === "feedback" && (
                             <button
                                 onClick={handleNext}
-                                className="mt-6 w-full py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-lg transition-all active:scale-95"
+                                className="mt-8 w-full py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-lg transition-all active:scale-95 flex items-center justify-center gap-2"
                             >
-                                {session.currentIndex + 1 < session.questions.length
-                                    ? "Next Question"
-                                    : "View Summary"}
-                            </button>
-                        )}
-
-                        {/* Next Button for Order Words (in feedback phase) */}
-                        {session.phase === "feedback" && current.type === "order_words" && (
-                            <button
-                                onClick={handleNext}
-                                className="mt-6 w-full py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-lg transition-all active:scale-95"
-                            >
-                                {session.currentIndex + 1 < session.questions.length
-                                    ? "Next Question"
-                                    : "View Summary"}
+                                {session.currentIndex + 1 < session.questions.length ? (
+                                    <>
+                                        <span>Next Question</span>
+                                        <span>→</span>
+                                    </>
+                                ) : (
+                                    <>
+                                        <span>View Summary</span>
+                                        <span>📊</span>
+                                    </>
+                                )}
                             </button>
                         )}
                     </div>
