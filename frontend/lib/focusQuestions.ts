@@ -569,10 +569,153 @@ export const PRESENT_PERFECT_CONTINUOUS_QUESTIONS: FocusQuestion[] = [
 
 ];
 
+// Past Simple Question Bank
+export const PAST_SIMPLE_QUESTIONS: FocusQuestion[] = [
+    {
+        id: "pas_001",
+        tenseSlug: "past-simple",
+        type: "mcq",
+        prompt: "She ______ her grandmother yesterday.",
+        choices: ["visits", "visited", "visiting", "visit"],
+        answer: "visited",
+        explanation: "Use the past form (-ed) for completed actions at a specific time (yesterday)."
+    },
+    {
+        id: "pas_002",
+        tenseSlug: "past-simple",
+        type: "mcq",
+        prompt: "We ______ to the cinema last night.",
+        choices: ["go", "goed", "went", "gone"],
+        answer: "went",
+        explanation: "The verb 'go' is irregular in the Past Simple: go → went."
+    },
+    {
+        id: "pas_003",
+        tenseSlug: "past-simple",
+        type: "mcq",
+        prompt: "They ______ the party.",
+        choices: ["didn't enjoyed", "didn't enjoy", "not enjoyed", "don't enjoy"],
+        answer: "didn't enjoy",
+        explanation: "Negative form: Subject + did not (didn't) + base verb (enjoy)."
+    },
+    {
+        id: "pas_004",
+        tenseSlug: "past-simple",
+        type: "mcq",
+        prompt: "______ you see the match last week?",
+        choices: ["Do", "Did", "Have", "Were"],
+        answer: "Did",
+        explanation: "Questions in Past Simple starting with a verb use 'Did' + subject + base verb."
+    },
+    {
+        id: "pas_005",
+        tenseSlug: "past-simple",
+        type: "fill_blank",
+        prompt: "He ______ (buy) a new car two days ago.",
+        answer: "bought",
+        explanation: "Irregular verb: buy → bought."
+    },
+    {
+        id: "pas_006",
+        tenseSlug: "past-simple",
+        type: "fill_blank",
+        prompt: "I ______ (read) that book in high school.",
+        answer: "read",
+        explanation: "Irregular verb 'read' is spelled the same but pronounced 'red' in the past."
+    },
+    {
+        id: "pas_007",
+        tenseSlug: "past-simple",
+        type: "order_words",
+        prompt: "Order the words to form a sentence:",
+        tokens: ["visited", "parents", "She", "last", "her", "weekend"],
+        answer: "She visited her parents last weekend",
+        explanation: "Subject (She) + past verb (visited) + object (her parents) + time (last weekend)."
+    },
+    {
+        id: "pas_008",
+        tenseSlug: "past-simple",
+        type: "fill_blank",
+        prompt: "Where ______ (they/go) for their holidays?",
+        answer: "did they go",
+        explanation: "Wh-question: Question word + did + subject + base verb."
+    },
+    {
+        id: "pas_009",
+        tenseSlug: "past-simple",
+        type: "mcq",
+        prompt: "She ______ very tired after the trip.",
+        choices: ["was", "were", "is", "been"],
+        answer: "was",
+        explanation: "The past of 'be' is 'was' for singular subjects (she/he/it/I)."
+    },
+    {
+        id: "pas_010",
+        tenseSlug: "past-simple",
+        type: "order_words",
+        prompt: "Order the words to form a negative sentence:",
+        tokens: ["didn't", "I", "question", "the", "understand"],
+        answer: "I didn't understand the question",
+        explanation: "Subject (I) + didn't + base verb (understand) + object (the question)."
+    },
+    {
+        id: "pas_011",
+        tenseSlug: "past-simple",
+        type: "fill_blank",
+        prompt: "The train ______ (leave) ten minutes ago.",
+        answer: "left",
+        explanation: "Irregular verb: leave → left."
+    },
+    {
+        id: "pas_012",
+        tenseSlug: "past-simple",
+        type: "mcq",
+        prompt: "When ______ ?",
+        choices: ["did they arrive", "did they arrived", "arrived they", "do they arrive"],
+        answer: "did they arrive",
+        explanation: "Question structure: When + did + subject + base verb."
+    },
+    {
+        id: "pas_013",
+        tenseSlug: "past-simple",
+        type: "order_words",
+        prompt: "Order the words to form a question:",
+        tokens: ["you", "homework", "Did", "finish", "your", "?"],
+        answer: "Did you finish your homework?",
+        explanation: "Yes/No question: Did + subject + base verb + object."
+    },
+    {
+        id: "pas_014",
+        tenseSlug: "past-simple",
+        type: "fill_blank",
+        prompt: "My parents ______ (meet) in 1990.",
+        answer: "met",
+        explanation: "Irregular verb: meet → met."
+    },
+    {
+        id: "pas_015",
+        tenseSlug: "past-simple",
+        type: "fill_blank",
+        prompt: "I ______ (not/have) breakfast this morning.",
+        answer: "did not have",
+        explanation: "Negative: did not + base verb. 'didn't have' is also correct."
+    },
+    {
+        id: "pas_016",
+        tenseSlug: "past-simple",
+        type: "order_words",
+        prompt: "Order the words to form a sentence:",
+        tokens: ["house", "bought", "He", "a", "year", "last"],
+        answer: "He bought a house last year",
+        explanation: "Subject (He) + past verb (bought) + object (a house) + time (last year)."
+    }
+];
+
 // Map of all question banks by tense slug
 export const FOCUS_QUESTION_BANKS: Record<string, FocusQuestion[]> = {
     "present-simple": PRESENT_SIMPLE_QUESTIONS,
     "present-continuous": PRESENT_CONTINUOUS_QUESTIONS,
     "present-perfect": PRESENT_PERFECT_QUESTIONS,
     "present-perfect-continuous": PRESENT_PERFECT_CONTINUOUS_QUESTIONS,
+    "past-simple": PAST_SIMPLE_QUESTIONS,
 };
