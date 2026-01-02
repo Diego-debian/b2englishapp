@@ -1137,6 +1137,148 @@ export const PAST_PERFECT_CONTINUOUS_QUESTIONS: FocusQuestion[] = [
     }
 ];
 
+// Future (Will) Question Bank
+export const FUTURE_WILL_QUESTIONS: FocusQuestion[] = [
+    {
+        id: "will_001",
+        tenseSlug: "will",
+        type: "mcq",
+        prompt: "It's cold in here. I ______ close the window.",
+        choices: ["will", "am going to", "closing", "close"],
+        answer: "will",
+        explanation: "Spontaneous decision made at the moment of speaking (I'm cold -> I'll close it)."
+    },
+    {
+        id: "will_002",
+        tenseSlug: "will",
+        type: "mcq",
+        prompt: "Don't worry, I ______ tell anyone your secret.",
+        choices: ["won't", "don't", "not will", "am not"],
+        answer: "won't",
+        explanation: "A promise: I will not (won't) tell anyone."
+    },
+    {
+        id: "will_003",
+        tenseSlug: "will",
+        type: "mcq",
+        prompt: "I think it ______ rain later.",
+        choices: ["will", "is raining", "rains", "has rained"],
+        answer: "will",
+        explanation: "Prediction based on opinion (I think...) rather than present evidence."
+    },
+    {
+        id: "will_004",
+        tenseSlug: "will",
+        type: "fill_blank",
+        prompt: "The phone is ringing. I ______ (get) it.",
+        answer: "will get",
+        explanation: "Spontaneous decision: 'I'll get it'."
+    },
+    {
+        id: "will_005",
+        tenseSlug: "will",
+        type: "fill_blank",
+        prompt: "I promise I ______ (not/be) late again.",
+        answer: "won't be",
+        explanation: "Negative promise: will not be -> won't be."
+    },
+    {
+        id: "will_006",
+        tenseSlug: "will",
+        type: "order_words",
+        prompt: "Order the words to form a sentence:",
+        tokens: ["help", "will", "homework", "I", "with", "you", "your"],
+        answer: "I will help you with your homework",
+        explanation: "Offer of help: Subject (I) + will + verb (help) + object."
+    },
+    {
+        id: "will_007",
+        tenseSlug: "will",
+        type: "mcq",
+        prompt: "That bag looks heavy. ______ I carry it for you?",
+        choices: ["Shall", "Will", "Do", "Am"],
+        answer: "Shall",
+        explanation: "Use 'Shall I...?' to make a polite offer. 'Will I' is generally not used for offers."
+    },
+    {
+        id: "will_008",
+        tenseSlug: "will",
+        type: "fill_blank",
+        prompt: "______ (you/marry) me?",
+        answer: "Will you marry",
+        explanation: "Proposal/Question: Will + subject + verb?"
+    },
+    {
+        id: "will_009",
+        tenseSlug: "will",
+        type: "order_words",
+        prompt: "Order the words to form a negative sentence:",
+        tokens: ["come", "party", "She", "to", "won't", "the"],
+        answer: "She won't come to the party",
+        explanation: "Refusal/Prediction: Subject + won't + verb."
+    },
+    {
+        id: "will_010",
+        tenseSlug: "will",
+        type: "fill_blank",
+        prompt: "I'm sure they ______ (win) the match.",
+        answer: "will win",
+        explanation: "Prediction expressing certainty (I'm sure)."
+    },
+    {
+        id: "will_011",
+        tenseSlug: "will",
+        type: "mcq",
+        prompt: "I ______ definitely be there on time.",
+        choices: ["will", "am", "going to", "do"],
+        answer: "will",
+        explanation: "Future prediction with adverb: 'will definitely'."
+    },
+    {
+        id: "will_012",
+        tenseSlug: "will",
+        type: "order_words",
+        prompt: "Order the words to form a question:",
+        tokens: ["us", "wait", "Will", "for", "they", "?"],
+        answer: "Will they wait for us?",
+        explanation: "Question: Will + subject + verb...?"
+    },
+    {
+        id: "will_013",
+        tenseSlug: "will",
+        type: "fill_blank",
+        prompt: "I ______ (probably/stay) home tonight.",
+        answer: "will probably stay",
+        explanation: "Position of adverb: 'will' + probably + verb. 'probably will stay' is also possible but less common."
+    },
+    {
+        id: "will_014",
+        tenseSlug: "will",
+        type: "mcq",
+        prompt: "If you don't hurry, you ______ miss the bus.",
+        choices: ["will", "would", "did", "are"],
+        answer: "will",
+        explanation: "First Conditional: If + Present Simple, ... will + verb."
+    },
+    {
+        id: "will_015",
+        tenseSlug: "will",
+        type: "fill_blank",
+        prompt: "We ______ (always/love) you.",
+        answer: "will always love",
+        explanation: "Promise/Prediction with frequency adverb: will + always + verb."
+    },
+    {
+        id: "will_016",
+        tenseSlug: "will",
+        type: "order_words",
+        prompt: "Order the words to form a sentence:",
+        tokens: ["think", "pass", "I", "exam", "she", "will", "the"],
+        answer: "I think she will pass the exam",
+        explanation: "Opinion + Prediction: I think + subject + will + verb."
+    }
+];
+
 // Map of all question banks by tense slug
 // Note: Keys match the TenseSlug type in tenses.ts (kebab-case)
 export const FOCUS_QUESTION_BANKS: Record<string, FocusQuestion[]> = {
@@ -1148,4 +1290,5 @@ export const FOCUS_QUESTION_BANKS: Record<string, FocusQuestion[]> = {
     "past-continuous": PAST_CONTINUOUS_QUESTIONS,
     "past-perfect": PAST_PERFECT_QUESTIONS,
     "past-perfect-continuous": PAST_PERFECT_CONTINUOUS_QUESTIONS,
+    "will": FUTURE_WILL_QUESTIONS,
 };
