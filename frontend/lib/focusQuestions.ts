@@ -1563,6 +1563,148 @@ export const FUTURE_CONTINUOUS_QUESTIONS: FocusQuestion[] = [
     }
 ];
 
+// Future Perfect Question Bank
+export const FUTURE_PERFECT_QUESTIONS: FocusQuestion[] = [
+    {
+        id: "fp_001",
+        tenseSlug: "future-perfect",
+        type: "mcq",
+        prompt: "By 5 p.m., I ______ finished the report.",
+        choices: ["will have", "will", "have", "am"],
+        answer: "will have",
+        explanation: "Action completed before a specific future time (by 5 p.m.): will + have + past participle."
+    },
+    {
+        id: "fp_002",
+        tenseSlug: "future-perfect",
+        type: "mcq",
+        prompt: "She ______ arrived by the time you get there.",
+        choices: ["will have", "will has", "will had", "has"],
+        answer: "will have",
+        explanation: "Future Perfect: will + have + past participle. Never 'will has'."
+    },
+    {
+        id: "fp_003",
+        tenseSlug: "future-perfect",
+        type: "mcq",
+        prompt: "They ______ built the new bridge by next year.",
+        choices: ["will have", "are having", "will be", "had"],
+        answer: "will have",
+        explanation: "Action completed before a future deadline (by next year)."
+    },
+    {
+        id: "fp_004",
+        tenseSlug: "future-perfect",
+        type: "fill_blank",
+        prompt: "I ______ (leave) by the time you wake up.",
+        answer: "will have left",
+        explanation: "Action completed (leave) before another future event (wake up)."
+    },
+    {
+        id: "fp_005",
+        tenseSlug: "future-perfect",
+        type: "fill_blank",
+        prompt: "We ______ (not/finish) the project by Friday.",
+        answer: "won't have finished",
+        explanation: "Negative form: will + not + have + past participle. 'will not have finished' is also correct."
+    },
+    {
+        id: "fp_006",
+        tenseSlug: "future-perfect",
+        type: "order_words",
+        prompt: "Order the words to form a sentence:",
+        tokens: ["have", "I", "eaten", "will", "noon", "by"],
+        answer: "I will have eaten by noon",
+        explanation: "Subject (I) + will have + past participle (eaten) + deadline."
+    },
+    {
+        id: "fp_007",
+        tenseSlug: "future-perfect",
+        type: "mcq",
+        prompt: "______ you have done the shopping by 6 p.m.?",
+        choices: ["Will", "Do", "Are", "Have"],
+        answer: "Will",
+        explanation: "Question about completion by a deadline: Will + subject + have + past participle?"
+    },
+    {
+        id: "fp_008",
+        tenseSlug: "future-perfect",
+        type: "fill_blank",
+        prompt: "How many books ______ (you/read) by the end of the year?",
+        answer: "will you have read",
+        explanation: "Question asking for a total completed quantity before a future time."
+    },
+    {
+        id: "fp_009",
+        tenseSlug: "future-perfect",
+        type: "order_words",
+        prompt: "Order the words to form a negative sentence:",
+        tokens: ["gone", "won't", "bed", "to", "He", "yet", "have"],
+        answer: "He won't have gone to bed yet",
+        explanation: "Subject (He) + won't have + past participle (gone) + object + yet."
+    },
+    {
+        id: "fp_010",
+        tenseSlug: "future-perfect",
+        type: "fill_blank",
+        prompt: "Hopefully, the rain ______ (stop) before the game starts.",
+        answer: "will have stopped",
+        explanation: "Prediction that an action (stop) will be complete before another future event."
+    },
+    {
+        id: "fp_011",
+        tenseSlug: "future-perfect",
+        type: "mcq",
+        prompt: "Don't call at 8. The baby ______ fallen asleep by then.",
+        choices: ["will have", "will be", "is", "has"],
+        answer: "will have",
+        explanation: "Action (falling asleep) completed before the time mentioned (by then)."
+    },
+    {
+        id: "fp_012",
+        tenseSlug: "future-perfect",
+        type: "order_words",
+        prompt: "Order the words to form a question:",
+        tokens: ["seen", "Will", "have", "movie", "they", "the", "?"],
+        answer: "Will they have seen the movie?",
+        explanation: "Question: Will + they (subject) + have + seen (past participle)...?"
+    },
+    {
+        id: "fp_013",
+        tenseSlug: "future-perfect",
+        type: "fill_blank",
+        prompt: "By the time we get to the party, the food ______ (disappear).",
+        answer: "will have disappeared",
+        explanation: "Prediction: The food will be gone (completed action) before arrival."
+    },
+    {
+        id: "fp_014",
+        tenseSlug: "future-perfect",
+        type: "mcq",
+        prompt: "I ______ written the email by the time she calls.",
+        choices: ["will have", "will be", "am having", "have"],
+        answer: "will have",
+        explanation: "Future Perfect structure: will have + past participle (written)."
+    },
+    {
+        id: "fp_015",
+        tenseSlug: "future-perfect",
+        type: "fill_blank",
+        prompt: "She ______ (graduate) from college by June.",
+        answer: "will have graduated",
+        explanation: "Completion of a degree (graduated) by a specific future date (June)."
+    },
+    {
+        id: "fp_016",
+        tenseSlug: "future-perfect",
+        type: "order_words",
+        prompt: "Order the words to form a sentence:",
+        tokens: ["forgotten", "She", "name", "will", "have", "my", "then", "by"],
+        answer: "She will have forgotten my name by then",
+        explanation: "Subject + will have + past participle + object + time expression."
+    }
+];
+
 // Map of all question banks by tense slug
 // Note: Keys match the TenseSlug type in tenses.ts (kebab-case)
 export const FOCUS_QUESTION_BANKS: Record<string, FocusQuestion[]> = {
@@ -1577,4 +1719,5 @@ export const FOCUS_QUESTION_BANKS: Record<string, FocusQuestion[]> = {
     "will": FUTURE_WILL_QUESTIONS,
     "going-to": FUTURE_GOING_TO_QUESTIONS,
     "future-continuous": FUTURE_CONTINUOUS_QUESTIONS,
+    "future-perfect": FUTURE_PERFECT_QUESTIONS,
 };
