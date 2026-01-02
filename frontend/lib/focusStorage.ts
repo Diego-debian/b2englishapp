@@ -22,6 +22,17 @@ const DEFAULT_STATS: FocusStats = {
     dailyQuestions: 0,
 };
 
+// Deck State for "Smart Shuffle"
+interface DeckState {
+    // Map tenseSlug -> { queue: questionIds[], index: number }
+    [key: string]: {
+        queue: string[];
+        index: number;
+    }
+}
+
+const DECK_KEY = "b2_focus_deck";
+
 export const focusStorage = {
     /**
      * Reads stats from localStorage. Safe for SSR.
@@ -107,5 +118,70 @@ export const focusStorage = {
     reset: () => {
         if (typeof window === "undefined") return;
         localStorage.removeItem(KEY);
+        localStorage.removeItem(DECK_KEY);
+    },
+
+    /**
+     * Smart Deck Selection:
+     * - Maintains a shuffled queue of IDs per tense.
+     * - Returns 'count' unique questions.
+     * - Reshuffles when queue is exhausted.
+     */
+    pickQuestions: (tense: string, count: number, allQuestions: { id: string }[]): string[] => {
+        if (typeof window === "undefined" || !allQuestions.length) return [];
+
+        try {
+            // Load Deck State
+            const raw = localStorage.getItem(DECK_KEY);
+            const decks: DeckState = raw ? JSON.parse(raw) : {};
+
+            // Initialize or Load Tense Deck
+            let deck = decks[tense];
+
+            // Helper to shuffle
+            const shuffle = (arr: string[]) => {
+                const shuffled = [...arr];
+                for (let i = shuffled.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+                }
+                return shuffled;
+            };
+
+            // Validation: Re-init if questions changed significantly or deck invalid
+            if (!deck || !deck.queue || deck.queue.length === 0) {
+                deck = {
+                    queue: shuffle(allQuestions.map(q => q.id)),
+                    index: 0
+                };
+            }
+
+            const pickedIds: string[] = [];
+
+            // Pick needed amount
+            while (pickedIds.length < count) {
+                // Check if we need to reshuffle
+                if (deck.index >= deck.queue.length) {
+                    deck.queue = shuffle(allQuestions.map(q => q.id));
+                    deck.index = 0;
+                }
+
+                // Take next
+                pickedIds.push(deck.queue[deck.index]);
+                deck.index++;
+            }
+
+            // Save State
+            decks[tense] = deck;
+            localStorage.setItem(DECK_KEY, JSON.stringify(decks));
+
+            return pickedIds;
+
+        } catch (e) {
+            console.warn("Deck selection failed, falling back to random:", e);
+            // Fallback: Simple random sample
+            const shuffled = [...allQuestions].sort(() => 0.5 - Math.random());
+            return shuffled.slice(0, count).map(q => q.id);
+        }
     }
 };

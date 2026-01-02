@@ -121,8 +121,29 @@ function FocusPageInner() {
             return;
         }
 
-        const shuffled = shuffleArray(bank);
-        const picked = shuffled.slice(0, 5);
+        // SMART DECK SELECTION (Avoid repetition)
+        const pickedIds = focusStorage.pickQuestions(selectedTense, 5, bank);
+
+        // Map back to objects
+        const picked = pickedIds
+            .map(id => bank.find(q => q.id === id))
+            .filter((q): q is FocusQuestion => !!q); // Type guard
+
+        // Fallback safety (should rarely happen)
+        if (picked.length === 0) {
+            const shuffled = shuffleArray(bank);
+            // picked = shuffled.slice(0, 5); // Direct assignment
+            setSession({
+                phase: "playing",
+                questions: shuffled.slice(0, 5),
+                results: [],
+                currentIndex: 0,
+                userAnswer: "",
+                isCorrect: null,
+                correctCount: 0,
+            });
+            return;
+        }
 
         setSession({
             phase: "playing",
