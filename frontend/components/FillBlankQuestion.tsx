@@ -85,19 +85,26 @@ export function FillBlankQuestion({
 
             {/* Submit Button */}
             {!showFeedback && (
-                <button
-                    onClick={handleSubmit}
-                    disabled={!userInput.trim() || disabled}
-                    className={`
+                <div className="space-y-2">
+                    <button
+                        onClick={handleSubmit}
+                        disabled={!userInput.trim() || disabled}
+                        className={`
                         w-full py-4 rounded-xl font-bold transition-all text-base
                         ${userInput.trim() && !disabled
-                            ? "bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg hover:shadow-xl active:scale-95"
-                            : "bg-slate-700 text-slate-500 cursor-not-allowed"
-                        }
+                                ? "bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg hover:shadow-xl active:scale-95"
+                                : "bg-slate-700 text-slate-500 cursor-not-allowed"
+                            }
                     `}
-                >
-                    Submit Answer
-                </button>
+                    >
+                        Submit Answer
+                    </button>
+                    {(!userInput.trim() || disabled) && !showFeedback && (
+                        <div className="text-center">
+                            <span className="text-xs text-slate-500 font-medium opacity-70">Answer required</span>
+                        </div>
+                    )}
+                </div>
             )}
 
             {/* Feedback */}

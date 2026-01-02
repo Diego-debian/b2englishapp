@@ -150,33 +150,40 @@ export function OrderWordsQuestion({
 
             {/* Action Buttons */}
             {!showFeedback && (
-                <div className="flex gap-3">
-                    <button
-                        onClick={handleReset}
-                        disabled={selectedTokens.length === 0 || disabled}
-                        className={`
+                <div className="space-y-2">
+                    <div className="flex gap-3">
+                        <button
+                            onClick={handleReset}
+                            disabled={selectedTokens.length === 0 || disabled}
+                            className={`
                             flex-1 py-4 min-h-[56px] rounded-xl font-bold transition-all text-base
                             ${selectedTokens.length > 0 && !disabled
-                                ? "bg-slate-700 hover:bg-slate-600 text-white shadow-lg hover:shadow-xl active:scale-95"
-                                : "bg-slate-800 text-slate-500 cursor-not-allowed"
-                            }
+                                    ? "bg-slate-700 hover:bg-slate-600 text-white shadow-lg hover:shadow-xl active:scale-95"
+                                    : "bg-slate-800 text-slate-500 cursor-not-allowed"
+                                }
                         `}
-                    >
-                        Reset
-                    </button>
-                    <button
-                        onClick={handleSubmit}
-                        disabled={selectedTokens.length === 0 || disabled}
-                        className={`
+                        >
+                            Reset
+                        </button>
+                        <button
+                            onClick={handleSubmit}
+                            disabled={selectedTokens.length === 0 || disabled}
+                            className={`
                             flex-[2] py-4 min-h-[56px] rounded-xl font-bold transition-all text-base
                             ${selectedTokens.length > 0 && !disabled
-                                ? "bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg hover:shadow-xl active:scale-95"
-                                : "bg-slate-700 text-slate-500 cursor-not-allowed"
-                            }
+                                    ? "bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg hover:shadow-xl active:scale-95"
+                                    : "bg-slate-700 text-slate-500 cursor-not-allowed"
+                                }
                         `}
-                    >
-                        Submit Answer
-                    </button>
+                        >
+                            Submit Answer
+                        </button>
+                    </div>
+                    {(selectedTokens.length === 0 || disabled) && (
+                        <div className="text-center">
+                            <span className="text-xs text-slate-500 font-medium opacity-70">Answer required</span>
+                        </div>
+                    )}
                 </div>
             )}
 
@@ -186,8 +193,8 @@ export function OrderWordsQuestion({
                     {/* Correctness Indicator */}
                     <div
                         className={`p-4 rounded-xl border-2 ${isCorrect
-                                ? "bg-emerald-500/20 border-emerald-400 text-emerald-200"
-                                : "bg-red-500/20 border-red-400 text-red-200"
+                            ? "bg-emerald-500/20 border-emerald-400 text-emerald-200"
+                            : "bg-red-500/20 border-red-400 text-red-200"
                             }`}
                     >
                         <div className="font-bold mb-1 flex items-center gap-2">
