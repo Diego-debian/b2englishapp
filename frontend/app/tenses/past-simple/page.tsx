@@ -366,7 +366,7 @@ export default function PastSimplePage() {
                                 Test your understanding with interactive exercises.
                             </p>
                         </div>
-                        <Link href="/practice?tense=past-simple">
+                        <Link href="/practice/focus?tense=past-simple">
                             <Button className="bg-violet-600 hover:bg-violet-700">
                                 Practice this tense →
                             </Button>

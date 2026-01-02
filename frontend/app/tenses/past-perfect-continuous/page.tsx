@@ -358,7 +358,7 @@ export default function PastPerfectContinuousPage() {
                                 Test your understanding with interactive exercises.
                             </p>
                         </div>
-                        <Link href="/practice?tense=past-perfect-continuous">
+                        <Link href="/practice/focus?tense=past-perfect-continuous">
                             <Button className="bg-violet-600 hover:bg-violet-700">
                                 Practice this tense →
                             </Button>

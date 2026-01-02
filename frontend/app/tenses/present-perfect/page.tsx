@@ -359,7 +359,7 @@ export default function PresentPerfectPage() {
                                 Test your understanding with interactive exercises.
                             </p>
                         </div>
-                        <Link href="/practice?tense=present-perfect">
+                        <Link href="/practice/focus?tense=present-perfect">
                             <Button className="bg-violet-600 hover:bg-violet-700">
                                 Practice this tense →
                             </Button>

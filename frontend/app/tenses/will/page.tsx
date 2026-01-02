@@ -360,7 +360,7 @@ export default function WillPage() {
                                 Test your understanding with interactive exercises.
                             </p>
                         </div>
-                        <Link href="/practice?tense=will">
+                        <Link href="/practice/focus?tense=will">
                             <Button className="bg-violet-600 hover:bg-violet-700">
                                 Practice this tense →
                             </Button>

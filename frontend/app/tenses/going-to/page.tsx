@@ -358,7 +358,7 @@ export default function GoingToPage() {
                                 Test your understanding with interactive exercises.
                             </p>
                         </div>
-                        <Link href="/practice?tense=going-to">
+                        <Link href="/practice/focus?tense=going-to">
                             <Button className="bg-violet-600 hover:bg-violet-700">
                                 Practice this tense →
                             </Button>

@@ -349,7 +349,7 @@ export default function FuturePerfectPage() {
                                 Test your understanding with interactive exercises.
                             </p>
                         </div>
-                        <Link href="/practice?tense=future-perfect">
+                        <Link href="/practice/focus?tense=future-perfect">
                             <Button className="bg-violet-600 hover:bg-violet-700">
                                 Practice this tense →
                             </Button>

@@ -348,7 +348,7 @@ export default function FutureContinuousPage() {
                                 Test your understanding with interactive exercises.
                             </p>
                         </div>
-                        <Link href="/practice?tense=future-continuous">
+                        <Link href="/practice/focus?tense=future-continuous">
                             <Button className="bg-violet-600 hover:bg-violet-700">
                                 Practice this tense →
                             </Button>

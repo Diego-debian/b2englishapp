@@ -356,7 +356,7 @@ export default function PastPerfectPage() {
                                 Test your understanding with interactive exercises.
                             </p>
                         </div>
-                        <Link href="/practice?tense=past-perfect">
+                        <Link href="/practice/focus?tense=past-perfect">
                             <Button className="bg-violet-600 hover:bg-violet-700">
                                 Practice this tense →
                             </Button>

@@ -360,7 +360,7 @@ export default function PresentSimplePage() {
                                 Test your understanding with interactive exercises.
                             </p>
                         </div>
-                        <Link href="/practice?tense=present-simple">
+                        <Link href="/practice/focus?tense=present-simple">
                             <Button className="bg-violet-600 hover:bg-violet-700">
                                 Practice this tense →
                             </Button>

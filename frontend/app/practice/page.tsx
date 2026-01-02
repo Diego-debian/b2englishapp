@@ -1288,6 +1288,31 @@ function PracticeInner() {
         </div>
 
       </div>
+
+
+      {/* FOOTER: Focus Practice Callout */}
+      <div className="mt-8 relative overflow-hidden rounded-2xl border border-white/10 bg-slate-900 shadow-2xl">
+        {/* Decorative Background Elements */}
+        <div className="absolute top-0 right-0 -mt-8 -mr-8 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 left-0 -mb-8 -ml-8 w-64 h-64 bg-violet-500/10 rounded-full blur-3xl pointer-events-none" />
+
+        <div className="relative z-10 p-6 md:p-10 flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
+          <div className="space-y-3 max-w-2xl">
+            <h3 className="text-2xl md:text-3xl font-black text-white tracking-tight">
+              Focus Practice
+            </h3>
+            <p className="text-base text-slate-400 leading-relaxed">
+              Short 5-question session for one tense at a time. Perfect for targeting specific weak points or quick revisions.
+            </p>
+          </div>
+          <Link href="/practice/focus" className="shrink-0">
+            <Button className="bg-white hover:bg-slate-100 text-slate-900 font-bold px-8 py-4 h-auto rounded-xl shadow-lg hover:shadow-xl transition-all active:scale-95 text-base">
+              Start Focus →
+            </Button>
+          </Link>
+        </div>
+      </div>
+
     </div>
   );
 }

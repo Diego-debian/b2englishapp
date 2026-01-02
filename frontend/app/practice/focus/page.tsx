@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Protected } from "@/components/Protected";
 import { TENSES, TenseSlug } from "@/lib/tenses";
@@ -158,6 +159,16 @@ function FocusPageInner() {
         return (
             <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
                 <div className="max-w-7xl mx-auto px-4 py-12">
+                    {/* Nav Header */}
+                    <div className="flex items-center gap-6 mb-8 text-sm font-medium text-slate-400">
+                        <Link href="/practice" className="hover:text-white hover:underline transition-colors">
+                            ← Back to Practice
+                        </Link>
+                        <Link href="/tenses" className="hover:text-white hover:underline transition-colors">
+                            Back to Tenses
+                        </Link>
+                    </div>
+
                     {/* Header */}
                     <div className="text-center mb-12 space-y-3">
                         <h1 className="text-4xl sm:text-5xl md:text-6xl font-black text-white tracking-tight animate-fade-in">
