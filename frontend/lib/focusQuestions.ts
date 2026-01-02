@@ -711,6 +711,148 @@ export const PAST_SIMPLE_QUESTIONS: FocusQuestion[] = [
     }
 ];
 
+// Past Continuous Question Bank
+export const PAST_CONTINUOUS_QUESTIONS: FocusQuestion[] = [
+    {
+        id: "pc_past_001",
+        tenseSlug: "past-continuous",
+        type: "mcq",
+        prompt: "I ______ dinner at 8 p.m. yesterday.",
+        choices: ["was cooking", "cooked", "am cooking", "cook"],
+        answer: "was cooking",
+        explanation: "Use Past Continuous for an action in progress at a specific time in the past."
+    },
+    {
+        id: "pc_past_002",
+        tenseSlug: "past-continuous",
+        type: "mcq",
+        prompt: "They ______ TV when I arrived.",
+        choices: ["watched", "were watching", "are watching", "have watched"],
+        answer: "were watching",
+        explanation: "Action in progress (watching TV) interrupted by a short action (arrived)."
+    },
+    {
+        id: "pc_past_003",
+        tenseSlug: "past-continuous",
+        type: "mcq",
+        prompt: "While she was reading, he ______ video games.",
+        choices: ["played", "is playing", "was playing", "plays"],
+        answer: "was playing",
+        explanation: "Two parallel actions happening at the same time in the past: While + Past Continuous."
+    },
+    {
+        id: "pc_past_004",
+        tenseSlug: "past-continuous",
+        type: "mcq",
+        prompt: "______ it raining when you left?",
+        choices: ["Did", "Was", "Were", "Is"],
+        answer: "Was",
+        explanation: "Question form: Was/Were + subject + verb-ing. 'It' takes 'Was'."
+    },
+    {
+        id: "pc_past_005",
+        tenseSlug: "past-continuous",
+        type: "fill_blank",
+        prompt: "He ______ (sleep) continuously until noon.",
+        answer: "was sleeping",
+        explanation: "Subject (He) + was + verb-ing (sleeping)."
+    },
+    {
+        id: "pc_past_006",
+        tenseSlug: "past-continuous",
+        type: "fill_blank",
+        prompt: "We ______ (not/wait) for you, we were waiting for the bus.",
+        answer: "were not waiting",
+        explanation: "Negative: Subject + was/were + not + verb-ing. 'weren't waiting' is also correct."
+    },
+    {
+        id: "pc_past_007",
+        tenseSlug: "past-continuous",
+        type: "order_words",
+        prompt: "Order the words to form a sentence:",
+        tokens: ["working", "was", "She", "all", "night"],
+        answer: "She was working all night",
+        explanation: "Subject (She) + was + verb-ing (working) + time expression."
+    },
+    {
+        id: "pc_past_008",
+        tenseSlug: "past-continuous",
+        type: "fill_blank",
+        prompt: "What ______ (you/do) at 10 o'clock?",
+        answer: "were you doing",
+        explanation: "Wh-question: What + were/was + subject + verb-ing?"
+    },
+    {
+        id: "pc_past_009",
+        tenseSlug: "past-continuous",
+        type: "mcq",
+        prompt: "You ______ listening to me!",
+        choices: ["weren't", "wasn't", "didn't", "aren't"],
+        answer: "weren't",
+        explanation: "Negative with 'You': You were not (weren't) listening."
+    },
+    {
+        id: "pc_past_010",
+        tenseSlug: "past-continuous",
+        type: "order_words",
+        prompt: "Order the words to form a negative sentence:",
+        tokens: ["wasn't", "driving", "He", "fast"],
+        answer: "He wasn't driving fast",
+        explanation: "Subject (He) + wasn't + verb-ing (driving) + adverb."
+    },
+    {
+        id: "pc_past_011",
+        tenseSlug: "past-continuous",
+        type: "fill_blank",
+        prompt: "The kids ______ (play) in the garden all afternoon.",
+        answer: "were playing",
+        explanation: "Plural subject (The kids) + were + verb-ing."
+    },
+    {
+        id: "pc_past_012",
+        tenseSlug: "past-continuous",
+        type: "mcq",
+        prompt: "______ they arguing again?",
+        choices: ["Did", "Do", "Were", "Have"],
+        answer: "Were",
+        explanation: "Question with plural subject: Were + they + verb-ing?"
+    },
+    {
+        id: "pc_past_013",
+        tenseSlug: "past-continuous",
+        type: "order_words",
+        prompt: "Order the words to form a question:",
+        tokens: ["laughing", "Were", "you", "why", "?"],
+        answer: "Why were you laughing?",
+        explanation: "Wh-question: Question word + were + subject + verb-ing?"
+    },
+    {
+        id: "pc_past_014",
+        tenseSlug: "past-continuous",
+        type: "fill_blank",
+        prompt: "I ______ (walk) down the street when I saw him.",
+        answer: "was walking",
+        explanation: "Longer action in progress (walking) interrupted by shorter action (saw)."
+    },
+    {
+        id: "pc_past_015",
+        tenseSlug: "past-continuous",
+        type: "fill_blank",
+        prompt: "My computer ______ (make) a strange noise.",
+        answer: "was making",
+        explanation: "Singular subject (computer) + was + verb-ing."
+    },
+    {
+        id: "pc_past_016",
+        tenseSlug: "past-continuous",
+        type: "order_words",
+        prompt: "Order the words to form a sentence:",
+        tokens: ["sun", "shining", "was", "The", "brightly"],
+        answer: "The sun was shining brightly",
+        explanation: "Subject (The sun) + was + verb-ing + adverb."
+    }
+];
+
 // Map of all question banks by tense slug
 export const FOCUS_QUESTION_BANKS: Record<string, FocusQuestion[]> = {
     "present-simple": PRESENT_SIMPLE_QUESTIONS,
@@ -718,4 +860,5 @@ export const FOCUS_QUESTION_BANKS: Record<string, FocusQuestion[]> = {
     "present-perfect": PRESENT_PERFECT_QUESTIONS,
     "present-perfect-continuous": PRESENT_PERFECT_CONTINUOUS_QUESTIONS,
     "past-simple": PAST_SIMPLE_QUESTIONS,
+    "past-continuous": PAST_CONTINUOUS_QUESTIONS,
 };
