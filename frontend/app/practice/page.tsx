@@ -945,7 +945,7 @@ function PracticeInner() {
             <Button
               variant="ghost"
               className="h-8 px-2 text-red-500 text-xs font-bold uppercase"
-              onClick={() => confirm("¿Abandonar?") && resetRun()}
+              onClick={resetRun}
             >
               Salir
             </Button>
@@ -1274,7 +1274,7 @@ function PracticeInner() {
               <Button
                 variant="ghost"
                 className="w-full border-red-200 text-red-600 hover:bg-red-50 hover:border-red-300"
-                onClick={() => confirm("¿Seguro que quieres salir? Perderás el progreso actual.") && resetRun()}
+                onClick={resetRun}
               >
                 Abandonar Misión
               </Button>
