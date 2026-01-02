@@ -79,6 +79,7 @@ function FocusPageInner() {
     });
     const [deviceStats, setDeviceStats] = useState<FocusStats | null>(null);
     const weeklyStats = useMemo(() => deviceStats ? focusStorage.getWeeklyStats(deviceStats) : null, [deviceStats]);
+    const [showToast, setShowToast] = useState(false);
 
     // Auto-select tense from query parameter on mount
     useEffect(() => {
@@ -243,6 +244,26 @@ function FocusPageInner() {
         });
     };
 
+    const handleReportBug = () => {
+        const report = {
+            route: window.location.pathname,
+            userAgent: navigator.userAgent,
+            timestamp: new Date().toISOString(),
+            stats: deviceStats ? {
+                total: deviceStats.totalQuestions,
+                streak: deviceStats.streak,
+                sessions: deviceStats.sessions
+            } : "none",
+            lastQuestionId: session.questions[session.currentIndex]?.id || "none",
+            phase: session.phase
+        };
+
+        const text = JSON.stringify(report, null, 2);
+        navigator.clipboard.writeText(text).then(() => {
+            setShowToast(true);
+            setTimeout(() => setShowToast(false), 2000);
+        }).catch(err => console.error("Clipboard failed", err));
+    };
 
     // RENDER: Selection Screen
     if (session.phase === "selection") {
@@ -503,8 +524,8 @@ mt - 6 w - full py - 4 rounded - xl font - bold transition - all
                             <div className="mt-6 space-y-4">
                                 <div
                                     className={`p - 4 rounded - xl border - 2 ${session.isCorrect
-                                            ? "bg-emerald-500/20 border-emerald-400 text-emerald-200"
-                                            : "bg-red-500/20 border-red-400 text-red-200"
+                                        ? "bg-emerald-500/20 border-emerald-400 text-emerald-200"
+                                        : "bg-red-500/20 border-red-400 text-red-200"
                                         } `}
                                 >
                                     <div className="font-bold mb-1">
@@ -708,7 +729,7 @@ mt - 6 w - full py - 4 rounded - xl font - bold transition - all
                                         <div className="text-[10px] uppercase text-slate-500 font-bold">Sessions</div>
                                     </div>
                                     <div className="text-center">
-                                        <div className={`text - lg font - bold ${weeklyStats.avgAccuracy >= 70 ? "text-emerald-400" : "text-amber-400"} `}>
+                                        <div className={`text-lg font-bold ${weeklyStats.avgAccuracy >= 70 ? "text-emerald-400" : "text-amber-400"}`}>
                                             {weeklyStats.avgAccuracy}%
                                         </div>
                                         <div className="text-[10px] uppercase text-slate-500 font-bold">Avg Acc.</div>
@@ -741,27 +762,56 @@ mt - 6 w - full py - 4 rounded - xl font - bold transition - all
                             <button
                                 onClick={startSession}
                                 className={`
-w - full px - 6 py - 4 font - bold rounded - xl shadow - lg transition - all active: scale - 95 flex items - center justify - center gap - 2
+                                    w-full px-6 py-4 font-bold rounded-xl shadow-lg transition-all active:scale-95 flex items-center justify-center gap-2
                                     ${mistakes.length === 0
                                         ? "bg-indigo-600 hover:bg-indigo-700 text-white hover:shadow-indigo-500/30"
                                         : "bg-white/10 hover:bg-white/20 text-white border border-white/10"
                                     }
-`}
+                                `}
                             >
                                 <span>▶</span> New Session
                             </button>
 
-                            {/* Change Tense (Selection) */}
-                            <button
-                                onClick={handleRestart}
-                                className="w-full px-6 py-4 text-slate-400 hover:text-white font-medium hover:bg-white/5 rounded-xl transition-all flex items-center justify-center gap-2"
+                            {/* Back to Tenses */}
+                            <Link
+                                href="/tenses"
+                                className="block w-full text-center py-3 text-slate-400 hover:text-white transition-colors text-sm font-medium"
                             >
-                                <span>≡</span> Change Tense
-                            </button>
+                                ← Back to Tenses
+                            </Link>
                         </div>
                     </div>
                 </div>
-            </div >
+                {/* Report Bug (Footer) */}
+                <div className="mt-8 pt-4 border-t border-slate-800 text-center">
+                    <button
+                        onClick={handleReportBug}
+                        className="text-xs text-slate-600 hover:text-slate-400 underline decoration-dotted transition-colors"
+                    >
+                        Report Bug 🐞
+                    </button>
+                </div>
+
+                {/* Toast */}
+                {showToast && (
+                    <div className="fixed bottom-8 left-1/2 -translate-x-1/2 bg-slate-800 text-white px-4 py-2 rounded-full shadow-xl border border-slate-700 z-50 text-sm font-medium animate-fade-in-up">
+                        Debug info copied to clipboard ✅
+                    </div>
+                )}
+
+                {/* Dev Checklist (Development Only) */}
+                {process.env.NODE_ENV === "development" && (
+                    <div className="fixed bottom-4 right-4 p-4 bg-black/80 border border-red-500/30 rounded-lg text-[10px] text-red-300 font-mono pointer-events-none opacity-50 hover:opacity-100 transition-opacity z-40 hidden sm:block">
+                        <strong>DEV CHECKLIST:</strong>
+                        <ul className="list-disc pl-3 mt-1 space-y-1">
+                            <li>Streak Logic Verify</li>
+                            <li>Daily Goals Reset</li>
+                            <li>Weekly Stats Calc</li>
+                            <li>Smart Deck Shuffle</li>
+                        </ul>
+                    </div>
+                )}
+            </div>
         );
     }
 
