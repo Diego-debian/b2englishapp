@@ -66,6 +66,29 @@ function GrammarReferenceInner() {
       {/* Onboarding Banner */}
       <OnboardingBanner />
 
+      {/* Focus Practice CTA */}
+      <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-slate-900/60 backdrop-blur-md shadow-xl">
+        {/* Background Decor */}
+        <div className="absolute top-0 right-0 -mt-8 -mr-8 w-32 h-32 bg-indigo-500/20 rounded-full blur-2xl pointer-events-none" />
+        <div className="absolute bottom-0 left-0 -mb-8 -ml-8 w-32 h-32 bg-violet-500/20 rounded-full blur-2xl pointer-events-none" />
+
+        <div className="relative z-10 p-6 md:p-8 flex flex-col md:flex-row items-center md:items-start justify-between gap-6">
+          <div className="flex-1 space-y-2 text-center md:text-left">
+            <h3 className="text-2xl md:text-3xl font-black text-white tracking-tight">
+              Focus Practice
+            </h3>
+            <p className="text-base text-slate-300 max-w-2xl mx-auto md:mx-0">
+              Practice one tense at a time with a short 5-question session.
+            </p>
+          </div>
+          <Link href="/practice/focus">
+            <Button className="bg-white text-slate-900 hover:bg-slate-100 font-bold px-8 py-4 h-auto rounded-xl shadow-lg hover:shadow-xl transition-all active:scale-95">
+              Start Focus →
+            </Button>
+          </Link>
+        </div>
+      </div>
+
       {/* Three Main Blocks */}
       <div id="tense-list" className="grid md:grid-cols-3 gap-8 pt-4">
         {/* Present Time */}
@@ -83,13 +106,24 @@ function GrammarReferenceInner() {
 
             <div className="space-y-2 pt-4 border-t border-violet-200">
               {presentTenses.map((tense) => (
-                <Link
+                <div
                   key={tense.slug}
-                  href={`/tenses/${tense.slug}`}
-                  className="block px-4 py-3 rounded-xl border border-slate-200 bg-white hover:bg-violet-50 hover:border-violet-300 transition font-medium text-slate-700 text-sm"
+                  className="flex items-center gap-2"
                 >
-                  {tense.name} →
-                </Link>
+                  <Link
+                    href={`/tenses/${tense.slug}`}
+                    className="flex-1 px-4 py-3 rounded-xl border border-slate-200 bg-white hover:bg-violet-50 hover:border-violet-300 transition font-medium text-slate-700 text-sm"
+                  >
+                    {tense.name} →
+                  </Link>
+                  <Link
+                    href={`/practice/focus?tense=${tense.slug}`}
+                    className="px-3 py-3 rounded-lg border border-violet-200 bg-violet-50 hover:bg-violet-100 hover:border-violet-400 transition text-violet-700 text-xs font-semibold whitespace-nowrap"
+                    title="Focus practice"
+                  >
+                    Focus
+                  </Link>
+                </div>
               ))}
             </div>
           </div>
@@ -110,13 +144,24 @@ function GrammarReferenceInner() {
 
             <div className="space-y-2 pt-4 border-t border-cyan-200">
               {pastTenses.map((tense) => (
-                <Link
+                <div
                   key={tense.slug}
-                  href={`/tenses/${tense.slug}`}
-                  className="block px-4 py-3 rounded-xl border border-slate-200 bg-white hover:bg-cyan-50 hover:border-cyan-300 transition font-medium text-slate-700 text-sm"
+                  className="flex items-center gap-2"
                 >
-                  {tense.name} →
-                </Link>
+                  <Link
+                    href={`/tenses/${tense.slug}`}
+                    className="flex-1 px-4 py-3 rounded-xl border border-slate-200 bg-white hover:bg-cyan-50 hover:border-cyan-300 transition font-medium text-slate-700 text-sm"
+                  >
+                    {tense.name} →
+                  </Link>
+                  <Link
+                    href={`/practice/focus?tense=${tense.slug}`}
+                    className="px-3 py-3 rounded-lg border border-cyan-200 bg-cyan-50 hover:bg-cyan-100 hover:border-cyan-400 transition text-cyan-700 text-xs font-semibold whitespace-nowrap"
+                    title="Focus practice"
+                  >
+                    Focus
+                  </Link>
+                </div>
               ))}
             </div>
           </div>
@@ -137,13 +182,24 @@ function GrammarReferenceInner() {
 
             <div className="space-y-2 pt-4 border-t border-emerald-200">
               {futureTenses.map((tense) => (
-                <Link
+                <div
                   key={tense.slug}
-                  href={`/tenses/${tense.slug}`}
-                  className="block px-4 py-3 rounded-xl border border-slate-200 bg-white hover:bg-emerald-50 hover:border-emerald-300 transition font-medium text-slate-700 text-sm"
+                  className="flex items-center gap-2"
                 >
-                  {tense.name} →
-                </Link>
+                  <Link
+                    href={`/tenses/${tense.slug}`}
+                    className="flex-1 px-4 py-3 rounded-xl border border-slate-200 bg-white hover:bg-emerald-50 hover:border-emerald-300 transition font-medium text-slate-700 text-sm"
+                  >
+                    {tense.name} →
+                  </Link>
+                  <Link
+                    href={`/practice/focus?tense=${tense.slug}`}
+                    className="px-3 py-3 rounded-lg border border-emerald-200 bg-emerald-50 hover:bg-emerald-100 hover:border-emerald-400 transition text-emerald-700 text-xs font-semibold whitespace-nowrap"
+                    title="Focus practice"
+                  >
+                    Focus
+                  </Link>
+                </div>
               ))}
             </div>
           </div>
