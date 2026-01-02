@@ -577,10 +577,10 @@ function FocusPageInner() {
                         {mistakes.length > 0 ? (
                             <div className="mb-8">
                                 <h3 className="text-xl font-bold text-red-300 mb-4 flex items-center justify-center gap-2">
-                                    <span>⚠️</span> Mistakes to Fix
+                                    <span>⚠️</span> Mistakes to Fix (Top 3)
                                 </h3>
                                 <div className="space-y-4 text-left">
-                                    {mistakes.map((mistake) => (
+                                    {mistakes.slice(0, 3).map((mistake) => (
                                         <div key={mistake.id} className="backdrop-blur-md bg-black/20 border border-white/10 rounded-xl p-4">
                                             <p className="text-white font-medium mb-2">{mistake.prompt}</p>
                                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
@@ -594,8 +594,9 @@ function FocusPageInner() {
                                                 </div>
                                             </div>
                                             {mistake.explanation && (
-                                                <div className="mt-3 pt-3 border-t border-white/10 text-slate-300 text-xs italic">
-                                                    {mistake.explanation}
+                                                <div className="mt-3 pt-3 border-t border-white/10 text-slate-300 text-xs italic flex justify-between items-center gap-2">
+                                                    <span>{mistake.explanation}</span>
+                                                    <span className="text-[10px] uppercase font-bold text-indigo-300 border border-indigo-500/30 px-2 py-1 rounded bg-indigo-500/10 whitespace-nowrap">Repeat This</span>
                                                 </div>
                                             )}
                                         </div>
@@ -688,6 +689,15 @@ function FocusPageInner() {
                                 </div>
                             </div>
                         )}
+
+                        {/* Coach-like Next Step */}
+                        <div className="mb-8 font-medium text-slate-300">
+                            {percentage < 70 ? (
+                                <p className="animate-pulse text-amber-300">Coach says: Let's fix those slips before moving on. 👇</p>
+                            ) : (
+                                <p className="text-emerald-300">Coach says: Good job! Keep the momentum. 👇</p>
+                            )}
+                        </div>
 
                         <div className="flex flex-col gap-3 w-full max-w-xs mx-auto">
                             {/* Repeat Mistakes */}
