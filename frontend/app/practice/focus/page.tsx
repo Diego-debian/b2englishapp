@@ -25,7 +25,7 @@ const TENSE_LIST: Array<{ slug: TenseSlug; category: "present" | "past" | "futur
     { slug: "future-perfect", category: "future" },
 ];
 
-type SessionPhase = "selection" | "playing" | "feedback" | "summary";
+type SessionPhase = "selection" | "playing" | "feedback" | "summary" | "empty";
 
 type FocusQType = "mcq" | "fill_blank" | "order_words";
 
@@ -112,7 +112,10 @@ function FocusPageInner() {
 
         const bank = FOCUS_QUESTION_BANKS[selectedTense];
         if (!bank || bank.length === 0) {
-            alert("Coming soon for this tense!");
+            setSession({
+                ...session,
+                phase: "empty"
+            });
             return;
         }
 
@@ -643,6 +646,30 @@ function FocusPageInner() {
             </div>
         );
     }
+
+    // RENDER: Empty State
+    if (session.phase === "empty") {
+        return (
+            <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center">
+                <div className="max-w-md w-full px-4">
+                    <div className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-2xl p-8 text-center shadow-2xl">
+                        <div className="text-4xl mb-4">🚧</div>
+                        <h2 className="text-2xl font-bold text-white mb-2">Under Construction</h2>
+                        <p className="text-slate-300 mb-8">
+                            We haven't added questions for <span className="text-indigo-300 font-semibold">{selectedTense && TENSES[selectedTense].title}</span> yet.
+                        </p>
+                        <button
+                            onClick={handleRestart}
+                            className="w-full px-6 py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-lg hover:shadow-indigo-500/30 transition-all active:scale-95"
+                        >
+                            Choose Another Tense
+                        </button>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
 
     return null;
 }
