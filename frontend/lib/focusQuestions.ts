@@ -1279,6 +1279,148 @@ export const FUTURE_WILL_QUESTIONS: FocusQuestion[] = [
     }
 ];
 
+// Future (Going to) Question Bank
+export const FUTURE_GOING_TO_QUESTIONS: FocusQuestion[] = [
+    {
+        id: "going_to_001",
+        tenseSlug: "going-to",
+        type: "mcq",
+        prompt: "Why are you buying flour? ______ (make) a cake.",
+        choices: ["I'm going to make", "I will make", "I make", "I making"],
+        answer: "I'm going to make",
+        explanation: "Intention/Plan: You have decided to do it before speaking (hence the flour)."
+    },
+    {
+        id: "going_to_002",
+        tenseSlug: "going-to",
+        type: "mcq",
+        prompt: "Look at those dark clouds! It ______ rain.",
+        choices: ["is going to", "will", "is", "goes to"],
+        answer: "is going to",
+        explanation: "Prediction based on present evidence (the clouds)."
+    },
+    {
+        id: "going_to_003",
+        tenseSlug: "going-to",
+        type: "mcq",
+        prompt: "We ______ (visit) our grandparents this weekend. We planned it yesterday.",
+        choices: ["are going to visit", "will visit", "visit", "are visiting to"],
+        answer: "are going to visit",
+        explanation: "Plan/Arrangement decided in the past for the future."
+    },
+    {
+        id: "going_to_004",
+        tenseSlug: "going-to",
+        type: "fill_blank",
+        prompt: "I ______ (study) medicine next year.",
+        answer: "am going to study",
+        explanation: "Future plan/intention: am + going to + verb."
+    },
+    {
+        id: "going_to_005",
+        tenseSlug: "going-to",
+        type: "fill_blank",
+        prompt: "She ______ (not/buy) the car because it's too expensive.",
+        answer: "is not going to buy",
+        explanation: "Negative intention: is + not + going to + verb. 'isn't going to buy' is also correct."
+    },
+    {
+        id: "going_to_006",
+        tenseSlug: "going-to",
+        type: "order_words",
+        prompt: "Order the words to form a sentence:",
+        tokens: ["pizza", "to", "We", "eat", "going", "are", "tonight"],
+        answer: "We are going to eat pizza tonight",
+        explanation: "Subject (We) + are going to + verb (eat) + object + time."
+    },
+    {
+        id: "going_to_007",
+        tenseSlug: "going-to",
+        type: "mcq",
+        prompt: "Watch out! You ______ fall!",
+        choices: ["are going to", "will", "do", "have"],
+        answer: "are going to",
+        explanation: "Prediction based on immediate evidence (you are seeing it happen)."
+    },
+    {
+        id: "going_to_008",
+        tenseSlug: "going-to",
+        type: "fill_blank",
+        prompt: " ______ (you/invite) him to the party?",
+        answer: "Are you going to invite",
+        explanation: "Question about intention: Are + subject + going to + verb?"
+    },
+    {
+        id: "going_to_009",
+        tenseSlug: "going-to",
+        type: "order_words",
+        prompt: "Order the words to form a negative sentence:",
+        tokens: ["going", "lie", "to", "I'm", "you", "not", "to"],
+        answer: "I'm not going to lie to you",
+        explanation: "Subject + am not (I'm not) + going to + verb."
+    },
+    {
+        id: "going_to_010",
+        tenseSlug: "going-to",
+        type: "fill_blank",
+        prompt: "He ______ (start) his new job on Monday.",
+        answer: "is going to start",
+        explanation: "Plan/Schedule: is + going to + verb."
+    },
+    {
+        id: "going_to_011",
+        tenseSlug: "going-to",
+        type: "mcq",
+        prompt: "They sold their house. They ______ move to Spain.",
+        choices: ["are going to", "will", "go to", "are"],
+        answer: "are going to",
+        explanation: "Clear intention/plan supported by previous action (selling the house)."
+    },
+    {
+        id: "going_to_012",
+        tenseSlug: "going-to",
+        type: "order_words",
+        prompt: "Order the words to form a question:",
+        tokens: ["going", "Is", "rain", "it", "to", "?"],
+        answer: "Is it going to rain?",
+        explanation: "Prediction question: Is + it + going to + verb?"
+    },
+    {
+        id: "going_to_013",
+        tenseSlug: "going-to",
+        type: "fill_blank",
+        prompt: "We ______ (not/stay) at a hotel; we have a tent.",
+        answer: "aren't going to stay",
+        explanation: "Negative plan: are not (aren't) + going to + stay."
+    },
+    {
+        id: "going_to_014",
+        tenseSlug: "going-to",
+        type: "mcq",
+        prompt: "I feel terrible. I think I ______ be sick.",
+        choices: ["am going to", "will", "am", "go"],
+        answer: "am going to",
+        explanation: "Evidence in the body (feel terrible) predicts near future event."
+    },
+    {
+        id: "going_to_015",
+        tenseSlug: "going-to",
+        type: "fill_blank",
+        prompt: "What ______ (you/wear) to the interview?",
+        answer: "are you going to wear",
+        explanation: "Wh-Question about plan: What + are + subject + going to + wear?"
+    },
+    {
+        id: "going_to_016",
+        tenseSlug: "going-to",
+        type: "order_words",
+        prompt: "Order the words to form a sentence:",
+        tokens: ["soon", "going", "call", "He's", "to", "us"],
+        answer: "He's going to call us soon",
+        explanation: "Subject + is (He's) + going to + verb + object + time."
+    }
+];
+
 // Map of all question banks by tense slug
 // Note: Keys match the TenseSlug type in tenses.ts (kebab-case)
 export const FOCUS_QUESTION_BANKS: Record<string, FocusQuestion[]> = {
@@ -1291,4 +1433,5 @@ export const FOCUS_QUESTION_BANKS: Record<string, FocusQuestion[]> = {
     "past-perfect": PAST_PERFECT_QUESTIONS,
     "past-perfect-continuous": PAST_PERFECT_CONTINUOUS_QUESTIONS,
     "will": FUTURE_WILL_QUESTIONS,
+    "going-to": FUTURE_GOING_TO_QUESTIONS,
 };
