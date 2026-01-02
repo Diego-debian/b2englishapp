@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Protected } from "@/components/Protected";
@@ -78,9 +78,12 @@ function FocusPageInner() {
         correctCount: 0,
     });
     const [deviceStats, setDeviceStats] = useState<FocusStats | null>(null);
+    const weeklyStats = useMemo(() => deviceStats ? focusStorage.getWeeklyStats(deviceStats) : null, [deviceStats]);
 
     // Auto-select tense from query parameter on mount
     useEffect(() => {
+        // Hydrate from localStorage
+        setDeviceStats(focusStorage.getStats());
         const tenseParam = searchParams?.get("tense");
         if (tenseParam) {
             // Check if the tense exists in our tense list
@@ -280,21 +283,21 @@ function FocusPageInner() {
                                     key={slug}
                                     onClick={() => setSelectedTense(slug)}
                                     className={`
-                                        group relative p-5 sm:p-6 rounded-xl backdrop-blur-xl transition-all duration-300
-                                        border-2 text-left transform
+                                        group relative p - 5 sm: p - 6 rounded - xl backdrop - blur - xl transition - all duration - 300
+border - 2 text - left transform
                                         ${isSelected
                                             ? "bg-white/10 border-indigo-500 shadow-2xl shadow-indigo-500/30 scale-105 ring-2 ring-indigo-400/30"
                                             : "bg-white/5 border-white/10 hover:bg-white/10 hover:border-indigo-400/50 hover:scale-[1.02] hover:shadow-xl hover:shadow-indigo-500/10"
                                         }
-                                    `}
+`}
                                 >
                                     {/* Category Badge */}
                                     <div className="flex items-center gap-2 mb-3">
                                         <span
                                             className={`
-                                                text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-full ring-1
+text - xs font - bold uppercase tracking - wider px - 2.5 py - 1 rounded - full ring - 1
                                                 ${getCategoryBadgeStyle(category)}
-                                            `}
+`}
                                         >
                                             {getCategoryLabel(category)}
                                         </span>
@@ -359,7 +362,7 @@ function FocusPageInner() {
                         <div className="w-full bg-slate-700 rounded-full h-2">
                             <div
                                 className="bg-indigo-500 h-2 rounded-full transition-all duration-300"
-                                style={{ width: `${(progress / total) * 100}%` }}
+                                style={{ width: `${(progress / total) * 100}% ` }}
                             />
                         </div>
                     </div>
@@ -379,12 +382,12 @@ function FocusPageInner() {
                                         key={idx}
                                         onClick={() => setSession({ ...session, userAnswer: choice })}
                                         className={`
-                                            w-full p-4 text-left rounded-xl border-2 transition-all
+w - full p - 4 text - left rounded - xl border - 2 transition - all
                                             ${session.userAnswer === choice
                                                 ? "bg-indigo-500/30 border-indigo-400 text-white"
                                                 : "bg-white/5 border-white/20 text-slate-300 hover:bg-white/10 hover:border-indigo-400/50"
                                             }
-                                        `}
+`}
                                     >
                                         {choice}
                                     </button>
@@ -478,12 +481,12 @@ function FocusPageInner() {
                                     onClick={handleSubmit}
                                     disabled={!session.userAnswer.trim()}
                                     className={`
-                                        mt-6 w-full py-4 rounded-xl font-bold transition-all
+mt - 6 w - full py - 4 rounded - xl font - bold transition - all
                                         ${session.userAnswer.trim()
                                             ? "bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg active:scale-95"
                                             : "bg-slate-700 text-slate-500 cursor-not-allowed"
                                         }
-                                    `}
+`}
                                 >
                                     Submit Answer
                                 </button>
@@ -499,16 +502,16 @@ function FocusPageInner() {
                         {session.phase === "feedback" && current.type === "mcq" && (
                             <div className="mt-6 space-y-4">
                                 <div
-                                    className={`p-4 rounded-xl border-2 ${session.isCorrect
-                                        ? "bg-emerald-500/20 border-emerald-400 text-emerald-200"
-                                        : "bg-red-500/20 border-red-400 text-red-200"
-                                        }`}
+                                    className={`p - 4 rounded - xl border - 2 ${session.isCorrect
+                                            ? "bg-emerald-500/20 border-emerald-400 text-emerald-200"
+                                            : "bg-red-500/20 border-red-400 text-red-200"
+                                        } `}
                                 >
                                     <div className="font-bold mb-1">
                                         {session.isCorrect ? "✅ Correct!" : "❌ Incorrect"}
                                     </div>
                                     <div className="text-sm">
-                                        {!session.isCorrect && `Correct answer: ${current.answer}`}
+                                        {!session.isCorrect && `Correct answer: ${current.answer} `}
                                     </div>
                                 </div>
 
@@ -658,9 +661,9 @@ function FocusPageInner() {
                                         </div>
                                         <div className="h-2 bg-slate-700 rounded-full overflow-hidden">
                                             <div
-                                                className={`h-full rounded-full transition-all duration-500 ${(deviceStats.dailySessions || 0) >= 1 ? "bg-emerald-400" : "bg-indigo-500"
-                                                    }`}
-                                                style={{ width: `${Math.min(100, ((deviceStats.dailySessions || 0) / 1) * 100)}%` }}
+                                                className={`h - full rounded - full transition - all duration - 500 ${(deviceStats.dailySessions || 0) >= 1 ? "bg-emerald-400" : "bg-indigo-500"
+                                                    } `}
+                                                style={{ width: `${Math.min(100, ((deviceStats.dailySessions || 0) / 1) * 100)}% ` }}
                                             />
                                         </div>
                                     </div>
@@ -673,9 +676,9 @@ function FocusPageInner() {
                                         </div>
                                         <div className="h-2 bg-slate-700 rounded-full overflow-hidden">
                                             <div
-                                                className={`h-full rounded-full transition-all duration-500 ${(deviceStats.dailyQuestions || 0) >= 10 ? "bg-emerald-400" : "bg-indigo-500"
-                                                    }`}
-                                                style={{ width: `${Math.min(100, ((deviceStats.dailyQuestions || 0) / 10) * 100)}%` }}
+                                                className={`h - full rounded - full transition - all duration - 500 ${(deviceStats.dailyQuestions || 0) >= 10 ? "bg-emerald-400" : "bg-indigo-500"
+                                                    } `}
+                                                style={{ width: `${Math.min(100, ((deviceStats.dailyQuestions || 0) / 10) * 100)}% ` }}
                                             />
                                         </div>
                                     </div>
@@ -685,6 +688,31 @@ function FocusPageInner() {
                                             Daily goal completed ✅
                                         </div>
                                     )}
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Weekly Stats Card */}
+                        {weeklyStats && (
+                            <div className="mb-8 p-4 rounded-xl bg-indigo-900/20 border border-indigo-500/20 text-left">
+                                <h3 className="font-bold text-indigo-300 text-xs uppercase tracking-wide mb-3 flex items-center gap-2">
+                                    <span>📅</span> This Week
+                                </h3>
+                                <div className="flex justify-between items-center text-sm">
+                                    <div className="text-center">
+                                        <div className="text-white font-bold text-lg">{weeklyStats.daysPracticed}/7</div>
+                                        <div className="text-[10px] uppercase text-slate-500 font-bold">Days</div>
+                                    </div>
+                                    <div className="text-center">
+                                        <div className="text-white font-bold text-lg">{weeklyStats.totalSessions}</div>
+                                        <div className="text-[10px] uppercase text-slate-500 font-bold">Sessions</div>
+                                    </div>
+                                    <div className="text-center">
+                                        <div className={`text - lg font - bold ${weeklyStats.avgAccuracy >= 70 ? "text-emerald-400" : "text-amber-400"} `}>
+                                            {weeklyStats.avgAccuracy}%
+                                        </div>
+                                        <div className="text-[10px] uppercase text-slate-500 font-bold">Avg Acc.</div>
+                                    </div>
                                 </div>
                             </div>
                         )}
@@ -713,12 +741,12 @@ function FocusPageInner() {
                             <button
                                 onClick={startSession}
                                 className={`
-                                    w-full px-6 py-4 font-bold rounded-xl shadow-lg transition-all active:scale-95 flex items-center justify-center gap-2
+w - full px - 6 py - 4 font - bold rounded - xl shadow - lg transition - all active: scale - 95 flex items - center justify - center gap - 2
                                     ${mistakes.length === 0
                                         ? "bg-indigo-600 hover:bg-indigo-700 text-white hover:shadow-indigo-500/30"
                                         : "bg-white/10 hover:bg-white/20 text-white border border-white/10"
                                     }
-                                `}
+`}
                             >
                                 <span>▶</span> New Session
                             </button>

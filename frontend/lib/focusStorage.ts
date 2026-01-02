@@ -7,6 +7,7 @@ export interface FocusStats {
     lastStreakDate: string | null; // YYYY-MM-DD local
     dailySessions: number;
     dailyQuestions: number;
+    history?: { date: string; sessions: number; questions: number; correct: number }[];
 }
 
 const KEY = "b2_focus_stats";
@@ -20,6 +21,7 @@ const DEFAULT_STATS: FocusStats = {
     lastStreakDate: null,
     dailySessions: 0,
     dailyQuestions: 0,
+    history: [],
 };
 
 // Deck State for "Smart Shuffle"
@@ -94,6 +96,33 @@ export const focusStorage = {
             dSessions += 1;
             dQuestions += total;
 
+            // HISTORY LOGIC
+            // Ensure history exists
+            let history = current.history ? [...current.history] : [];
+
+            // Find today's entry
+            const todayEntryIndex = history.findIndex(h => h.date === today);
+
+            if (todayEntryIndex >= 0) {
+                // Update existing entry
+                history[todayEntryIndex].sessions += 1;
+                history[todayEntryIndex].questions += total;
+                history[todayEntryIndex].correct += correct;
+            } else {
+                // Add new entry
+                history.push({
+                    date: today,
+                    sessions: 1,
+                    questions: total,
+                    correct: correct
+                });
+            }
+
+            // Optional: Limit history length (e.g. 60 days) to save space
+            if (history.length > 60) {
+                history = history.slice(history.length - 60);
+            }
+
             const updated: FocusStats = {
                 sessions: current.sessions + 1,
                 totalQuestions: current.totalQuestions + total,
@@ -103,6 +132,7 @@ export const focusStorage = {
                 lastStreakDate: today,
                 dailySessions: dSessions,
                 dailyQuestions: dQuestions,
+                history,
             };
             localStorage.setItem(KEY, JSON.stringify(updated));
             return updated;
@@ -183,5 +213,31 @@ export const focusStorage = {
             const shuffled = [...allQuestions].sort(() => 0.5 - Math.random());
             return shuffled.slice(0, count).map(q => q.id);
         }
+    },
+
+    /**
+     * Calculates stats for the last 7 days (including today).
+     */
+    getWeeklyStats: (stats: FocusStats) => {
+        if (!stats.history || stats.history.length === 0) {
+            return { daysPracticed: 0, totalSessions: 0, avgAccuracy: 0 };
+        }
+
+        const now = new Date();
+        const cutoffDate = new Date();
+        cutoffDate.setDate(now.getDate() - 6); // 7 days window (today - 6)
+        const cutoffStr = cutoffDate.toLocaleDateString("en-CA");
+
+        // Filter last 7 days
+        const weekEntries = stats.history.filter(h => h.date >= cutoffStr);
+
+        const daysPracticed = weekEntries.length;
+        const totalSessions = weekEntries.reduce((acc, curr) => acc + curr.sessions, 0);
+        const totalQ = weekEntries.reduce((acc, curr) => acc + curr.questions, 0);
+        const totalC = weekEntries.reduce((acc, curr) => acc + curr.correct, 0);
+
+        const avgAccuracy = totalQ > 0 ? Math.round((totalC / totalQ) * 100) : 0;
+
+        return { daysPracticed, totalSessions, avgAccuracy };
     }
 };
