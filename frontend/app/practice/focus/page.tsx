@@ -789,12 +789,12 @@ function FocusPageInner() {
                                 Si B2English te está ayudando, puedes apoyar el proyecto para mantenerlo activo.
                             </p>
                             <a
-                                href={process.env.NEXT_PUBLIC_SUPPORT_URL || "https://buymeacoffee.com/PLACEHOLDER"}
+                                href="https://www.paypal.com/donate/?business=profediegoparra01@gmail.com"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="inline-flex items-center gap-2 px-5 py-2.5 bg-slate-800/50 hover:bg-slate-700 text-slate-200 text-sm font-semibold rounded-full border border-slate-600/50 transition-all hover:scale-105"
                             >
-                                <span>Invítame un café ☕</span>
+                                <span>Apoyar el proyecto 💙</span>
                             </a>
                         </div>
                     </div>
