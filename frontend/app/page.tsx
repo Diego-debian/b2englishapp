@@ -39,14 +39,14 @@ export default function HomePage() {
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
-            <Link href="/login">
+            <Link href="/register">
               <Button className="w-full sm:w-auto px-8 py-4 text-lg bg-gradient-to-r from-violet-600 to-cyan-600 text-white font-bold rounded-xl hover:scale-105 transition-all duration-300 shadow-xl shadow-violet-500/20 border-none ring-0">
                 Comenzar Ahora
               </Button>
             </Link>
-            <Link href="/register">
+            <Link href="/login">
               <Button variant="secondary" className="w-full sm:w-auto px-8 py-4 text-lg hover:scale-105 transition-all duration-300">
-                Crear Cuenta
+                Ya tengo cuenta
               </Button>
             </Link>
           </div>

@@ -14,6 +14,17 @@ Try the current version of **B2 English**:
 ### 🚀 Overview
 The **B2 English Learning Platform** is a gamified application designed to help users master English verbs and tenses at a B2 level. It features a modern, interactive interface optimized for short, intensive practice sessions.
 
+### ⚡ Quick Start (Local)
+Run the project locally in under 60 seconds:
+
+```bash
+git clone https://github.com/Diego-debian/b2englishapp.git
+cd b2englishapp
+cp .env.example .env
+docker compose up --build
+```
+> Access the app at: http://localhost:3000
+
 ### 🕹️ Features
 - **Practice Modes**:
     - **Classic:** Free practice with randomized question pools from Warmup to Boss battle difficulty.
