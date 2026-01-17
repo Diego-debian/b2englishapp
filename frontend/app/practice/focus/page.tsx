@@ -82,6 +82,8 @@ function FocusPageInner() {
     const weeklyStats = useMemo(() => deviceStats ? focusStorage.getWeeklyStats(deviceStats) : null, [deviceStats]);
     const [showToast, setShowToast] = useState(false);
     const hasReportedRef = useRef(false);
+    const [syncStatus, setSyncStatus] = useState<'idle' | 'syncing' | 'synced' | 'pending'>('idle');
+    const pendingPayloadRef = useRef<{ tense_slug: string; results: { question_id: string; is_correct: boolean }[] } | null>(null);
 
     // Auto-select tense from query parameter on mount
     useEffect(() => {
@@ -120,6 +122,8 @@ function FocusPageInner() {
 
         // Reset reporting flag for new session
         hasReportedRef.current = false;
+        setSyncStatus('idle');
+        pendingPayloadRef.current = null;
 
         const bank = FOCUS_QUESTION_BANKS[selectedTense];
         if (!bank || bank.length === 0) {
@@ -215,9 +219,17 @@ function FocusPageInner() {
                         is_correct: r.isCorrect
                     }))
                 };
-                api.postFocusResults(payload).catch(err => {
-                    console.warn("[Focus] Failed to sync results:", err);
-                });
+                pendingPayloadRef.current = payload;
+                setSyncStatus('syncing');
+                api.postFocusResults(payload)
+                    .then(() => {
+                        setSyncStatus('synced');
+                        pendingPayloadRef.current = null;
+                    })
+                    .catch(err => {
+                        console.warn("[Focus] Failed to sync results:", err);
+                        setSyncStatus('pending');
+                    });
             }
         } else {
             setSession({
@@ -254,6 +266,8 @@ function FocusPageInner() {
 
         // Reset reporting flag for retry session
         hasReportedRef.current = false;
+        setSyncStatus('idle');
+        pendingPayloadRef.current = null;
 
         // 2. Start new session with ONLY these mistakes
         setSession({
@@ -265,6 +279,20 @@ function FocusPageInner() {
             isCorrect: null,
             correctCount: 0,
         });
+    };
+
+    const handleRetrySync = () => {
+        if (syncStatus !== 'pending' || !pendingPayloadRef.current) return;
+        setSyncStatus('syncing');
+        api.postFocusResults(pendingPayloadRef.current)
+            .then(() => {
+                setSyncStatus('synced');
+                pendingPayloadRef.current = null;
+            })
+            .catch(err => {
+                console.warn("[Focus] Retry sync failed:", err);
+                setSyncStatus('pending');
+            });
     };
 
     const handleReportBug = () => {
@@ -819,6 +847,27 @@ function FocusPageInner() {
                             >
                                 <span>Apoyar el proyecto 💙</span>
                             </a>
+                        </div>
+
+                        {/* Sync Status Indicator */}
+                        <div className="mt-4 text-center text-xs">
+                            {syncStatus === 'synced' && (
+                                <span className="text-emerald-400">✓ Synced</span>
+                            )}
+                            {syncStatus === 'syncing' && (
+                                <span className="text-slate-400 animate-pulse">Syncing…</span>
+                            )}
+                            {syncStatus === 'pending' && (
+                                <div className="flex flex-col items-center gap-2">
+                                    <span className="text-amber-400">⚠ Sync pending (this device)</span>
+                                    <button
+                                        onClick={handleRetrySync}
+                                        className="px-3 py-1.5 bg-amber-600 hover:bg-amber-700 text-white text-xs font-medium rounded-lg transition-colors"
+                                    >
+                                        Retry sync
+                                    </button>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
