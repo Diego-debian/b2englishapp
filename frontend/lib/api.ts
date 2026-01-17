@@ -222,5 +222,13 @@ export const api = {
 
   progressInit(opts?: { signal?: AbortSignal }): Promise<any> {
     return request<any>("POST", "/progress/init", { signal: opts?.signal });
+  },
+
+  // Focus
+  postFocusResults(
+    body: { tense_slug: string; results: { question_id: string; is_correct: boolean }[] },
+    opts?: { signal?: AbortSignal }
+  ): Promise<{ attempt_id: number; questions_recorded: number; correct: number; total: number }> {
+    return request("POST", "/focus/results", { body, signal: opts?.signal });
   }
 };
