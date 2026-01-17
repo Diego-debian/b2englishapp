@@ -950,7 +950,7 @@ function PracticeInner() {
               Salir
             </Button>
           )}
-          <div className="flex items-center gap-2 px-3 py-1 bg-amber-50 rounded-full border border-amber-100">
+          <div className="flex items-center gap-2 px-3 py-1 bg-amber-50 rounded-full border border-amber-100" title="Racha guardada en este dispositivo">
             <span className="text-lg">🔥</span>
             <span className="font-bold text-amber-700 text-sm">{streak}</span>
           </div>
@@ -1229,7 +1229,7 @@ function PracticeInner() {
           <Card className="p-4 border-slate-200 shadow-sm bg-white">
             <div className="flex items-center justify-between mb-4">
               <h4 className="font-bold text-slate-700">Tu Progreso</h4>
-              <div className="flex items-center gap-1.5 px-2 py-1 bg-amber-50 text-amber-700 rounded-md border border-amber-100">
+              <div className="flex items-center gap-1.5 px-2 py-1 bg-amber-50 text-amber-700 rounded-md border border-amber-100" title="Guardado localmente">
                 <span className="text-sm">🔥</span>
                 <span className="text-sm font-bold">{streak} día{streak !== 1 ? 's' : ''}</span>
               </div>
