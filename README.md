@@ -1,79 +1,80 @@
 # B2 English Learning Platform 🎓
 
-[English Version](#english-documentation) | [Versión en Español](#documentación-en-español)
+> **Status:** Public Beta (v0.2.0)
+> **Focus:** Fullstack Language Learning Architecture
 
-## Live Demo
-Try the current version of **B2 English**:
-👉 https://english.diegodebian.online
+[![Live Demo](https://img.shields.io/badge/Demo-Live-brightgreen)](https://english.diegodebian.online) [![License](https://img.shields.io/badge/License-GPLv3-blue)](LICENSE)
 
----
+## 1. What is B2 English?
+**B2 English** is a specialized, gamified learning platform designed to help intermediate students master the nuances of English grammar and vocabulary. Unlike generic language apps, it focuses strictly on the "B2 Bridge" – the gap between basic fluency and professional competence – by providing targeted drills on irregular verbs and complex tenses.
 
-<a name="english-documentation"></a>
-## 🇬🇧 English Documentation
+It is built as a robust **Fullstack Application** that demonstrates modern architectural patterns, separating concerns between high-performance drill execution (Focus Mode) and persistent vocabulary tracking (Dashboard).
 
-### 🚀 Overview
-The **B2 English Learning Platform** is a gamified application designed to help users master English verbs and tenses at a B2 level. It features a modern, interactive interface optimized for short, intensive practice sessions.
+## 2. Product Philosophy
+We believe in **"Honest Gamification"**:
+- **No vanity metrics**: Progress is measured by actual correct answers, not just time spent.
+- **Short, Intense Sessions**: Micro-learning sessions (3-5 mins) designed for high cognitive load and retention.
+- **Immediate Logic**: Every mistake provides an instant, grammatical explanation, not just the correct answer.
 
-### ⚡ Quick Start (Local)
-Run the project locally in under 60 seconds:
+## 3. Core Feature: Focus Mode 🎯
+The flagship feature of this Beta release is **Focus Mode**:
+- **Targeted Grammar**: Select specific tenses (e.g., *Past Perfect Continuous*) to drill deep.
+- **Smart Decks**: Questions are not random; they are curated to cover specific edge cases of each tense.
+- **Stateless Execution**: Designed as a rapid-fire "gym" session. If you refresh, you reset. This encourages completing the 5-question set in flow state.
+- **Results Tracking**: Every session result is cryptographically signed and sent to the backend for audit, ensuring learning proof.
 
-```bash
-git clone https://github.com/Diego-debian/b2englishapp.git
-cd b2englishapp
-cp .env.example .env
-docker compose up --build
-```
-> Access the app at: http://localhost:3000
+## 4. Current Capabilities (Beta)
+The platform currently offers:
+- **Practice Engines**:
+  - **Classic Mode**: Adaptive difficulty ladder for vocabulary.
+  - **Millionaire Mode**: Gamified quiz with high-stakes mechanics.
+  - **Focus Mode**: Tense-specific grammar drills.
+- **Knowledge Base**:
+  - Searchable Irregular Verb Database.
+  - Comprehensive Tense Guides with examples.
+- **User System**:
+  - Secure Authentication (JWT).
+  - Personal Dashboard.
+  - Mobile-Responsive Design.
 
-### 🕹️ Features
-- **Practice Modes**:
-    - **Classic:** Free practice with randomized question pools from Warmup to Boss battle difficulty.
-    - **Millionaire:** High-stakes mode with lifelines (50/50, +Time, Double XP).
-    - **Focus:** Targeted practice for specific tenses (e.g., Present Simple, Future Perfect) to master weak points.
-- **Engagement:**
-    - **Smart Feedback:** Instant validation with explanations for every answer.
-    - **Streak System:** Build a daily habit with "one run more" mechanics.
-- **Reference Tools:**
-    - **Verb Dictionary:** Search and study irregular verb forms.
-    - **Tenses Guide:** Detailed grammar explanations with examples.
-- **Progress:** Detailed dashboard tracking XP, Level status, and effective mastery.
+## 5. Progress & Dashboard (Current Scope)
+The **Dashboard** currently tracks your **Vocabulary Mastery** (Verbs).
+- It consumes data from the **Spaced Repetition System (SRS)** engine.
+- XP and Level reflect your overall engagement.
 
-### 🛠️ Tech Stack
-- **Backend:** FastAPI (Python), SQLAlchemy, PostgreSQL.
-- **Frontend:** Next.js 14 (App Router), TypeScript, Tailwind CSS, Zustand.
+> **Note on Focus Mode stats:**
+> While Focus Mode results are persisted in the backend (`ActivityAttempts`), they **do not yet** contribute to the "Accumulated Learning" vocabulary stats on the dashboard. This is an intentional architectural separation during the Beta phase: generic grammar practice is tracked separately from specific verb mastery.
 
----
+## 6. Tech Stack
+This project utilizes a modern, type-safe stack:
 
-<a name="documentación-en-español"></a>
-## 🇪🇸 Documentación en Español
+### Frontend
+- **Framework**: Next.js 14 (App Router)
+- **Language**: TypeScript
+- **State**: Zustand (Local), React Query (Server)
+- **Styling**: Tailwind CSS + Framer Motion
+- **Architecture**: Atomic Design Components
 
-### 🚀 Visión General
-La **Plataforma de Aprendizaje de Inglés B2** es una aplicación gamificada diseñada para ayudar a los usuarios a dominar verbos y tiempos verbales en inglés (nivel B2). Cuenta con una interfaz moderna optimizada para sesiones de práctica rápidas e intensivas.
+### Backend
+- **API**: FastAPI (Python 3.11)
+- **Database**: PostgreSQL 16
+- **ORM**: SQLAlchemy (Async)
+- **Auth**: OAuth2 + JWT
+- **Quality**: Pydantic v2 for rigorous schema validation
 
-### 🕹️ Funcionalidades
-- **Modos de Práctica**:
-    - **Clásico:** Práctica libre con dificultad progresiva.
-    - **Millonario:** Modo de alto riesgo con comodines y presión de tiempo.
-    - **Focus:** Práctica enfocada en tiempos verbales específicos para pulir errores.
-- **Compromiso**:
-    - **Feedback Inteligente:** Validación instantánea con explicaciones gramaticales.
-    - **Sistema de Rachas:** Diseñado para crear hábito diario.
-- **Herramientas de Referencia**:
-    - **Diccionario de Verbos:** Consulta formas verbales irregulares.
-    - **Guía de Tiempos:** Explicaciones gramaticales detalladas.
-- **Progreso:** Dashboard con seguimiento de XP, Nivel y estadísticas de dominio.
+## 7. Architecture Notes
+The system is designed with **Domain-Driven Design (DDD)** principles loosely applied:
+- **Progress Isolation**: User mastery is decoupled from activity execution. A user can practice endless activities without polluting their long-term SRS stats unless explicitly intended.
+- **Event-Based Results**: Practice sessions emit "Results Events" to the backend. In the future, these events can be replayed to recalculate stats with different algorithms without losing data.
+- **Frontend-First Logic**: For immediate feedback, question validation happens optimistically on the client (Focus Mode), while the backend remains the source of truth for persistence.
 
-### 🛠️ Tecnologías
-- **Backend:** FastAPI (Python), SQLAlchemy, PostgreSQL.
-- **Frontend:** Next.js 14 (App Router), TypeScript, Tailwind CSS, Zustand.
+## 8. Known Limitations
+As a Beta release, please note:
+1.  **Dashboard Scope**: As mentioned, grammar drills (Focus) do not update the "Verbs Learned" counter.
+2.  **Session Persistence**: Refreshing the browser during a Focus session will reset that specific session (by design, to avoid state corruption).
+3.  **Content**: Current question banks cover major tenses but are not exhaustive.
 
----
-
-## Feedback & Contact
-We’re actively improving **B2 English**.
-For feedback, issues, or collaboration:
-📧 b2english.app@gmail.com
-
-## License
-This project is licensed under the **GNU General Public License v3.0 (GPL-3.0)**.
-See the `LICENSE` file for details.
+## 9. Planned Evolution
+- **Unified Analytics**: Merging Grammar and Vocabulary stats into a holistic "Fluency Score".
+- **Multi-Day Streaks**: Moving streak logic from local-device to server-side for cross-device persistence.
+- **Adaptive Focus**: Using previous mistakes to recommend specific Focus sessions.
