@@ -57,3 +57,19 @@ class SubmitAnswerOut(BaseModel):
     is_correct: bool
     xp_awarded: int
     correct_answer: str | None = None
+
+
+# Focus session batch results
+class FocusResultItem(BaseModel):
+    question_id: str  # Focus uses string IDs (e.g., "ps-mcq-001")
+    is_correct: bool
+
+class FocusResultsIn(BaseModel):
+    tense_slug: str
+    results: list[FocusResultItem]
+
+class FocusResultsOut(BaseModel):
+    attempt_id: int
+    questions_recorded: int
+    correct: int
+    total: int

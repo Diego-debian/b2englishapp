@@ -10,7 +10,8 @@ from .activity import (
     ActivityOut, ActivityCreate,
     QuestionOut, QuestionCreate,
     AttemptStartIn, AttemptStartOut,
-    SubmitAnswerIn, SubmitAnswerOut
+    SubmitAnswerIn, SubmitAnswerOut,
+    FocusResultItem, FocusResultsIn, FocusResultsOut
 )
 from .progress import UserProgressUpdate, StatsOverview
 
@@ -29,6 +30,8 @@ __all__ = [
     "QuestionOut", "QuestionCreate",
     "AttemptStartIn", "AttemptStartOut",
     "SubmitAnswerIn", "SubmitAnswerOut",
+    # Focus
+    "FocusResultItem", "FocusResultsIn", "FocusResultsOut",
     # Progress
     "UserProgressUpdate", "StatsOverview",
 ]
