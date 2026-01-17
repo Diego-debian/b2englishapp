@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Protected } from "@/components/Protected";
@@ -9,6 +9,7 @@ import { FOCUS_QUESTION_BANKS, FocusQuestion } from "@/lib/focusQuestions";
 import { FillBlankQuestion } from "@/components/FillBlankQuestion";
 import { OrderWordsQuestion } from "@/components/OrderWordsQuestion";
 import { focusStorage, FocusStats } from "@/lib/focusStorage";
+import { api } from "@/lib/api";
 
 // Group tenses by category
 const TENSE_LIST: Array<{ slug: TenseSlug; category: "present" | "past" | "future" }> = [
@@ -80,6 +81,7 @@ function FocusPageInner() {
     const [deviceStats, setDeviceStats] = useState<FocusStats | null>(null);
     const weeklyStats = useMemo(() => deviceStats ? focusStorage.getWeeklyStats(deviceStats) : null, [deviceStats]);
     const [showToast, setShowToast] = useState(false);
+    const hasReportedRef = useRef(false);
 
     // Auto-select tense from query parameter on mount
     useEffect(() => {
@@ -115,6 +117,9 @@ function FocusPageInner() {
 
     const startSession = () => {
         if (!selectedTense) return;
+
+        // Reset reporting flag for new session
+        hasReportedRef.current = false;
 
         const bank = FOCUS_QUESTION_BANKS[selectedTense];
         if (!bank || bank.length === 0) {
@@ -199,6 +204,21 @@ function FocusPageInner() {
             const latestStats = focusStorage.saveSession(session.correctCount, session.questions.length);
             setDeviceStats(latestStats || null);
             setSession({ ...session, phase: "summary" });
+
+            // Send results to backend (once per session)
+            if (!hasReportedRef.current && selectedTense) {
+                hasReportedRef.current = true;
+                const payload = {
+                    tense_slug: selectedTense,
+                    results: session.results.map(r => ({
+                        question_id: r.id,
+                        is_correct: r.isCorrect
+                    }))
+                };
+                api.postFocusResults(payload).catch(err => {
+                    console.warn("[Focus] Failed to sync results:", err);
+                });
+            }
         } else {
             setSession({
                 ...session,
@@ -231,6 +251,9 @@ function FocusPageInner() {
         const mistakesToRepeat = session.questions.filter(q => failedIds.has(q.id));
 
         if (mistakesToRepeat.length === 0) return;
+
+        // Reset reporting flag for retry session
+        hasReportedRef.current = false;
 
         // 2. Start new session with ONLY these mistakes
         setSession({
