@@ -75,7 +75,7 @@ function DashboardInner() {
           <h1 className="text-3xl font-black text-slate-900 tracking-tight">Tu Progreso</h1>
           <div className="flex items-center gap-2 mt-1">
             <span className="h-2 w-2 rounded-full bg-emerald-500" />
-            <p className="text-sm font-medium text-slate-600">Estado: Activo • Racha de {streak} días</p>
+            <p className="text-sm font-medium text-slate-600">Estado: Activo • Racha: {streak} días <span className="text-slate-400">(este dispositivo)</span></p>
           </div>
         </div>
         <div className="flex gap-3">
@@ -139,7 +139,7 @@ function DashboardInner() {
             <span className="text-6xl">🔥</span>
           </div>
           <div className="relative">
-            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4">Racha Actual</p>
+            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4">Racha Actual <span className="text-slate-600 normal-case">(local)</span></p>
             <div className="flex items-center gap-4">
               <span className="text-6xl font-black text-white">{streak}</span>
               <div>
