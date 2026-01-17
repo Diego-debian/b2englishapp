@@ -337,7 +337,7 @@ function FocusPageInner() {
                             Choose Your Focus
                         </h1>
                         <p className="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
-                            Practice one tense at a time. Master the details.
+                            Practice one tense at a time. Focus on the details.
                         </p>
                         <p className="text-sm text-slate-400 max-w-xl mx-auto">
                             5 targeted questions · Instant feedback · Build confidence
