@@ -342,13 +342,17 @@ Relaciones clave:
 
 ### 5.3 Constraints Sugeridos (Lógicos)
 
-| Constraint                          | Tipo         | Tabla/Campo                  | Descripción                          |
-|-------------------------------------|--------------|------------------------------|--------------------------------------|
-| Unique lesson identifier            | UNIQUE       | `lessons.slug`               | Sin duplicados de slug               |
-| Unique block order per lesson       | UNIQUE       | `(lesson_id, order)`         | Sin orden duplicado en misma lesson  |
-| Max 2 CTA per lesson                | APP LOGIC    | —                            | Validar en backend, no en DB         |
-| Valid block types                   | CHECK        | `lesson_blocks.type`         | Solo youtube/text/cta                |
-| Valid lesson status                 | CHECK        | `lessons.status`             | Solo draft/published                 |
+> ⚠️ **NOTA:** Estos son constraints RECOMENDADOS para implementación futura. NO son constraints reales en DB actualmente.
+
+| Constraint                          | Tipo              | Tabla/Campo                  | Descripción                          |
+|-------------------------------------|-------------------|------------------------------|--------------------------------------|
+| Unique lesson identifier            | UNIQUE            | `lessons.slug`               | Sin duplicados de slug               |
+| Unique block order per lesson       | UNIQUE (RECOMENDADO) | `(lesson_id, order)`      | Sin orden duplicado en misma lesson  |
+| Max 2 CTA per lesson                | BUSINESS LOGIC    | —                            | Validar en backend (Pydantic), NO en DB |
+| Valid block types                   | CHECK (RECOMENDADO) | `lesson_blocks.type`       | Solo youtube/text/cta                |
+| Valid lesson status                 | CHECK (RECOMENDADO) | `lessons.status`           | Solo draft/published                 |
+
+**Regla de negocio T0.3:** "MUST NOT haber más de 2 bloques `cta` por Lesson" (content_spec.md §3.3) — implementar como validación de aplicación, no como constraint de base de datos.
 
 ---
 
