@@ -811,7 +811,7 @@ function FocusPageInner() {
                                 </button>
                             )}
 
-                            {/* New Session (Same Tense) */}
+                            {/* Retry (Same Tense) */}
                             <button
                                 onClick={startSession}
                                 className={`
@@ -822,16 +822,16 @@ function FocusPageInner() {
                                     }
                                 `}
                             >
-                                <span>▶</span> New Session
+                                <span>↻</span> Retry
                             </button>
 
-                            {/* Back to Tenses */}
-                            <Link
-                                href="/tenses"
-                                className="block w-full text-center py-3 text-slate-400 hover:text-white transition-colors text-sm font-medium"
+                            {/* New Session (Pick Different Tense) */}
+                            <button
+                                onClick={handleRestart}
+                                className="w-full px-6 py-3 bg-slate-700/50 hover:bg-slate-600/50 text-slate-200 hover:text-white font-medium rounded-xl border border-slate-600/30 transition-all active:scale-95 flex items-center justify-center gap-2"
                             >
-                                ← Back to Tenses
-                            </Link>
+                                <span>🎯</span> New Session
+                            </button>
                         </div>
 
                         {/* Support CTA (Phase 2) */}
