@@ -33,6 +33,8 @@ from app.schemas import (
     # Activity
     ActivityOut, ActivityCreate, QuestionOut, QuestionCreate,
     AttemptStartIn, AttemptStartOut, SubmitAnswerIn, SubmitAnswerOut,
+    # Focus
+    FocusResultsIn, FocusResultsOut,
     # Progress
     UserProgressUpdate
 )
@@ -472,3 +474,90 @@ def init_progress_route(
 ):
     count = initialize_user_progress(db, current_user.id)
     return {"initialized": count}
+
+
+# -------------------------------------------------------------------
+# FOCUS PRACTICE RESULTS
+# -------------------------------------------------------------------
+@app.post("/focus/results", response_model=FocusResultsOut, tags=["Focus"])
+def record_focus_results(
+    payload: FocusResultsIn,
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user),
+):
+    """
+    Record Focus Practice session results as events.
+    
+    Creates:
+    - 1 ActivityAttempt (with meta containing tense_slug)
+    - N QuestionAttempt records (one per result)
+    
+    Does NOT:
+    - Calculate XP or streaks
+    - Update user stats
+    - Create new tables
+    """
+    from datetime import datetime
+    
+    # Create a "virtual" attempt for Focus (no real activity_id needed)
+    # We use activity_id=0 as a sentinel for Focus sessions
+    # Or we could find/create a Focus activity — for now, use meta
+    
+    # For minimal approach: reuse first activity or create synthetic
+    # Check if a Focus-type activity exists, else use activity_id=1 as placeholder
+    focus_activity = db.query(models.Activity).filter(
+        models.Activity.type == "focus"
+    ).first()
+    
+    if not focus_activity:
+        # Use first available activity as placeholder (minimal approach)
+        focus_activity = db.query(models.Activity).first()
+        if not focus_activity:
+            raise HTTPException(status_code=404, detail="No activities available")
+    
+    # Create ActivityAttempt
+    now = datetime.utcnow()
+    attempt = models.ActivityAttempt(
+        user_id=current_user.id,
+        activity_id=focus_activity.id,
+        started_at=now,
+        completed_at=now,
+        score=sum(1 for r in payload.results if r.is_correct),
+        xp_gained=0,  # Focus doesn't award XP via this endpoint
+        meta={"source": "focus", "tense_slug": payload.tense_slug}
+    )
+    db.add(attempt)
+    db.commit()
+    db.refresh(attempt)
+    
+    # Create QuestionAttempts
+    # Note: Focus uses string IDs, but QuestionAttempt.question_id is Integer FK
+    # We store the Focus question_id in user_answer field for reference
+    questions_recorded = 0
+    correct_count = 0
+    
+    for result in payload.results:
+        # Since Focus questions are not in activity_questions table,
+        # we create a minimal record with question_id=0 (or skip FK validation)
+        # For now, we store Focus question ID in user_answer for traceability
+        q_attempt = models.QuestionAttempt(
+            user_id=current_user.id,
+            attempt_id=attempt.id,
+            question_id=0,  # Placeholder - Focus questions not in DB
+            user_answer=result.question_id,  # Store Focus question ID here
+            is_correct=result.is_correct,
+            time_ms=None
+        )
+        db.add(q_attempt)
+        questions_recorded += 1
+        if result.is_correct:
+            correct_count += 1
+    
+    db.commit()
+    
+    return FocusResultsOut(
+        attempt_id=attempt.id,
+        questions_recorded=questions_recorded,
+        correct=correct_count,
+        total=len(payload.results)
+    )
