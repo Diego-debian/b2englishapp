@@ -4,6 +4,7 @@ import React, { useMemo } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useAuthStore } from "@/store/authStore";
+import { ROUTES } from "@/lib/constants";
 import { Button } from "./Button";
 import { XPBar } from "./XPBar";
 
@@ -14,7 +15,7 @@ export default function GamifiedHeader() {
   const logout = useAuthStore((s) => s.logout);
 
   const pathname = usePathname();
-  const isFocusMode = pathname?.startsWith("/practice/focus");
+  const isFocusMode = pathname?.startsWith(ROUTES.FOCUS);
 
   const xp = useMemo(() => user?.total_xp ?? 0, [user]);
   const level = useMemo(() => Math.floor(xp / 100) + 1, [xp]);
@@ -29,23 +30,23 @@ export default function GamifiedHeader() {
 
       <div className="relative mx-auto flex max-w-5xl items-center justify-between gap-3 px-4 py-4">
         <div className="flex items-center gap-4">
-          <Link href="/" className="font-bold tracking-tight text-transparent bg-gradient-to-r from-white via-violet-200 to-cyan-200 bg-clip-text drop-shadow-lg hover:drop-shadow-2xl hover:scale-105 transition-all duration-300 transform-gpu">
+          <Link href={ROUTES.HOME} className="font-bold tracking-tight text-transparent bg-gradient-to-r from-white via-violet-200 to-cyan-200 bg-clip-text drop-shadow-lg hover:drop-shadow-2xl hover:scale-105 transition-all duration-300 transform-gpu">
             B2 English
           </Link>
           <nav className="hidden items-center gap-2 md:flex">
-            <Link className="relative rounded-xl px-3 py-2 text-sm font-medium text-zinc-300/90 hover:text-white transition-all duration-300 ease-out transform-gpu hover:scale-102 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-violet-500/30 before:absolute before:inset-0 before:rounded-xl before:bg-gradient-to-r before:from-violet-600/20 before:to-cyan-600/20 before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300" href="/dashboard">
+            <Link className="relative rounded-xl px-3 py-2 text-sm font-medium text-zinc-300/90 hover:text-white transition-all duration-300 ease-out transform-gpu hover:scale-102 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-violet-500/30 before:absolute before:inset-0 before:rounded-xl before:bg-gradient-to-r before:from-violet-600/20 before:to-cyan-600/20 before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300" href={ROUTES.DASHBOARD}>
               Dashboard
             </Link>
-            <Link className="relative rounded-xl px-3 py-2 text-sm font-medium text-zinc-300/90 hover:text-white transition-all duration-300 ease-out transform-gpu hover:scale-102 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-violet-500/30 before:absolute before:inset-0 before:rounded-xl before:bg-gradient-to-r before:from-violet-600/20 before:to-cyan-600/20 before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300" href="/practice">
+            <Link className="relative rounded-xl px-3 py-2 text-sm font-medium text-zinc-300/90 hover:text-white transition-all duration-300 ease-out transform-gpu hover:scale-102 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-violet-500/30 before:absolute before:inset-0 before:rounded-xl before:bg-gradient-to-r before:from-violet-600/20 before:to-cyan-600/20 before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300" href={ROUTES.PRACTICE}>
               Practice
             </Link>
-            <Link className="relative rounded-xl px-3 py-2 text-sm font-medium text-zinc-300/90 hover:text-white transition-all duration-300 ease-out transform-gpu hover:scale-102 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-violet-500/30 before:absolute before:inset-0 before:rounded-xl before:bg-gradient-to-r before:from-violet-600/20 before:to-cyan-600/20 before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300" href="/verbs">
+            <Link className="relative rounded-xl px-3 py-2 text-sm font-medium text-zinc-300/90 hover:text-white transition-all duration-300 ease-out transform-gpu hover:scale-102 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-violet-500/30 before:absolute before:inset-0 before:rounded-xl before:bg-gradient-to-r before:from-violet-600/20 before:to-cyan-600/20 before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300" href={ROUTES.VERBS}>
               Verbs
             </Link>
-            <Link className="relative rounded-xl px-3 py-2 text-sm font-medium text-zinc-300/90 hover:text-white transition-all duration-300 ease-out transform-gpu hover:scale-102 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-violet-500/30 before:absolute before:inset-0 before:rounded-xl before:bg-gradient-to-r before:from-violet-600/20 before:to-cyan-600/20 before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300" href="/tenses">
+            <Link className="relative rounded-xl px-3 py-2 text-sm font-medium text-zinc-300/90 hover:text-white transition-all duration-300 ease-out transform-gpu hover:scale-102 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-violet-500/30 before:absolute before:inset-0 before:rounded-xl before:bg-gradient-to-r before:from-violet-600/20 before:to-cyan-600/20 before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300" href={ROUTES.TENSES}>
               Tenses
             </Link>
-            <Link className="relative rounded-xl px-3 py-2 text-sm font-medium text-zinc-300/90 hover:text-white transition-all duration-300 ease-out transform-gpu hover:scale-102 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-violet-500/30 before:absolute before:inset-0 before:rounded-xl before:bg-gradient-to-r before:from-violet-600/20 before:to-cyan-600/20 before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300" href="/progress">
+            <Link className="relative rounded-xl px-3 py-2 text-sm font-medium text-zinc-300/90 hover:text-white transition-all duration-300 ease-out transform-gpu hover:scale-102 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-violet-500/30 before:absolute before:inset-0 before:rounded-xl before:bg-gradient-to-r before:from-violet-600/20 before:to-cyan-600/20 before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300" href={ROUTES.PROGRESS}>
               Progress
             </Link>
           </nav>
@@ -81,7 +82,7 @@ export default function GamifiedHeader() {
               Logout
             </Button>
           ) : (
-            <Link href="/login">
+            <Link href={ROUTES.LOGIN}>
               <Button className="hover:scale-105 hover:shadow-lg hover:shadow-violet-500/30 transition-all duration-300 transform-gpu">Login</Button>
             </Link>
           )}

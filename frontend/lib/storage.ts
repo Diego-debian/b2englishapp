@@ -1,4 +1,6 @@
-const KEY = "b2english.auth.v1";
+import { STORAGE_KEYS } from "./constants";
+
+const KEY = STORAGE_KEYS.AUTH;
 
 export type StoredAuth = {
   token: string;
