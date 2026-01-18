@@ -161,4 +161,13 @@ Antes de modificar cualquier archivo:
 
 ---
 
+## Related Docs
+
+| Documento | Contenido |
+|-----------|-----------|
+| [expansion-zones.md](expansion-zones.md) | Zonas donde SÍ se puede construir nuevas features |
+
+---
+
 *Creado: 2026-01-18*
+
