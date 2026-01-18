@@ -1,3 +1,5 @@
+import { STORAGE_KEYS } from "./constants";
+
 export interface FocusStats {
     sessions: number;
     totalQuestions: number;
@@ -10,7 +12,7 @@ export interface FocusStats {
     history?: { date: string; sessions: number; questions: number; correct: number }[];
 }
 
-const KEY = "b2_focus_stats";
+const KEY = STORAGE_KEYS.FOCUS_STATS;
 
 const DEFAULT_STATS: FocusStats = {
     sessions: 0,
@@ -33,7 +35,7 @@ interface DeckState {
     }
 }
 
-const DECK_KEY = "b2_focus_deck";
+const DECK_KEY = STORAGE_KEYS.FOCUS_DECK;
 
 export const focusStorage = {
     /**
