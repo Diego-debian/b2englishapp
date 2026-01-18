@@ -36,7 +36,7 @@ from app.schemas import (
     # Focus
     FocusResultsIn, FocusResultsOut,
     # Progress
-    UserProgressUpdate
+    UserProgressUpdate, UserProgressOut
 )
 from app.crud import (
     # Auth
@@ -52,7 +52,7 @@ from app.crud import (
     get_activity, list_questions_by_activity, start_attempt, submit_answer,
     # Progress / Practice
     select_verbs_for_practice, update_user_progress,
-    get_user_progress, initialize_user_progress
+    get_user_progress, initialize_user_progress, list_user_progress
 )
 
 # -------------------------------------------------------------------
@@ -459,12 +459,12 @@ def update_progress_route(
     )
 
 
-@app.get("/progress", tags=["Progress"])
+@app.get("/progress", response_model=List[UserProgressOut], tags=["Progress"])
 def get_progress_route(
     db: Session = Depends(get_db),
     current_user: models.User = Depends(get_current_user),
 ):
-    return get_user_progress(db, current_user.id)
+    return list_user_progress(db, current_user.id)
 
 
 @app.post("/progress/init", tags=["Progress"])

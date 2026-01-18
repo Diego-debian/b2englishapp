@@ -21,7 +21,8 @@ from .activity import (
 )
 from .progress import (
     select_verbs_for_practice, update_user_progress,
-    get_user_progress, initialize_user_progress
+    get_user_progress, initialize_user_progress,
+    list_user_progress
 )
 
 __all__ = [
@@ -44,5 +45,5 @@ __all__ = [
     "start_attempt", "submit_answer",
     # Progress
     "select_verbs_for_practice", "update_user_progress",
-    "get_user_progress", "initialize_user_progress",
+    "get_user_progress", "initialize_user_progress", "list_user_progress",
 ]
