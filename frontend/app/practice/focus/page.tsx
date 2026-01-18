@@ -662,11 +662,11 @@ function FocusPageInner() {
                                         <div className="space-y-3">
                                             {mistakes.slice(0, 3).map((m, i) => (
                                                 <div key={i} className="bg-red-500/10 border border-red-500/20 rounded-lg p-4 text-left">
-                                                    <div className="text-sm text-slate-300 mb-1">{m.prompt}</div>
-                                                    <div className="text-xs text-red-400 line-through mb-1">{m.userAnswer}</div>
-                                                    <div className="text-sm font-bold text-emerald-400">{m.correctAnswer}</div>
+                                                    <div className="text-sm text-slate-300 mb-1">{m.prompt || "Pregunta no disponible"}</div>
+                                                    <div className="text-xs text-red-400 line-through mb-1">{m.userAnswer || "(vacío)"}</div>
+                                                    <div className="text-sm font-bold text-emerald-400">{m.correctAnswer || "Respuesta desconocida"}</div>
                                                     <div className="mt-2 text-xs text-slate-400 italic border-l-2 border-slate-600 pl-2">
-                                                        {m.explanation}
+                                                        {m.explanation || "Sin explicación adicional."}
                                                         <span className="ml-2 inline-block px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 text-[10px] font-bold tracking-wider">REPEAT THIS</span>
                                                     </div>
                                                 </div>
