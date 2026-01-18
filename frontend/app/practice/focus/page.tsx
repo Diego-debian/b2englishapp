@@ -350,10 +350,57 @@ function FocusPageInner() {
                             const info = TENSES[slug];
                             const isSelected = selectedTense === slug;
 
+                            // One-tap: select and start immediately
+                            const handleTenseClick = () => {
+                                setSelectedTense(slug);
+                                // Start session with this tense (inline logic since startSession uses selectedTense state)
+                                hasReportedRef.current = false;
+                                setSyncStatus('idle');
+                                pendingPayloadRef.current = null;
+
+                                const bank = FOCUS_QUESTION_BANKS[slug];
+                                if (!bank || bank.length === 0) {
+                                    setSession({
+                                        ...session,
+                                        phase: "empty"
+                                    });
+                                    return;
+                                }
+
+                                const pickedIds = focusStorage.pickQuestions(slug, 5, bank);
+                                const picked = pickedIds
+                                    .map(id => bank.find(q => q.id === id))
+                                    .filter((q): q is FocusQuestion => !!q);
+
+                                if (picked.length === 0) {
+                                    const shuffled = shuffleArray(bank);
+                                    setSession({
+                                        phase: "playing",
+                                        questions: shuffled.slice(0, 5),
+                                        results: [],
+                                        currentIndex: 0,
+                                        userAnswer: "",
+                                        isCorrect: null,
+                                        correctCount: 0,
+                                    });
+                                    return;
+                                }
+
+                                setSession({
+                                    phase: "playing",
+                                    questions: picked,
+                                    results: [],
+                                    currentIndex: 0,
+                                    userAnswer: "",
+                                    isCorrect: null,
+                                    correctCount: 0,
+                                });
+                            };
+
                             return (
                                 <button
                                     key={slug}
-                                    onClick={() => setSelectedTense(slug)}
+                                    onClick={handleTenseClick}
                                     className={`
                                         group relative p-5 sm:p-6 rounded-xl transition-all duration-300 border-2 text-left transform
                                         ${isSelected
@@ -373,6 +420,8 @@ function FocusPageInner() {
                                         >
                                             {getCategoryLabel(category)}
                                         </span>
+                                        {/* Tap hint for mobile */}
+                                        <span className="text-[10px] text-slate-500 sm:hidden">Tap to start</span>
                                     </div>
 
                                     {/* Tense Title */}
