@@ -1,0 +1,47 @@
+{
+    "version": "0.1.0",
+    "generated_at": "2026-01-18T00:00:00Z",
+    "items": [
+        {
+            "type": "video",
+            "slug": "present-simple-intro",
+            "title": "Introduction to Present Simple",
+            "video_id": "dQw4w9WgXcQ",
+            "description": "Learn the basics of present simple tense in this quick video.",
+            "level": "B2",
+            "status": "published",
+            "published_at": "2026-01-18T10:00:00Z"
+        },
+        {
+            "type": "text",
+            "slug": "when-to-use-present-perfect",
+            "title": "When to Use Present Perfect",
+            "body": "# Overview\n\nUse present perfect for:\n- **Experiences**: I have visited Paris.\n- **Unfinished time**: I have worked here since 2020.\n- **Recent actions**: I have just finished.\n\n## Common Mistakes\n\n❌ I have seen him yesterday.\n✅ I saw him yesterday.",
+            "excerpt": "Quick guide on present perfect usage.",
+            "level": "B2",
+            "status": "draft",
+            "published_at": null
+        },
+        {
+            "type": "story",
+            "slug": "tip-third-person-s",
+            "headline": "📝 Don't forget the -s in third person!",
+            "body": "He works, she plays, it runs. Simple but easy to forget!",
+            "highlight": true,
+            "level": "B1",
+            "status": "published",
+            "published_at": "2026-01-16T08:00:00Z"
+        },
+        {
+            "type": "cta",
+            "slug": "try-focus-mode",
+            "label": "Try Focus Mode",
+            "action": "internal_link",
+            "target": "/practice/focus",
+            "description": "Practice your grammar with focused exercises.",
+            "style": "primary",
+            "status": "draft",
+            "published_at": null
+        }
+    ]
+}

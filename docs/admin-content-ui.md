@@ -1,7 +1,7 @@
 # Admin Content UI — B2English
 
 > **Propósito:** Especificar la UI de administración de contenido en `/admin/content`.
-> **Status:** Especificación de diseño (desactivada por defecto, NO implementado).
+> **Status:** ✅ Implementado (T8.2) — localStorage only, sin backend.
 > **Flag:** `FEATURE_ADMIN_CONTENT` = OFF por defecto.
 > **Prerrequisitos:**
 > - [content-spec.md](content-spec.md) — Modelo de datos
