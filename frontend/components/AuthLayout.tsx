@@ -41,11 +41,6 @@ export function AuthLayout({ children, title, subtitle, footer }: AuthLayoutProp
                                 </span>
                                 <span className="opacity-40">·</span>
                                 <span className="inline-flex items-center gap-1.5">
-                                    <span className="text-violet-400">🔥</span>
-                                    Streak
-                                </span>
-                                <span className="opacity-40">·</span>
-                                <span className="inline-flex items-center gap-1.5">
                                     <span className="text-cyan-400">📊</span>
                                     Progress
                                 </span>

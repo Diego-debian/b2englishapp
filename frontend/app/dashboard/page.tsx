@@ -75,7 +75,7 @@ function DashboardInner() {
           <h1 className="text-3xl font-black text-slate-900 tracking-tight">Tu Progreso</h1>
           <div className="flex items-center gap-2 mt-1">
             <span className="h-2 w-2 rounded-full bg-emerald-500" />
-            <p className="text-sm font-medium text-slate-600">Estado: Activo • Racha: {streak} días <span className="text-slate-400">(este dispositivo)</span></p>
+            <p className="text-sm font-medium text-slate-600">Estado: Activo</p>
           </div>
         </div>
         <div className="flex gap-3">
@@ -133,23 +133,23 @@ function DashboardInner() {
           </div>
         </Card>
 
-        {/* Gamificación Persistente */}
+        {/* Experiencia Total (Replaces Streak) */}
         <Card className="bg-slate-950 border-slate-800 text-white relative overflow-hidden">
           <div className="absolute top-0 right-0 p-4 opacity-10">
-            <span className="text-6xl">🔥</span>
+            <span className="text-6xl">✨</span>
           </div>
           <div className="relative">
-            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4">Racha Actual <span className="text-slate-600 normal-case">(local)</span></p>
+            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4">Experiencia Total</p>
             <div className="flex items-center gap-4">
-              <span className="text-6xl font-black text-white">{streak}</span>
+              <span className="text-6xl font-black text-white">{xp}</span>
               <div>
-                <p className="text-sm font-bold text-white uppercase tracking-tight">Días seguidos</p>
-                <p className="text-[10px] text-emerald-400 font-bold uppercase mt-1">¡Mantén el fuego! 💪</p>
+                <p className="text-sm font-bold text-white uppercase tracking-tight">Puntos XP</p>
+                <p className="text-[10px] text-amber-400 font-bold uppercase mt-1">Nivel {level}</p>
               </div>
             </div>
             <div className="mt-8 pt-4 border-t border-white/10 flex justify-between items-center text-[10px] font-bold text-slate-500 uppercase tracking-widest">
-              <span>Total XP Ganada</span>
-              <span className="text-amber-400">✨ {xp}</span>
+              <span>Siguiente Nivel</span>
+              <span className="text-emerald-400">+{100 - xpInLevel} XP</span>
             </div>
           </div>
         </Card>
