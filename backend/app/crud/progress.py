@@ -174,3 +174,10 @@ def initialize_user_progress(db: Session, user_id: int) -> int:
         db.commit()
     
     return created
+
+def list_user_progress(db: Session, user_id: int) -> List[models.UserProgress]:
+    return (
+        db.query(models.UserProgress)
+        .filter(models.UserProgress.user_id == user_id)
+        .all()
+    )

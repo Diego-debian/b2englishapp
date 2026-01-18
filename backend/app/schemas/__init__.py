@@ -13,7 +13,7 @@ from .activity import (
     SubmitAnswerIn, SubmitAnswerOut,
     FocusResultItem, FocusResultsIn, FocusResultsOut
 )
-from .progress import UserProgressUpdate, StatsOverview
+from .progress import UserProgressUpdate, UserProgressOut, StatsOverview
 
 __all__ = [
     # Auth
@@ -33,5 +33,5 @@ __all__ = [
     # Focus
     "FocusResultItem", "FocusResultsIn", "FocusResultsOut",
     # Progress
-    "UserProgressUpdate", "StatsOverview",
+    "UserProgressUpdate", "UserProgressOut", "StatsOverview",
 ]
