@@ -1,7 +1,13 @@
 from pydantic import BaseModel, Field, ConfigDict
 from datetime import datetime
 
+class ProgressUpdateIn(BaseModel):
+    """Minimal payload for updating progress on a verb."""
+    verb_id: int = Field(..., description="ID of the verb being practised")
+    is_correct: bool = Field(..., description="Whether the user answered correctly")
+
 class UserProgressUpdate(BaseModel):
+    """Legacy schema - use ProgressUpdateIn instead."""
     user_id: int = Field(..., description="ID of the user who answered the question")
     verb_id: int = Field(..., description="ID of the verb being practised")
     correct: bool = Field(..., description="Whether the user answered correctly")

@@ -36,7 +36,7 @@ from app.schemas import (
     # Focus
     FocusResultsIn, FocusResultsOut,
     # Progress
-    UserProgressUpdate, UserProgressOut
+    ProgressUpdateIn, UserProgressUpdate, UserProgressOut
 )
 from app.crud import (
     # Auth
@@ -442,20 +442,25 @@ def select_practice_route(
     return select_verbs_for_practice(db, current_user.id, limit)
 
 
-@app.post("/progress/update", tags=["Progress"])
+@app.post("/progress/update", response_model=UserProgressOut, tags=["Progress"])
 def update_progress_route(
-    payload: UserProgressUpdate,
+    payload: ProgressUpdateIn,
     db: Session = Depends(get_db),
     current_user: models.User = Depends(get_current_user),
 ):
-    if payload.user_id != current_user.id:
-        raise HTTPException(status_code=403, detail="user_id mismatch")
-
+    # Check if progress record exists (requires /progress/init first)
+    existing = get_user_progress(db, current_user.id, payload.verb_id)
+    if existing is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Progress not initialized; call POST /progress/init first"
+        )
+    
     return update_user_progress(
         db,
         current_user.id,
         payload.verb_id,
-        payload.correct,
+        payload.is_correct,
     )
 
 
