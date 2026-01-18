@@ -173,4 +173,13 @@ Si tu feature requiere algo de la siguiente lista, **no es zona de expansión**:
 
 ---
 
+## Related Docs
+
+| Documento | Contenido |
+|-----------|-----------|
+| [feature-flags.md](feature-flags.md) | Flags para activar zonas de expansión progresivamente |
+
+---
+
 *Creado: 2026-01-18*
+
