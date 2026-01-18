@@ -852,19 +852,19 @@ function FocusPageInner() {
                         {/* Sync Status Indicator */}
                         <div className="mt-4 text-center text-xs">
                             {syncStatus === 'synced' && (
-                                <span className="text-emerald-400">✓ Synced</span>
+                                <span className="text-emerald-400">✓ Results synced</span>
                             )}
                             {syncStatus === 'syncing' && (
                                 <span className="text-slate-400 animate-pulse">Syncing…</span>
                             )}
                             {syncStatus === 'pending' && (
                                 <div className="flex flex-col items-center gap-2">
-                                    <span className="text-amber-400">⚠ Sync pending (this device)</span>
+                                    <span className="text-amber-400">⚠ Results sync pending</span>
                                     <button
                                         onClick={handleRetrySync}
                                         className="px-3 py-1.5 bg-amber-600 hover:bg-amber-700 text-white text-xs font-medium rounded-lg transition-colors"
                                     >
-                                        Retry sync
+                                        Retry
                                     </button>
                                 </div>
                             )}
