@@ -1,8 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
-import type { ContentItem } from "@/store/contentStore";
+import type { ContentItem, ContentStatus } from "@/store/contentStore";
 import { useContentStore } from "@/store/contentStore";
 import { StatusBadge } from "./StatusBadge";
 import { TypeBadge } from "./TypeBadge";
@@ -14,8 +14,60 @@ interface ContentListProps {
     onFilterChange: (filter: "all" | "draft" | "published") => void;
 }
 
+// Confirm Modal Component
+function ConfirmModal({
+    isOpen,
+    title,
+    message,
+    confirmLabel,
+    confirmVariant = "primary",
+    onConfirm,
+    onCancel,
+}: {
+    isOpen: boolean;
+    title: string;
+    message: string;
+    confirmLabel: string;
+    confirmVariant?: "primary" | "secondary" | "ghost";
+    onConfirm: () => void;
+    onCancel: () => void;
+}) {
+    if (!isOpen) return null;
+
+    return (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+            {/* Backdrop */}
+            <div
+                className="absolute inset-0 bg-black/50"
+                onClick={onCancel}
+            />
+            {/* Modal */}
+            <div className="relative bg-white rounded-xl shadow-2xl p-6 max-w-sm w-full mx-4">
+                <h3 className="text-lg font-bold text-slate-900 mb-2">{title}</h3>
+                <p className="text-sm text-slate-600 mb-6">{message}</p>
+                <div className="flex justify-end gap-3">
+                    <Button variant="secondary" onClick={onCancel} className="px-4">
+                        Cancel
+                    </Button>
+                    <Button variant={confirmVariant} onClick={onConfirm} className="px-4">
+                        {confirmLabel}
+                    </Button>
+                </div>
+            </div>
+        </div>
+    );
+}
+
 export function ContentList({ items, filter, onFilterChange }: ContentListProps) {
     const setStatus = useContentStore((s) => s.setStatus);
+    const deleteItem = useContentStore((s) => s.deleteItem);
+
+    // Confirm modal state
+    const [confirmAction, setConfirmAction] = useState<{
+        type: "publish" | "unpublish" | "delete";
+        slug: string;
+        title: string;
+    } | null>(null);
 
     const getTitle = (item: ContentItem): string => {
         if (item.type === "story") return item.headline;
@@ -28,8 +80,109 @@ export function ContentList({ items, filter, onFilterChange }: ContentListProps)
         return item.status === filter;
     });
 
+    const handleStatusChange = (slug: string, newStatus: ContentStatus, itemTitle: string) => {
+        setConfirmAction({
+            type: newStatus === "published" ? "publish" : "unpublish",
+            slug,
+            title: itemTitle,
+        });
+    };
+
+    const handleDelete = (slug: string, itemTitle: string) => {
+        setConfirmAction({
+            type: "delete",
+            slug,
+            title: itemTitle,
+        });
+    };
+
+    const executeConfirmedAction = () => {
+        if (!confirmAction) return;
+
+        if (confirmAction.type === "publish") {
+            setStatus(confirmAction.slug, "published");
+        } else if (confirmAction.type === "unpublish") {
+            setStatus(confirmAction.slug, "draft");
+        } else if (confirmAction.type === "delete") {
+            deleteItem(confirmAction.slug);
+        }
+        setConfirmAction(null);
+    };
+
+    const getConfirmModalProps = () => {
+        if (!confirmAction) return null;
+
+        switch (confirmAction.type) {
+            case "publish":
+                return {
+                    title: "Publish Content?",
+                    message: `"${confirmAction.title}" will be visible in the public feed.`,
+                    confirmLabel: "Publish",
+                    confirmVariant: "primary" as const,
+                };
+            case "unpublish":
+                return {
+                    title: "Unpublish Content?",
+                    message: `"${confirmAction.title}" will be hidden from the public feed and moved to drafts.`,
+                    confirmLabel: "Unpublish",
+                    confirmVariant: "secondary" as const,
+                };
+            case "delete":
+                return {
+                    title: "Delete Content?",
+                    message: `"${confirmAction.title}" will be permanently deleted. This cannot be undone.`,
+                    confirmLabel: "Delete",
+                    confirmVariant: "primary" as const,
+                };
+        }
+    };
+
+    // Empty state for when no items exist at all
+    if (items.length === 0) {
+        return (
+            <div className="space-y-4">
+                {/* Filter Tabs (disabled) */}
+                <div className="flex gap-2">
+                    {(["all", "draft", "published"] as const).map((f) => (
+                        <button
+                            key={f}
+                            disabled
+                            className="px-4 py-2 text-sm font-semibold rounded-lg bg-slate-100 text-slate-400 cursor-not-allowed"
+                        >
+                            {f === "all" ? "All" : f === "draft" ? "Drafts" : "Published"}
+                        </button>
+                    ))}
+                </div>
+
+                {/* Empty State */}
+                <div className="rounded-xl border-2 border-dashed border-slate-200 bg-slate-50 p-12 text-center">
+                    <div className="text-5xl mb-4">📝</div>
+                    <h3 className="text-lg font-bold text-slate-900 mb-2">No content yet</h3>
+                    <p className="text-sm text-slate-500 mb-6 max-w-sm mx-auto">
+                        Create your first piece of content to get started. You can add videos, articles, stories, or calls to action.
+                    </p>
+                    <Link href="/admin/content/new">
+                        <Button variant="primary" className="px-6">
+                            + Create First Content
+                        </Button>
+                    </Link>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className="space-y-4">
+            {/* Confirm Modal */}
+            {confirmAction && (
+                <ConfirmModal
+                    isOpen={!!confirmAction}
+                    onConfirm={executeConfirmedAction}
+                    onCancel={() => setConfirmAction(null)}
+                    {...getConfirmModalProps()!}
+                />
+            )}
+
             {/* Filter Tabs */}
             <div className="flex gap-2">
                 {(["all", "draft", "published"] as const).map((f) => (
@@ -42,6 +195,11 @@ export function ContentList({ items, filter, onFilterChange }: ContentListProps)
                             }`}
                     >
                         {f === "all" ? "All" : f === "draft" ? "Drafts" : "Published"}
+                        {f !== "all" && (
+                            <span className="ml-1.5 text-xs opacity-70">
+                                ({items.filter((i) => i.status === f).length})
+                            </span>
+                        )}
                     </button>
                 ))}
             </div>
@@ -61,8 +219,11 @@ export function ContentList({ items, filter, onFilterChange }: ContentListProps)
                     <tbody className="divide-y divide-slate-100">
                         {filteredItems.length === 0 ? (
                             <tr>
-                                <td colSpan={5} className="px-4 py-8 text-center text-slate-400">
-                                    No items found.
+                                <td colSpan={5} className="px-4 py-8 text-center">
+                                    <div className="text-slate-400">
+                                        <span className="text-2xl block mb-2">🔍</span>
+                                        No {filter === "draft" ? "drafts" : filter === "published" ? "published items" : "items"} found.
+                                    </div>
                                 </td>
                             </tr>
                         ) : (
@@ -98,7 +259,7 @@ export function ContentList({ items, filter, onFilterChange }: ContentListProps)
                                                 <Button
                                                     variant="primary"
                                                     className="text-xs px-3 py-1"
-                                                    onClick={() => setStatus(item.slug, "published")}
+                                                    onClick={() => handleStatusChange(item.slug, "published", getTitle(item))}
                                                 >
                                                     Publish
                                                 </Button>
@@ -106,11 +267,18 @@ export function ContentList({ items, filter, onFilterChange }: ContentListProps)
                                                 <Button
                                                     variant="ghost"
                                                     className="text-xs px-3 py-1"
-                                                    onClick={() => setStatus(item.slug, "draft")}
+                                                    onClick={() => handleStatusChange(item.slug, "draft", getTitle(item))}
                                                 >
                                                     Unpublish
                                                 </Button>
                                             )}
+                                            <Button
+                                                variant="ghost"
+                                                className="text-xs px-2 py-1 text-red-600 hover:bg-red-50"
+                                                onClick={() => handleDelete(item.slug, getTitle(item))}
+                                            >
+                                                🗑️
+                                            </Button>
                                         </div>
                                     </td>
                                 </tr>

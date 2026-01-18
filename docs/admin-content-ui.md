@@ -1,7 +1,7 @@
 # Admin Content UI — B2English
 
 > **Propósito:** Especificar la UI de administración de contenido en `/admin/content`.
-> **Status:** ✅ Implementado (T8.2) — localStorage only, sin backend.
+> **Status:** ✅ Implementado (T8.2 + T8.3 Hardening) — localStorage only, sin backend.
 > **Flag:** `FEATURE_ADMIN_CONTENT` = OFF por defecto.
 > **Prerrequisitos:**
 > - [content-spec.md](content-spec.md) — Modelo de datos
@@ -405,6 +405,48 @@ API + DB (futuro)
 
 ---
 
+## 9. T8.3 Hardening (Implementado)
+
+### 9.1 Feature Flag Guard
+
+Todas las páginas admin verifican `FEATURE_ADMIN_CONTENT`:
+
+| Página | Guard |
+|--------|-------|
+| `/admin/content` | ✅ Redirect a `/` con flag OFF |
+| `/admin/content/new` | ✅ Redirect a `/` con flag OFF |
+| `/admin/content/[slug]/edit` | ✅ Redirect a `/` con flag OFF |
+| `/admin/content/[slug]/preview` | ✅ Redirect a `/` con flag OFF |
+
+### 9.2 Confirmación de Acciones
+
+| Acción | Confirmación |
+|--------|--------------|
+| Publish | ✅ Modal: "will be visible in public feed" |
+| Unpublish | ✅ Modal: "will be hidden from feed" |
+| Delete | ✅ Modal: "permanently deleted, cannot be undone" |
+
+### 9.3 UX Improvements
+
+| Feature | Descripción |
+|---------|-------------|
+| Empty State | Card con CTA "Create First Content" cuando no hay items |
+| Filter Counts | Número de items por filtro (Drafts, Published) |
+| Delete Button | 🗑️ en cada fila con confirmación |
+| Enhanced Empty Filter | Mensaje específico cuando filtro no tiene resultados |
+
+### 9.4 Límites Explícitos
+
+| Feature | Status | Razón |
+|---------|--------|-------|
+| Roles | ❌ NO | Solo feature flag, sin auth guard |
+| Analytics | ❌ NO | Sin tracking |
+| Colaboración | ❌ NO | Single user |
+| Undo/Redo | ❌ NO | Complejidad UI |
+| Backend | ❌ NO | localStorage only |
+
+---
+
 ## Referencias
 
 | Documento | Contenido |
@@ -417,3 +459,5 @@ API + DB (futuro)
 ---
 
 *Creado: 2026-01-18*
+*Actualizado: 2026-01-18 (T8.3 Hardening)*
+
