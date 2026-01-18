@@ -198,28 +198,28 @@ function VerbDetailInner() {
         <aside className="hidden lg:block">
           <div className="sticky top-8 space-y-6">
             {/* Study Tips Card */}
-            <div className="bg-zinc-900/80 backdrop-blur-xl border border-zinc-700/50 rounded-xl p-6 shadow-xl">
-              <h3 className="text-sm font-bold text-indigo-400 uppercase tracking-widest mb-4 flex items-center gap-2">
+            <div className="bg-slate-900/90 backdrop-blur-md border border-white/10 rounded-xl p-6 shadow-2xl">
+              <h3 className="text-sm font-bold text-white uppercase tracking-wider mb-4 flex items-center gap-2">
                 <span>💡</span> Study Tips
               </h3>
-              <ul className="space-y-3 text-sm text-zinc-300">
-                <li className="flex gap-3">
-                  <span className="text-indigo-400">•</span>
+              <ul className="space-y-3 text-sm text-slate-100">
+                <li className="flex gap-3 items-start">
+                  <span className="text-violet-400 text-lg leading-none">•</span>
                   <span>Say all three forms aloud to build muscle memory.</span>
                 </li>
-                <li className="flex gap-3">
-                  <span className="text-emerald-400">•</span>
+                <li className="flex gap-3 items-start">
+                  <span className="text-emerald-400 text-lg leading-none">•</span>
                   <span>Create a sentence using the Past Simple (V2) form.</span>
                 </li>
-                <li className="flex gap-3">
-                  <span className="text-purple-400">•</span>
+                <li className="flex gap-3 items-start">
+                  <span className="text-purple-400 text-lg leading-none">•</span>
                   <span>Practice the Participle (V3) with "I have...".</span>
                 </li>
               </ul>
-              <div className="mt-6 pt-4 border-t border-zinc-700/50">
+              <div className="mt-6 pt-4 border-t border-white/10">
                 <Link
                   href="/practice/focus"
-                  className="block w-full text-center px-4 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg transition-colors"
+                  className="block w-full text-center px-4 py-3 bg-indigo-500 hover:bg-indigo-600 text-white font-semibold rounded-lg transition-colors shadow-lg"
                 >
                   Practice Tenses →
                 </Link>
@@ -227,18 +227,18 @@ function VerbDetailInner() {
             </div>
 
             {/* Quick Navigation */}
-            <div className="bg-zinc-900/50 border border-zinc-800/50 rounded-xl p-4">
-              <h4 className="text-xs font-bold text-zinc-500 uppercase tracking-widest mb-3">Quick Links</h4>
+            <div className="bg-slate-900/70 border border-white/10 rounded-xl p-4">
+              <h4 className="text-xs font-bold text-slate-300 uppercase tracking-wider mb-3">Quick Links</h4>
               <div className="space-y-2">
                 <Link
                   href="/verbs"
-                  className="block text-sm text-zinc-400 hover:text-white transition-colors"
+                  className="block text-sm text-slate-200 hover:text-white transition-colors"
                 >
                   ← Browse all verbs
                 </Link>
                 <Link
                   href="/tenses"
-                  className="block text-sm text-zinc-400 hover:text-white transition-colors"
+                  className="block text-sm text-slate-200 hover:text-white transition-colors"
                 >
                   📚 Tense reference
                 </Link>
