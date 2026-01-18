@@ -2,6 +2,7 @@
 
 import React, { useMemo } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useAuthStore } from "@/store/authStore";
 import { Button } from "./Button";
 import { XPBar } from "./XPBar";
@@ -11,6 +12,9 @@ export default function GamifiedHeader() {
   const user = useAuthStore((s) => s.user);
   const token = useAuthStore((s) => s.token);
   const logout = useAuthStore((s) => s.logout);
+
+  const pathname = usePathname();
+  const isFocusMode = pathname?.startsWith("/practice/focus");
 
   const xp = useMemo(() => user?.total_xp ?? 0, [user]);
   const level = useMemo(() => Math.floor(xp / 100) + 1, [xp]);
@@ -48,7 +52,7 @@ export default function GamifiedHeader() {
         </div>
 
         <div className="flex items-center gap-4">
-          {hydrated && token && user ? (
+          {hydrated && token && user && !isFocusMode ? (
             <div className="hidden md:flex items-center gap-3 bg-slate-900/60 border border-white/10 backdrop-blur-md rounded-full px-4 py-1.5 shadow-lg">
               {/* Level Badge (Primary) */}
               <div className="flex items-center gap-2 border-r border-white/10 pr-3 mr-1">
