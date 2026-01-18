@@ -178,6 +178,7 @@ Si tu feature requiere algo de la siguiente lista, **no es zona de expansión**:
 | Documento | Contenido |
 |-----------|-----------|
 | [feature-flags.md](feature-flags.md) | Flags para activar zonas de expansión progresivamente |
+| [content-spec.md](content-spec.md) | Modelo de contenido tipo feed (video, text, story, cta) |
 
 ---
 
