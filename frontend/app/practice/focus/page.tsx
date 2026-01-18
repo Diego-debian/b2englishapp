@@ -680,8 +680,8 @@ function FocusPageInner() {
                                     </div>
                                 ) : (
                                     <div className="mb-8 p-6 bg-emerald-500/10 border border-emerald-500/20 rounded-xl">
-                                        <h3 className="text-xl font-bold text-emerald-300 mb-2">Perfect run</h3>
-                                        <p className="text-emerald-200/80">You nailed it! Ready for the next challenge?</p>
+                                        <h3 className="text-xl font-bold text-emerald-300 mb-2">All correct!</h3>
+                                        <p className="text-emerald-200/80">Great work on this session.</p>
                                     </div>
                                 )}
 
@@ -822,7 +822,7 @@ function FocusPageInner() {
                                     }
                                 `}
                             >
-                                <span>↻</span> Retry
+                                <span>↻</span> Retry Same Tense
                             </button>
 
                             {/* New Session (Pick Different Tense) */}
@@ -830,7 +830,7 @@ function FocusPageInner() {
                                 onClick={handleRestart}
                                 className="w-full px-6 py-3 bg-slate-700/50 hover:bg-slate-600/50 text-slate-200 hover:text-white font-medium rounded-xl border border-slate-600/30 transition-all active:scale-95 flex items-center justify-center gap-2"
                             >
-                                <span>🎯</span> New Session
+                                <span>🎯</span> Choose Different Tense
                             </button>
                         </div>
 
