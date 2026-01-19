@@ -16,19 +16,31 @@ export default function AdminContentPage() {
     const loadItems = useContentStore((s) => s.loadItems);
     const [filter, setFilter] = useState<"all" | "draft" | "published">("all");
 
-    // Feature flag guard
+    // Mounted gate to prevent hydration mismatch
+    const [mounted, setMounted] = useState(false);
+
     useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    // Feature flag guard + load items (only after mount)
+    useEffect(() => {
+        if (!mounted) return;
+
         if (!isFeatureEnabled(FEATURE_FLAGS.ADMIN_CONTENT)) {
             router.replace("/");
+            return;
         }
-    }, [router]);
 
-    // Load items on mount
-    useEffect(() => {
         loadItems();
-    }, [loadItems]);
+    }, [mounted, router, loadItems]);
 
-    // Feature flag check
+    // Render nothing until mounted (prevents SSR/client mismatch)
+    if (!mounted) {
+        return null;
+    }
+
+    // Feature flag check (evaluated once on client)
     if (!isFeatureEnabled(FEATURE_FLAGS.ADMIN_CONTENT)) {
         return null;
     }
