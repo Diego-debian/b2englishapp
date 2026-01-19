@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { isContentEnabled, isContentUxV2Enabled } from "@/lib/featureFlags";
 import { ContentItemV1, isPublished } from "@/lib/contentSpec";
+import { ds } from "@/lib/designSystem";
 
 interface FeedClientProps {
     initialContent: ContentItemV1[];
@@ -147,13 +148,13 @@ export default function FeedClient({ initialContent }: FeedClientProps) {
         );
     }
 
-    // Legacy UI (UNCHANGED)
+    // Legacy UI (UNCHANGED logic, now styled via DS if enabled)
     return (
-        <main className="min-h-screen bg-slate-950 px-4 py-8">
-            <div className="max-w-5xl mx-auto">
+        <main className={ds.layout.page("min-h-screen bg-slate-950 px-4 py-8")}>
+            <div className={ds.layout.container("max-w-5xl mx-auto")}>
                 <header className="mb-12 text-center">
-                    <h1 className="text-4xl font-bold text-white mb-4">Latest Content</h1>
-                    <p className="text-slate-400 max-w-xl mx-auto">
+                    <h1 className={ds.typo.h1("text-4xl font-bold text-white mb-4")}>Latest Content</h1>
+                    <p className={ds.typo.subtitle("text-slate-400 max-w-xl mx-auto")}>
                         Explore our guides, tips, and resources to master English grammar.
                     </p>
                 </header>
@@ -185,7 +186,7 @@ export default function FeedClient({ initialContent }: FeedClientProps) {
                             <Link
                                 key={item.slug}
                                 href={`/content/${item.slug}`}
-                                className="group flex flex-col h-full bg-slate-900 border border-white/10 rounded-2xl hover:border-violet-500/50 hover:bg-slate-800/80 transition-all duration-300 shadow-xl shadow-black/20 hover:shadow-violet-900/10 overflow-hidden"
+                                className={ds.card.root("group flex flex-col h-full bg-slate-900 border border-white/10 rounded-2xl hover:border-violet-500/50 hover:bg-slate-800/80 transition-all duration-300 shadow-xl shadow-black/20 hover:shadow-violet-900/10 overflow-hidden")}
                             >
                                 {/* Card Header (Image placeholder or gradient) */}
                                 <div className="h-32 bg-gradient-to-br from-slate-800 to-slate-900 relative">
@@ -210,7 +211,7 @@ export default function FeedClient({ initialContent }: FeedClientProps) {
                                         )}
                                     </div>
 
-                                    <h2 className="text-xl font-bold text-white mb-3 group-hover:text-violet-300 transition-colors line-clamp-2">
+                                    <h2 className="text-xl font-bold text-slate-100 group-hover:text-violet-400 transition-colors line-clamp-2 mb-3">
                                         {item.title}
                                     </h2>
                                     <p className="text-sm text-slate-400 line-clamp-3 mb-6 flex-grow">
@@ -224,7 +225,7 @@ export default function FeedClient({ initialContent }: FeedClientProps) {
 
                                         <div className="flex items-center gap-3">
                                             <button
-                                                onClick={(e) => {
+                                                onClick={(e: React.MouseEvent) => {
                                                     e.preventDefault();
                                                     e.stopPropagation();
                                                     // Simple copy link logic for specific request
@@ -240,7 +241,7 @@ export default function FeedClient({ initialContent }: FeedClientProps) {
                                             >
                                                 🔗
                                             </button>
-                                            <span className="text-xs font-semibold text-violet-400 group-hover:translate-x-1 transition-transform">
+                                            <span className={ds.button.primary("text-xs font-semibold text-violet-400 group-hover:translate-x-1 transition-transform bg-transparent p-0 hover:bg-transparent shadow-none")}>
                                                 Read Article →
                                             </span>
                                         </div>
@@ -250,19 +251,19 @@ export default function FeedClient({ initialContent }: FeedClientProps) {
                         ))}
                     </div>
                 ) : (
-                    <div className="text-center py-20 bg-slate-900/30 rounded-3xl border border-white/5 border-dashed">
+                    <div className={ds.state.empty("text-center py-20 bg-slate-900/30 rounded-3xl border border-white/5 border-dashed")}>
                         <div className="text-4xl mb-4">📭</div>
-                        <h3 className="text-xl font-bold text-white mb-2">
+                        <h3 className={ds.typo.h2("text-xl font-bold text-white mb-2")}>
                             No content found
                         </h3>
-                        <p className="text-slate-400">
+                        <p className={ds.typo.body("text-slate-400")}>
                             No published content available at this time.
                         </p>
                         <button
                             onClick={() => {
                                 setTagFilter("all");
                             }}
-                            className="mt-6 px-6 py-2 bg-slate-800 text-white rounded-xl hover:bg-slate-700 transition-colors text-sm"
+                            className={ds.button.secondary("mt-6 px-6 py-2 bg-slate-800 text-white rounded-xl hover:bg-slate-700 transition-colors text-sm")}
                         >
                             Clear Filters
                         </button>
