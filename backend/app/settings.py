@@ -19,6 +19,9 @@ class Settings(BaseSettings):
 
     CORS_ORIGINS: List[str] = Field(default_factory=list, alias="CORS_ORIGINS")
     DATABASE_URL: str = Field(..., alias="DATABASE_URL")
+    
+    # Feature Flags
+    FEATURE_CONTENT_API_V1: bool = Field(False, alias="FEATURE_CONTENT_API_V1")
 
     # ✅ Pydantic v2 config
     model_config = SettingsConfigDict(

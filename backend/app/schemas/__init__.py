@@ -13,7 +13,10 @@ from .activity import (
     SubmitAnswerIn, SubmitAnswerOut,
     FocusResultItem, FocusResultsIn, FocusResultsOut
 )
+    FocusResultItem, FocusResultsIn, FocusResultsOut
+)
 from .progress import ProgressUpdateIn, UserProgressUpdate, UserProgressOut, StatsOverview
+from .content import ContentItemPublic, ContentList
 
 __all__ = [
     # Auth
@@ -34,4 +37,6 @@ __all__ = [
     "FocusResultItem", "FocusResultsIn", "FocusResultsOut",
     # Progress
     "ProgressUpdateIn", "UserProgressUpdate", "UserProgressOut", "StatsOverview",
+    # Content
+    "ContentItemPublic", "ContentList",
 ]
