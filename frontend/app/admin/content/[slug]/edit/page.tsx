@@ -9,6 +9,7 @@ import { ContentForm } from "@/components/admin/ContentForm";
 import { StatusBadge } from "@/components/admin/StatusBadge";
 import { TypeBadge } from "@/components/admin/TypeBadge";
 import { Button } from "@/components/Button";
+import { ds } from "@/lib/designSystem";
 
 // Confirm Modal Component
 function ConfirmModal({
@@ -98,7 +99,7 @@ export default function AdminContentEditPage() {
 
     if (!item) {
         return (
-            <div className="max-w-2xl mx-auto px-4 py-8 text-center">
+            <div className={ds.layout.container("max-w-2xl mx-auto px-4 py-8 text-center")}>
                 <h1 className="text-2xl font-bold text-slate-900 mb-4">Item not found</h1>
                 <p className="text-slate-500 mb-6">No content with slug &quot;{slug}&quot; exists.</p>
                 <Link href="/admin/content">
@@ -138,7 +139,7 @@ export default function AdminContentEditPage() {
     const existingSlugs = items.map((i) => i.slug);
 
     return (
-        <div className="max-w-2xl mx-auto px-4 py-8">
+        <div className={ds.layout.container("max-w-2xl mx-auto px-4 py-8")}>
             {/* Confirm Modal */}
             {confirmAction && (
                 <ConfirmModal
@@ -160,7 +161,7 @@ export default function AdminContentEditPage() {
             <div className="flex items-center justify-between mb-8">
                 <div>
                     <div className="flex items-center gap-3 mb-2">
-                        <h1 className="text-3xl font-black text-slate-900 tracking-tight">
+                        <h1 className={ds.typo.h1("text-3xl font-black text-slate-900 tracking-tight")}>
                             Edit Content
                         </h1>
                         <TypeBadge type={item.type} />

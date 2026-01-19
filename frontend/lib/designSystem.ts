@@ -96,7 +96,77 @@ export const ds = {
          */
         empty: (defaultClasses: string) => {
             if (!isUiV11Enabled()) return defaultClasses;
-            return "text-center py-20 px-4 rounded-2xl bg-slate-50 border border-dashed border-slate-300";
+            return "text-center py-20 px-4 rounded-2xl bg-white border border-dashed border-slate-300 shadow-sm";
+        }
+    },
+    form: {
+        /**
+         * Standard Label
+         */
+        label: (defaultClasses: string) => {
+            if (!isUiV11Enabled()) return defaultClasses;
+            return "block text-sm font-semibold text-slate-700 mb-1.5";
+        },
+        /**
+         * Standard Input / Select / Textarea
+         */
+        input: (defaultClasses: string) => {
+            if (!isUiV11Enabled()) return defaultClasses;
+            return "w-full rounded-lg border-slate-300 bg-white text-slate-900 shadow-sm focus:border-violet-500 focus:ring-violet-500 sm:text-sm";
+        },
+        /**
+         * Help text
+         */
+        help: (defaultClasses: string) => {
+            if (!isUiV11Enabled()) return defaultClasses;
+            return "mt-1.5 text-xs text-slate-500";
+        },
+        /**
+         * Error text
+         */
+        error: (defaultClasses: string) => {
+            if (!isUiV11Enabled()) return defaultClasses;
+            return "mt-1.5 text-xs font-medium text-red-600";
+        },
+        /**
+         * Form Row / Group wrapper
+         */
+        row: (defaultClasses: string) => {
+            if (!isUiV11Enabled()) return defaultClasses;
+            return "space-y-1";
+        }
+    },
+    actions: {
+        /**
+         * Action Bar (bottom of forms, top of lists)
+         */
+        bar: (defaultClasses: string) => {
+            if (!isUiV11Enabled()) return defaultClasses;
+            // Ensure flex layout is preserved or enhanced
+            return "flex items-center gap-3 pt-6 border-t border-slate-100 mt-8";
+        }
+    },
+    table: {
+        /**
+         * Table Head Cell
+         */
+        th: (defaultClasses: string) => {
+            if (!isUiV11Enabled()) return defaultClasses;
+            return "px-4 py-3 bg-slate-50 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider border-b border-slate-200";
+        },
+        /**
+         * Table Body Cell
+         */
+        td: (defaultClasses: string) => {
+            if (!isUiV11Enabled()) return defaultClasses;
+            return "px-4 py-4 text-sm text-slate-700 border-b border-slate-100 whitespace-nowrap";
+        },
+        /**
+         * Table Row
+         */
+        tr: (defaultClasses: string) => {
+            if (!isUiV11Enabled()) return defaultClasses;
+            return "hover:bg-slate-50 transition-colors";
         }
     }
 };
