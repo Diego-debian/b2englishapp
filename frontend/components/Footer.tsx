@@ -20,7 +20,7 @@ export default function Footer() {
                             href="/support"
                             className="text-pink-400 hover:text-pink-300 transition-colors font-medium"
                         >
-                            💜 Support Us
+                            💜 Donaciones
                         </Link>
                     </>
                 )}
