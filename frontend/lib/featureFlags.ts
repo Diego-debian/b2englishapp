@@ -1,6 +1,6 @@
 /**
  * Feature flag helper for B2English expansion zones.
- * Uses NEXT_PUBLIC_* env vars with "1" = enabled.
+ * Uses NEXT_PUBLIC_* env vars.
  *
  * IMPORTANT: Next.js inlines NEXT_PUBLIC_* values at BUILD TIME.
  * The static access must be at the exact usage site for proper inlining.
@@ -17,21 +17,55 @@ export type FeatureFlagKey = keyof typeof FEATURE_FLAGS;
 export type FeatureFlagValue = typeof FEATURE_FLAGS[FeatureFlagKey];
 
 /**
+ * Strict boolean parse for feature flags.
+ * ON only if value (case-insensitive) is one of: "1", "true", "on", "yes"
+ * OFF for any other value or undefined.
+ *
+ * @param value - The env var value
+ * @returns true if ON, false otherwise (default OFF)
+ */
+export const isFeatureOn = (value?: string): boolean => {
+    if (!value) return false;
+    const normalized = value.toLowerCase().trim();
+    return ["1", "true", "on", "yes"].includes(normalized);
+};
+
+/**
  * Check if a feature flag is enabled.
  * Uses direct static access to ensure Next.js inlines the values correctly.
  * @param flag - The flag name constant from FEATURE_FLAGS
- * @returns true if the flag value is "1"
+ * @returns true if the flag value passes isFeatureOn()
  */
 export const isFeatureEnabled = (flag: FeatureFlagValue): boolean => {
     // Direct static access - Next.js will inline these at build time
     switch (flag) {
         case "FEATURE_ADMIN_CONTENT":
-            return process.env.NEXT_PUBLIC_FEATURE_ADMIN_CONTENT === "1";
+            return isFeatureOn(process.env.NEXT_PUBLIC_FEATURE_ADMIN_CONTENT);
         case "FEATURE_CONTENT_FEED":
-            return process.env.NEXT_PUBLIC_FEATURE_CONTENT_FEED === "1";
+            return isFeatureOn(process.env.NEXT_PUBLIC_FEATURE_CONTENT_FEED);
         case "FEATURE_SUPPORT":
-            return process.env.NEXT_PUBLIC_FEATURE_SUPPORT === "1";
+            return isFeatureOn(process.env.NEXT_PUBLIC_FEATURE_SUPPORT);
         default:
             return false;
     }
+};
+
+// ============================================
+// Convenience helpers for specific flags
+// ============================================
+
+/**
+ * Check if FEATURE_SUPPORT is enabled.
+ * Uses strict parsing - ON only for "1", "true", "on", "yes".
+ * Default: OFF
+ */
+export const isSupportEnabled = (): boolean => {
+    return isFeatureOn(process.env.NEXT_PUBLIC_FEATURE_SUPPORT);
+};
+
+/**
+ * Check if FEATURE_ADMIN_CONTENT is enabled.
+ */
+export const isAdminContentEnabled = (): boolean => {
+    return isFeatureOn(process.env.NEXT_PUBLIC_FEATURE_ADMIN_CONTENT);
 };

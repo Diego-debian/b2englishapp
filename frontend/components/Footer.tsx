@@ -1,8 +1,9 @@
 import React from "react";
 import Link from "next/link";
+import { isSupportEnabled } from "@/lib/featureFlags";
 
 export default function Footer() {
-    const showSupport = process.env.NEXT_PUBLIC_FEATURE_SUPPORT === "1";
+    const showSupport = isSupportEnabled();
 
     return (
         <footer className="w-full py-4 bg-slate-950 border-t border-slate-900 flex items-center justify-center text-xs text-slate-500">
