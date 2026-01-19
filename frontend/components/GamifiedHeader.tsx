@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useAuthStore } from "@/store/authStore";
 import { ROUTES } from "@/lib/constants";
+import { isSupportEnabled } from "@/lib/featureFlags";
 import { Button } from "./Button";
 import { XPBar } from "./XPBar";
 
@@ -49,7 +50,7 @@ export default function GamifiedHeader() {
             <Link className="relative rounded-xl px-3 py-2 text-sm font-medium text-zinc-300/90 hover:text-white transition-all duration-300 ease-out transform-gpu hover:scale-102 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-violet-500/30 before:absolute before:inset-0 before:rounded-xl before:bg-gradient-to-r before:from-violet-600/20 before:to-cyan-600/20 before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300" href={ROUTES.PROGRESS}>
               Progress
             </Link>
-            {process.env.NEXT_PUBLIC_FEATURE_SUPPORT === "1" && (
+            {isSupportEnabled() && (
               <Link className="relative rounded-xl px-3 py-2 text-sm font-medium text-pink-300/90 hover:text-pink-200 transition-all duration-300 ease-out transform-gpu hover:scale-102 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-pink-500/30 before:absolute before:inset-0 before:rounded-xl before:bg-gradient-to-r before:from-pink-600/20 before:to-violet-600/20 before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300" href="/support">
                 💜 Support
               </Link>

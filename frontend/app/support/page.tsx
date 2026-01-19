@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { isFeatureEnabled, FEATURE_FLAGS } from "@/lib/featureFlags";
+import { isSupportEnabled } from "@/lib/featureFlags";
 import { Button } from "@/components/Button";
 
 export default function SupportPage() {
@@ -17,7 +17,7 @@ export default function SupportPage() {
     // Feature flag guard
     useEffect(() => {
         if (!mounted) return;
-        if (!isFeatureEnabled(FEATURE_FLAGS.SUPPORT)) {
+        if (!isSupportEnabled()) {
             router.replace("/");
         }
     }, [mounted, router]);
@@ -26,7 +26,7 @@ export default function SupportPage() {
     if (!mounted) return null;
 
     // Feature flag check
-    if (!isFeatureEnabled(FEATURE_FLAGS.SUPPORT)) {
+    if (!isSupportEnabled()) {
         return null;
     }
 
