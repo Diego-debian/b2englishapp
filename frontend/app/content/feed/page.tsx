@@ -6,29 +6,25 @@ import { useRouter } from "next/navigation";
 import { isContentEnabled } from "@/lib/featureFlags";
 import { MOCK_CONTENT } from "@/lib/mockContent";
 import { getPublishedContentSnapshot } from "@/lib/contentStorage";
-import { ContentStatus, ContentItemV1 } from "@/lib/contentSpec";
-
-type FilterStatus = ContentStatus | "all";
+import { ContentItemV1, isPublished } from "@/lib/contentSpec";
 
 export default function ContentFeedPage() {
     const router = useRouter();
     const [mounted, setMounted] = useState(false);
-    const [contentItems, setContentItems] = useState<ContentItemV1[]>(MOCK_CONTENT);
-    const [statusFilter, setStatusFilter] = useState<FilterStatus>("published");
+    // Initialize with filtered mock content to ensure no drafts leak from initial state
+    const [contentItems, setContentItems] = useState<ContentItemV1[]>(
+        MOCK_CONTENT.filter(isPublished)
+    );
+    // Status filter removed (always "published")
     const [tagFilter, setTagFilter] = useState<string | "all">("all");
 
     useEffect(() => {
         setMounted(true);
         // Load from local storage snapshot if available
+        // Note: getPublishedContentSnapshot() ALREADY checks for status === "published"
         const snapshot = getPublishedContentSnapshot();
         if (snapshot.length > 0) {
             console.log("Loaded content from localStorage snapshot:", snapshot.length);
-            // We prepend snapshot to mock content (or could replace it entirely)
-            // Task rule: "use snapshot if items, if no fallback mock".
-            // Let's replace mock if snapshot exists, or maybe merge?
-            // "fallback mock" implies if snapshot is empty -> use mock.
-            // If snapshot has items -> use snapshot (and maybe mock too? but cleaner to use just snapshot for admin testing).
-            // Let's use snapshot exclusively if it exists, to prove integration.
             setContentItems(snapshot);
         }
     }, []);
@@ -52,13 +48,14 @@ export default function ContentFeedPage() {
 
     const filteredContent = useMemo(() => {
         return contentItems.filter((item) => {
-            const matchStatus =
-                statusFilter === "all" ? true : item.status === statusFilter;
+            // Redundant double-check for safety:
+            if (!isPublished(item)) return false;
+
             const matchTag =
                 tagFilter === "all" ? true : item.tags?.includes(tagFilter);
-            return matchStatus && matchTag;
+            return matchTag;
         });
-    }, [contentItems, statusFilter, tagFilter]);
+    }, [contentItems, tagFilter]);
 
     if (!mounted) return null;
     if (!isContentEnabled()) return null;
@@ -75,23 +72,7 @@ export default function ContentFeedPage() {
 
                 {/* Filters Section */}
                 <div className="mb-10 flex flex-col md:flex-row gap-6 items-center justify-between bg-slate-900/50 p-4 rounded-2xl border border-white/5 mx-auto">
-                    {/* Status Filter */}
-                    <div className="flex gap-2 p-1 bg-slate-800 rounded-xl">
-                        {(["published", "draft", "archived", "all"] as const).map((s) => (
-                            <button
-                                key={s}
-                                onClick={() => setStatusFilter(s)}
-                                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${statusFilter === s
-                                    ? "bg-violet-600 text-white shadow-lg shadow-violet-900/20"
-                                    : "text-slate-400 hover:text-slate-200 hover:bg-slate-700/50"
-                                    } capitalize`}
-                            >
-                                {s}
-                            </button>
-                        ))}
-                    </div>
-
-                    {/* Tag Filter */}
+                    {/* Tag Filter Only (Status filter removed) */}
                     <div className="flex items-center gap-3">
                         <span className="text-sm text-slate-500">Filter by Tag:</span>
                         <select
@@ -120,9 +101,7 @@ export default function ContentFeedPage() {
                             >
                                 {/* Card Header (Image placeholder or gradient) */}
                                 <div className="h-32 bg-gradient-to-br from-slate-800 to-slate-900 relative">
-                                    <div className="absolute top-4 right-4">
-                                        <StatusBadge status={item.status} />
-                                    </div>
+                                    {/* Status Badge REMOVED - all are published */}
                                 </div>
 
                                 <div className="p-6 flex flex-col flex-grow">
@@ -152,9 +131,7 @@ export default function ContentFeedPage() {
 
                                     <div className="pt-4 border-t border-white/5 flex justify-between items-center mt-auto">
                                         <time className="text-xs text-slate-500 font-mono">
-                                            {item.status === "published" && item.publishedAt
-                                                ? item.publishedAt
-                                                : item.createdAt.split("T")[0]}
+                                            {item.publishedAt || item.createdAt.split("T")[0]}
                                         </time>
 
                                         <div className="flex items-center gap-3">
@@ -162,14 +139,9 @@ export default function ContentFeedPage() {
                                                 onClick={(e) => {
                                                     e.preventDefault();
                                                     e.stopPropagation();
+                                                    // Simple copy link logic for specific request
                                                     const url = window.location.origin + `/content/${item.slug}`;
                                                     navigator.clipboard.writeText(url).then(() => {
-                                                        // Visual feedback could be added here, currently just alert or console
-                                                        // Since we want minimal UI changes store-less, let's just log or change icon momentarily?
-                                                        // Task says "Manejar ausencia de clipboard con fallback (try/catch + mensaje simple)."
-                                                        // But on feed card, simple alert might be annoying.
-                                                        // Let's use a simple native alert for now as it's reliable and "simple message", or better:
-                                                        // change button text momentarily? Complex without specific state per card.
                                                         alert("Link copiado al portapapeles");
                                                     }).catch(() => {
                                                         alert("No se pudo copiar el link");
@@ -196,11 +168,10 @@ export default function ContentFeedPage() {
                             No content found
                         </h3>
                         <p className="text-slate-400">
-                            Try adjusting your status or tag filters.
+                            No published content available at this time.
                         </p>
                         <button
                             onClick={() => {
-                                setStatusFilter("all");
                                 setTagFilter("all");
                             }}
                             className="mt-6 px-6 py-2 bg-slate-800 text-white rounded-xl hover:bg-slate-700 transition-colors text-sm"
@@ -214,18 +185,3 @@ export default function ContentFeedPage() {
     );
 }
 
-function StatusBadge({ status }: { status: ContentStatus }) {
-    const colors = {
-        published: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
-        draft: "bg-amber-500/10 text-amber-400 border-amber-500/20",
-        archived: "bg-slate-500/10 text-slate-400 border-slate-500/20",
-    };
-
-    return (
-        <span
-            className={`px-2 py-1 rounded-md text-xs font-bold border capitalize ${colors[status]}`}
-        >
-            {status}
-        </span>
-    );
-}
