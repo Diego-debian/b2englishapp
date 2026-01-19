@@ -60,7 +60,7 @@ export default function ContentDetailPage() {
                     href="/content/feed"
                     className="inline-flex items-center text-sm text-slate-400 hover:text-white mb-8 transition-colors"
                 >
-                    ← Back to Feed
+                    ← Volver al feed
                 </Link>
 
                 <header className="mb-8">
