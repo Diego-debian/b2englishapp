@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { Input } from "@/components/Input";
 import { Button } from "@/components/Button";
+import { ds } from "@/lib/designSystem";
 import type { ContentItem, ContentType, ContentStatus } from "@/store/contentStore";
 
 interface ContentFormProps {
@@ -192,7 +193,7 @@ export function ContentForm({
             {/* Type selector (only for new items) */}
             {!isEdit && (
                 <div>
-                    <label className="block text-sm font-semibold text-slate-900 mb-2">
+                    <label className={ds.form.label("block text-sm font-semibold text-slate-900 mb-2")}>
                         Content Type
                     </label>
                     <div className="flex gap-2">
@@ -202,8 +203,8 @@ export function ContentForm({
                                 type="button"
                                 onClick={() => setType(t)}
                                 className={`px-4 py-2 text-sm font-semibold rounded-lg transition-colors ${type === t
-                                        ? "bg-slate-900 text-white"
-                                        : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                                    ? "bg-slate-900 text-white"
+                                    : "bg-slate-100 text-slate-600 hover:bg-slate-200"
                                     }`}
                             >
                                 {t.charAt(0).toUpperCase() + t.slice(1)}
@@ -253,24 +254,24 @@ export function ContentForm({
                         error={errors.videoId}
                     />
                     <div>
-                        <label className="block text-sm font-semibold text-slate-900 mb-2">
+                        <label className={ds.form.label("block text-sm font-semibold text-slate-900 mb-2")}>
                             Description
                         </label>
                         <textarea
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
                             placeholder="Brief description of the video..."
-                            className="input-pro min-h-[100px]"
+                            className={ds.form.input("input-pro min-h-[100px]")}
                         />
                     </div>
                     <div>
-                        <label className="block text-sm font-semibold text-slate-900 mb-2">
+                        <label className={ds.form.label("block text-sm font-semibold text-slate-900 mb-2")}>
                             Level
                         </label>
                         <select
                             value={level}
                             onChange={(e) => setLevel(e.target.value)}
-                            className="input-pro"
+                            className={ds.form.input("input-pro")}
                         >
                             <option value="">Select level...</option>
                             {LEVELS.map((l) => (
@@ -294,16 +295,16 @@ export function ContentForm({
                         error={errors.title}
                     />
                     <div>
-                        <label className="block text-sm font-semibold text-slate-900 mb-2">
+                        <label className={ds.form.label("block text-sm font-semibold text-slate-900 mb-2")}>
                             Body (Markdown)
                         </label>
                         <textarea
                             value={body}
                             onChange={(e) => setBody(e.target.value)}
                             placeholder="# Introduction&#10;&#10;Write your content here..."
-                            className="input-pro min-h-[200px] font-mono text-sm"
+                            className={ds.form.input("input-pro min-h-[200px] font-mono text-sm")}
                         />
-                        {errors.body && <p className="mt-1 text-xs font-medium text-red-600">{errors.body}</p>}
+                        {errors.body && <p className={ds.form.error("mt-1 text-xs font-medium text-red-600")}>{errors.body}</p>}
                     </div>
                     <Input
                         label="Excerpt"
@@ -313,13 +314,13 @@ export function ContentForm({
                     />
                     <div className="grid grid-cols-2 gap-4">
                         <div>
-                            <label className="block text-sm font-semibold text-slate-900 mb-2">
+                            <label className={ds.form.label("block text-sm font-semibold text-slate-900 mb-2")}>
                                 Level
                             </label>
                             <select
                                 value={level}
                                 onChange={(e) => setLevel(e.target.value)}
-                                className="input-pro"
+                                className={ds.form.input("input-pro")}
                             >
                                 <option value="">Select level...</option>
                                 {LEVELS.map((l) => (
@@ -356,17 +357,17 @@ export function ContentForm({
                         <p className="mt-1 text-xs text-slate-400">{headline.length}/140</p>
                     </div>
                     <div>
-                        <label className="block text-sm font-semibold text-slate-900 mb-2">
+                        <label className={ds.form.label("block text-sm font-semibold text-slate-900 mb-2")}>
                             Body (optional)
                         </label>
                         <textarea
                             value={body}
                             onChange={(e) => setBody(e.target.value)}
                             placeholder="Additional context..."
-                            className="input-pro min-h-[80px]"
+                            className={ds.form.input("input-pro min-h-[80px]")}
                             maxLength={280}
                         />
-                        <p className="mt-1 text-xs text-slate-400">{body.length}/280</p>
+                        <p className={ds.form.help("mt-1 text-xs text-slate-400")}>{body.length}/280</p>
                     </div>
                     <div className="flex items-center gap-2">
                         <input
@@ -381,13 +382,13 @@ export function ContentForm({
                         </label>
                     </div>
                     <div>
-                        <label className="block text-sm font-semibold text-slate-900 mb-2">
+                        <label className={ds.form.label("block text-sm font-semibold text-slate-900 mb-2")}>
                             Level
                         </label>
                         <select
                             value={level}
                             onChange={(e) => setLevel(e.target.value)}
-                            className="input-pro"
+                            className={ds.form.input("input-pro")}
                         >
                             <option value="">Select level...</option>
                             {LEVELS.map((l) => (
@@ -415,13 +416,13 @@ export function ContentForm({
                         <p className="mt-1 text-xs text-slate-400">{label.length}/50</p>
                     </div>
                     <div>
-                        <label className="block text-sm font-semibold text-slate-900 mb-2">
+                        <label className={ds.form.label("block text-sm font-semibold text-slate-900 mb-2")}>
                             Action Type
                         </label>
                         <select
                             value={action}
                             onChange={(e) => setAction(e.target.value as typeof action)}
-                            className="input-pro"
+                            className={ds.form.input("input-pro")}
                         >
                             {CTA_ACTIONS.map((a) => (
                                 <option key={a} value={a}>
@@ -444,13 +445,13 @@ export function ContentForm({
                         placeholder="Practice your grammar skills..."
                     />
                     <div>
-                        <label className="block text-sm font-semibold text-slate-900 mb-2">
+                        <label className={ds.form.label("block text-sm font-semibold text-slate-900 mb-2")}>
                             Style
                         </label>
                         <select
                             value={style}
                             onChange={(e) => setStyle(e.target.value as typeof style)}
-                            className="input-pro"
+                            className={ds.form.input("input-pro")}
                         >
                             {CTA_STYLES.map((s) => (
                                 <option key={s} value={s}>
@@ -463,7 +464,7 @@ export function ContentForm({
             )}
 
             {/* Actions */}
-            <div className="flex gap-3 pt-4 border-t border-slate-200">
+            <div className={ds.actions.bar("flex gap-3 pt-4 border-t border-slate-200")}>
                 <Button type="submit" variant="primary" className="px-6">
                     {isEdit ? "Save Changes" : "Save as Draft"}
                 </Button>

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useContentStore, ContentItem } from "@/store/contentStore";
 import { isFeatureEnabled, FEATURE_FLAGS } from "@/lib/featureFlags";
 import { ContentForm } from "@/components/admin/ContentForm";
+import { ds } from "@/lib/designSystem";
 
 export default function AdminContentNewPage() {
     const router = useRouter();
@@ -49,13 +50,13 @@ export default function AdminContentNewPage() {
     const existingSlugs = items.map((i) => i.slug);
 
     return (
-        <div className="max-w-2xl mx-auto px-4 py-8">
+        <div className={ds.layout.container("max-w-2xl mx-auto px-4 py-8")}>
             {/* Header */}
             <div className="mb-8">
-                <h1 className="text-3xl font-black text-slate-900 tracking-tight">
+                <h1 className={ds.typo.h1("text-3xl font-black text-slate-900 tracking-tight")}>
                     New Content
                 </h1>
-                <p className="text-sm text-slate-500 mt-1">
+                <p className={ds.typo.subtitle("text-sm text-slate-500 mt-1")}>
                     Create a new content item for the feed
                 </p>
             </div>

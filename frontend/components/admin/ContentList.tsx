@@ -58,6 +58,8 @@ function ConfirmModal({
     );
 }
 
+import { ds } from "@/lib/designSystem";
+
 export function ContentList({ items, filter, onFilterChange }: ContentListProps) {
     const setStatus = useContentStore((s) => s.setStatus);
     const deleteItem = useContentStore((s) => s.deleteItem);
@@ -155,10 +157,10 @@ export function ContentList({ items, filter, onFilterChange }: ContentListProps)
                 </div>
 
                 {/* Empty State */}
-                <div className="rounded-xl border-2 border-dashed border-slate-200 bg-slate-50 p-12 text-center">
+                <div className={ds.state.empty("rounded-xl border-2 border-dashed border-slate-200 bg-slate-50 p-12 text-center")}>
                     <div className="text-5xl mb-4">📝</div>
-                    <h3 className="text-lg font-bold text-slate-900 mb-2">No content yet</h3>
-                    <p className="text-sm text-slate-500 mb-6 max-w-sm mx-auto">
+                    <h3 className={ds.typo.h2("text-lg font-bold text-slate-900 mb-2")}>No content yet</h3>
+                    <p className={ds.typo.body("text-sm text-slate-500 mb-6 max-w-sm mx-auto")}>
                         Create your first piece of content to get started. You can add videos, articles, stories, or calls to action.
                     </p>
                     <Link href="/admin/content/new">
@@ -190,8 +192,8 @@ export function ContentList({ items, filter, onFilterChange }: ContentListProps)
                         key={f}
                         onClick={() => onFilterChange(f)}
                         className={`px-4 py-2 text-sm font-semibold rounded-lg transition-colors ${filter === f
-                                ? "bg-slate-900 text-white"
-                                : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                            ? "bg-slate-900 text-white"
+                            : "bg-slate-100 text-slate-600 hover:bg-slate-200"
                             }`}
                     >
                         {f === "all" ? "All" : f === "draft" ? "Drafts" : "Published"}
@@ -209,11 +211,11 @@ export function ContentList({ items, filter, onFilterChange }: ContentListProps)
                 <table className="w-full text-sm">
                     <thead className="bg-slate-50 border-b border-slate-200">
                         <tr>
-                            <th className="text-left px-4 py-3 font-semibold text-slate-600">Title</th>
-                            <th className="text-left px-4 py-3 font-semibold text-slate-600">Type</th>
-                            <th className="text-left px-4 py-3 font-semibold text-slate-600">Status</th>
-                            <th className="text-left px-4 py-3 font-semibold text-slate-600">Slug</th>
-                            <th className="text-right px-4 py-3 font-semibold text-slate-600">Actions</th>
+                            <th className={ds.table.th("text-left px-4 py-3 font-semibold text-slate-600")}>Title</th>
+                            <th className={ds.table.th("text-left px-4 py-3 font-semibold text-slate-600")}>Type</th>
+                            <th className={ds.table.th("text-left px-4 py-3 font-semibold text-slate-600")}>Status</th>
+                            <th className={ds.table.th("text-left px-4 py-3 font-semibold text-slate-600")}>Slug</th>
+                            <th className={ds.table.th("text-right px-4 py-3 font-semibold text-slate-600")}>Actions</th>
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-100">
@@ -228,22 +230,22 @@ export function ContentList({ items, filter, onFilterChange }: ContentListProps)
                             </tr>
                         ) : (
                             filteredItems.map((item) => (
-                                <tr key={item.slug} className="hover:bg-slate-50 transition-colors">
-                                    <td className="px-4 py-3 font-medium text-slate-900 max-w-xs truncate">
+                                <tr key={item.slug} className={ds.table.tr("hover:bg-slate-50 transition-colors")}>
+                                    <td className={ds.table.td("px-4 py-3 font-medium text-slate-900 max-w-xs truncate")}>
                                         {getTitle(item)}
                                     </td>
-                                    <td className="px-4 py-3">
+                                    <td className={ds.table.td("px-4 py-3")}>
                                         <TypeBadge type={item.type} />
                                     </td>
-                                    <td className="px-4 py-3">
+                                    <td className={ds.table.td("px-4 py-3")}>
                                         <StatusBadge status={item.status} />
                                     </td>
-                                    <td className="px-4 py-3">
+                                    <td className={ds.table.td("px-4 py-3")}>
                                         <code className="text-xs bg-slate-100 px-2 py-1 rounded font-mono text-slate-600">
                                             {item.slug}
                                         </code>
                                     </td>
-                                    <td className="px-4 py-3">
+                                    <td className={ds.table.td("px-4 py-3")}>
                                         <div className="flex justify-end gap-2">
                                             <Link href={`/admin/content/${item.slug}/preview`}>
                                                 <Button variant="ghost" className="text-xs px-3 py-1">
