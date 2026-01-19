@@ -8,6 +8,7 @@ import { isFeatureEnabled, FEATURE_FLAGS } from "@/lib/featureFlags";
 import { ContentList } from "@/components/admin/ContentList";
 import { Button } from "@/components/Button";
 import { Spinner } from "@/components/Spinner";
+import { ds } from "@/lib/designSystem";
 
 export default function AdminContentPage() {
     const router = useRouter();
@@ -54,14 +55,14 @@ export default function AdminContentPage() {
     }
 
     return (
-        <div className="max-w-6xl mx-auto px-4 py-8">
+        <div className={ds.layout.container("max-w-6xl mx-auto px-4 py-8")}>
             {/* Header */}
             <div className="flex items-center justify-between mb-8">
                 <div>
-                    <h1 className="text-3xl font-black text-slate-900 tracking-tight">
+                    <h1 className={ds.typo.h1("text-3xl font-black text-slate-900 tracking-tight")}>
                         Content Admin
                     </h1>
-                    <p className="text-sm text-slate-500 mt-1">
+                    <p className={ds.typo.subtitle("text-sm text-slate-500 mt-1")}>
                         Manage content items for the feed
                     </p>
                 </div>

@@ -8,6 +8,7 @@ import remarkGfm from "remark-gfm";
 import { isContentEnabled, isContentUxV2Enabled } from "@/lib/featureFlags";
 import { shareContent, copyToClipboard } from "@/lib/share";
 import { ContentItemV1 } from "@/lib/contentSpec";
+import { ds } from "@/lib/designSystem";
 
 interface ContentDetailClientProps {
     item: ContentItemV1;
@@ -137,10 +138,10 @@ export default function ContentDetailClient({ item }: ContentDetailClientProps) 
         );
     }
 
-    // Legacy UI (UNCHANGED)
+    // Legacy UI (UNCHANGED logic, now styled via DS if enabled)
     return (
-        <main className="min-h-screen bg-slate-950 px-4 py-16">
-            <article className="max-w-3xl mx-auto">
+        <main className={ds.layout.page("min-h-screen bg-slate-950 px-4 py-16")}>
+            <article className={ds.layout.container("max-w-3xl mx-auto")}>
                 <Link
                     href="/content/feed"
                     className="inline-flex items-center text-sm text-slate-400 hover:text-white mb-8 transition-colors"
@@ -152,7 +153,7 @@ export default function ContentDetailClient({ item }: ContentDetailClientProps) 
                     <time className="text-sm text-violet-400 mb-2 block">
                         {item.publishedAt}
                     </time>
-                    <h1 className="text-3xl md:text-5xl font-bold text-white mb-6">
+                    <h1 className={ds.typo.h1("text-3xl md:text-5xl font-bold text-white mb-6")}>
                         {item.title}
                     </h1>
 
@@ -170,7 +171,7 @@ export default function ContentDetailClient({ item }: ContentDetailClientProps) 
                                     // if 'shared', browser handled it
                                 });
                             }}
-                            className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-lg text-sm font-medium transition-colors flex items-center gap-2"
+                            className={ds.button.primary("px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-lg text-sm font-medium transition-colors flex items-center gap-2")}
                         >
                             📤 Compartir
                         </button>
@@ -180,29 +181,29 @@ export default function ContentDetailClient({ item }: ContentDetailClientProps) 
                                     if (ok) alert("Link copiado al portapapeles");
                                 });
                             }}
-                            className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white rounded-lg text-sm font-medium transition-colors flex items-center gap-2"
+                            className={ds.button.secondary("px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white rounded-lg text-sm font-medium transition-colors flex items-center gap-2")}
                         >
                             🔗 Copiar Link
                         </button>
                     </div>
 
-                    <p className="text-xl text-slate-300 leading-relaxed border-l-4 border-violet-500/50 pl-4">
+                    <p className={ds.typo.subtitle("text-xl text-slate-300 leading-relaxed border-l-4 border-violet-500/50 pl-4")}>
                         {item.excerpt}
                     </p>
                 </header>
 
                 {/* Markdown Content */}
-                <div className="text-slate-300 leading-relaxed font-normal">
+                <div className={ds.typo.body("text-slate-300 leading-relaxed font-normal")}>
                     <ReactMarkdown
                         remarkPlugins={[remarkGfm]}
                         components={{
                             h1: ({ children }) => (
-                                <h1 className="text-3xl font-bold text-white mt-10 mb-6">
+                                <h1 className={ds.typo.h2("text-3xl font-bold text-white mt-10 mb-6")}>
                                     {children}
                                 </h1>
                             ),
                             h2: ({ children }) => (
-                                <h2 className="text-2xl font-bold text-white mt-10 mb-4 pb-2 border-b border-white/10">
+                                <h2 className={ds.typo.h2("text-2xl font-bold text-white mt-10 mb-4 pb-2 border-b border-white/10")}>
                                     {children}
                                 </h2>
                             ),

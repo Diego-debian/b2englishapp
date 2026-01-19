@@ -16,6 +16,7 @@ export const FEATURE_FLAGS = {
     CONTENT_PUBLIC_INDEX_V1: "FEATURE_CONTENT_PUBLIC_INDEX_V1",
     CONTENT_BACKEND_READ_V1: "FEATURE_CONTENT_BACKEND_READ_V1",
     GLOBAL_CONTENT_V1: "FEATURE_GLOBAL_CONTENT_V1",
+    UI_V11: "FEATURE_UI_V11",
 } as const;
 
 export type FeatureFlagKey = keyof typeof FEATURE_FLAGS;
@@ -122,5 +123,13 @@ export const isContentBackendReadV1Enabled = (): boolean => {
  */
 export const isGlobalContentV1Enabled = (): boolean => {
     return isFeatureOn(process.env.NEXT_PUBLIC_FEATURE_GLOBAL_CONTENT_V1);
+};
+
+/**
+ * Check if FEATURE_UI_V11 is enabled.
+ * Controls the Visual Refresh for Feed, Detail, and Admin pages.
+ */
+export const isUiV11Enabled = (): boolean => {
+    return isFeatureOn(process.env.NEXT_PUBLIC_FEATURE_UI_V11);
 };
 
