@@ -1,12 +1,23 @@
 import React from "react";
 import FeedClient from "./FeedClient";
 import { fetchContentList } from "@/lib/contentClient";
+import LatestContentBlock from "@/components/content/LatestContentBlock";
 
 export const dynamic = "force-dynamic"; // Use dynamic rendering to allow backend fetch
 
 export default async function ContentFeedPage() {
     // Server-side fetch (with backend/mock fallback)
     const items = await fetchContentList();
+    const currentSlugs = items.map(item => item.slug);
 
-    return <FeedClient initialContent={items} />;
+    return (
+        <>
+            <FeedClient initialContent={items} />
+            <LatestContentBlock
+                title="More from the Magazine"
+                compact={true}
+                excludeSlugs={currentSlugs}
+            />
+        </>
+    );
 }

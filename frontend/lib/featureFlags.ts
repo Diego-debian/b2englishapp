@@ -117,7 +117,8 @@ export const isContentBackendReadV1Enabled = (): boolean => {
 
 /**
  * Check if FEATURE_GLOBAL_CONTENT_V1 is enabled.
- * Controls the display of the "Latest from the Magazine" block on the landing page.
+ * Controls the display of the "Latest from the Magazine" or "More from the Magazine" block
+ * on Home, Content Feed, and Support pages.
  */
 export const isGlobalContentV1Enabled = (): boolean => {
     return isFeatureOn(process.env.NEXT_PUBLIC_FEATURE_GLOBAL_CONTENT_V1);

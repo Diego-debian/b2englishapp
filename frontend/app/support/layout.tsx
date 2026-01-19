@@ -60,10 +60,17 @@ export function generateMetadata(): Metadata {
     };
 }
 
+import LatestContentBlock from "@/components/content/LatestContentBlock";
+
 export default function SupportLayout({
     children,
 }: {
     children: React.ReactNode;
 }) {
-    return <>{children}</>;
+    return (
+        <>
+            {children}
+            <LatestContentBlock compact={true} />
+        </>
+    );
 }

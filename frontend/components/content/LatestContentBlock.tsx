@@ -2,30 +2,50 @@ import Link from "next/link";
 import { fetchContentList } from "@/lib/contentClient";
 import { isGlobalContentV1Enabled } from "@/lib/featureFlags";
 
-export default async function LatestContentBlock() {
+interface LatestContentBlockProps {
+    title?: string;
+    limit?: number;
+    compact?: boolean;
+    excludeSlugs?: string[];
+}
+
+export default async function LatestContentBlock({
+    title = "Latest from the Magazine",
+    limit = 3,
+    compact = false,
+    excludeSlugs = [],
+}: LatestContentBlockProps = {}) {
     if (!isGlobalContentV1Enabled()) {
         return null;
     }
 
     const allContent = await fetchContentList();
-    // Take top 3
-    const latestContent = allContent.slice(0, 3);
+
+    // Filter out excluded slugs
+    const availableContent = excludeSlugs.length > 0
+        ? allContent.filter(item => !excludeSlugs.includes(item.slug))
+        : allContent;
+
+    // Take top N
+    const latestContent = availableContent.slice(0, limit);
 
     if (latestContent.length === 0) {
         return null;
     }
 
     return (
-        <section className="flex items-center justify-center px-4 py-20 bg-slate-50/50">
+        <section className={`flex items-center justify-center px-4 ${compact ? 'py-12 border-t border-slate-200' : 'py-20'} bg-slate-50/50`}>
             <div className="max-w-5xl w-full mx-auto">
                 <div className="flex justify-between items-end mb-10">
                     <div>
-                        <h2 className="text-3xl font-bold tracking-tight text-slate-900">
-                            Latest from the Magazine
+                        <h2 className={`${compact ? 'text-2xl' : 'text-3xl'} font-bold tracking-tight text-slate-900`}>
+                            {title}
                         </h2>
-                        <p className="text-slate-600 mt-2">
-                            Tips, guides, and updates for your learning journey.
-                        </p>
+                        {!compact && (
+                            <p className="text-slate-600 mt-2">
+                                Tips, guides, and updates for your learning journey.
+                            </p>
+                        )}
                     </div>
                     <Link
                         href="/content/feed"
