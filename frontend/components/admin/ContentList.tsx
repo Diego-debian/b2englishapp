@@ -186,15 +186,15 @@ export function ContentList({ items, filter, onFilterChange }: ContentListProps)
             )}
 
             {/* Filter Tabs */}
-            <div className="flex gap-2">
+            <div className={ds.filter.group("flex gap-2")}>
                 {(["all", "draft", "published"] as const).map((f) => (
                     <button
                         key={f}
                         onClick={() => onFilterChange(f)}
-                        className={`px-4 py-2 text-sm font-semibold rounded-lg transition-colors ${filter === f
-                            ? "bg-slate-900 text-white"
-                            : "bg-slate-100 text-slate-600 hover:bg-slate-200"
-                            }`}
+                        className={filter === f
+                            ? ds.filter.active("px-4 py-2 text-sm font-semibold rounded-lg transition-colors bg-slate-900 text-white")
+                            : ds.filter.inactive("px-4 py-2 text-sm font-semibold rounded-lg transition-colors bg-slate-100 text-slate-600 hover:bg-slate-200")
+                        }
                     >
                         {f === "all" ? "All" : f === "draft" ? "Drafts" : "Published"}
                         {f !== "all" && (
@@ -207,7 +207,7 @@ export function ContentList({ items, filter, onFilterChange }: ContentListProps)
             </div>
 
             {/* Table */}
-            <div className="overflow-hidden rounded-xl border border-slate-200 bg-white">
+            <div className={ds.table.container("overflow-hidden rounded-xl border border-slate-200 bg-white")}>
                 <table className="w-full text-sm">
                     <thead className="bg-slate-50 border-b border-slate-200">
                         <tr>
@@ -222,9 +222,11 @@ export function ContentList({ items, filter, onFilterChange }: ContentListProps)
                         {filteredItems.length === 0 ? (
                             <tr>
                                 <td colSpan={5} className="px-4 py-8 text-center">
-                                    <div className="text-slate-400">
-                                        <span className="text-2xl block mb-2">🔍</span>
-                                        No {filter === "draft" ? "drafts" : filter === "published" ? "published items" : "items"} found.
+                                    <div className={ds.state.empty("text-slate-400")}>
+                                        <span className={ds.typo.h2("text-2xl block mb-2")}>🔍</span>
+                                        <p className={ds.typo.body("inline")}>
+                                            No {filter === "draft" ? "drafts" : filter === "published" ? "published items" : "items"} found.
+                                        </p>
                                     </div>
                                 </td>
                             </tr>
