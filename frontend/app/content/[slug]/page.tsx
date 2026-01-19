@@ -6,7 +6,8 @@ import { fetchContentBySlug } from "@/lib/contentClient";
 export const dynamic = "force-dynamic";
 
 export default async function ContentDetailPage(props: any) {
-    const { slug } = props.params || {};
+    const params = await props.params;
+    const { slug } = params || {};
 
     // Server-side fetch (fallback included in adapter)
     const item = await fetchContentBySlug(slug);

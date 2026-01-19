@@ -19,6 +19,7 @@ from .activity import (
     get_activity, list_questions_by_activity,
     start_attempt, submit_answer
 )
+from .progress import (
     select_verbs_for_practice, update_user_progress,
     get_user_progress, initialize_user_progress,
     list_user_progress
@@ -26,8 +27,6 @@ from .activity import (
 from .content import (
     get_published_content_by_slug, list_published_content, count_published_content
 )
-
-__all__ = [
 
 __all__ = [
     # Base
@@ -52,5 +51,4 @@ __all__ = [
     "get_user_progress", "initialize_user_progress", "list_user_progress",
     # Content
     "get_published_content_by_slug", "list_published_content", "count_published_content",
-]
 ]
