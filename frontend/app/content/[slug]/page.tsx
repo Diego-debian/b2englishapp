@@ -5,7 +5,7 @@ import { useRouter, useParams, notFound } from "next/navigation";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { isContentEnabled } from "@/lib/featureFlags";
+import { isContentEnabled, isContentUxV2Enabled } from "@/lib/featureFlags";
 import { MOCK_CONTENT } from "@/lib/mockContent";
 import { getPublishedContentSnapshot } from "@/lib/contentStorage";
 import { shareContent, copyToClipboard } from "@/lib/share";
@@ -47,6 +47,112 @@ export default function ContentDetailPage() {
         return notFound();
     }
 
+    const isV2 = isContentUxV2Enabled();
+
+    // V2 UI: Editorial / Immersive
+    if (isV2) {
+        return (
+            <main className="min-h-screen bg-slate-950 px-4 py-12 md:py-20">
+                <article className="max-w-4xl mx-auto">
+                    {/* Navigation */}
+                    <nav className="mb-12 flex justify-between items-center">
+                        <Link
+                            href="/content/feed"
+                            className="group inline-flex items-center gap-2 text-sm font-bold text-slate-400 hover:text-white transition-colors uppercase tracking-wider"
+                        >
+                            <span className="group-hover:-translate-x-1 transition-transform">←</span>
+                            Back to Magazine
+                        </Link>
+
+                        {/* Subtle Share Actions */}
+                        <div className="flex gap-4">
+                            <button
+                                onClick={() => {
+                                    shareContent({ title: item!.title, text: item!.excerpt, url: window.location.href });
+                                }}
+                                className="text-slate-400 hover:text-violet-400 transition-colors"
+                                aria-label="Share article"
+                            >
+                                <span className="text-xl">📤</span>
+                            </button>
+                            <button
+                                onClick={() => {
+                                    copyToClipboard(window.location.href).then(ok => {
+                                        if (ok) alert("Link copied!");
+                                    });
+                                }}
+                                className="text-slate-400 hover:text-violet-400 transition-colors"
+                                aria-label="Copy link"
+                            >
+                                <span className="text-xl">🔗</span>
+                            </button>
+                        </div>
+                    </nav>
+
+                    {/* Header */}
+                    <header className="mb-16 text-center">
+                        <div className="flex justify-center gap-2 mb-6">
+                            {item.tags?.map(tag => (
+                                <span key={tag} className="px-3 py-1 bg-violet-500/10 text-violet-300 text-xs font-bold uppercase tracking-widest rounded-full border border-violet-500/20">
+                                    {tag}
+                                </span>
+                            ))}
+                        </div>
+                        <h1 className="text-4xl md:text-6xl font-black text-white mb-6 leading-tight tracking-tight">
+                            {item.title}
+                        </h1>
+                        <time className="block text-slate-500 font-mono text-sm">
+                            {item.publishedAt ? `Published on ${item.publishedAt}` : "Recently published"}
+                        </time>
+                    </header>
+
+                    {/* Excerpt / Intro */}
+                    <div className="mb-16 p-8 bg-white/5 border border-white/10 rounded-3xl backdrop-blur-sm">
+                        <p className="text-xl md:text-2xl text-slate-200 leading-relaxed font-light italic text-center">
+                            "{item.excerpt}"
+                        </p>
+                    </div>
+
+                    {/* Content Body */}
+                    <div className="prose prose-invert prose-lg md:prose-xl max-w-none 
+                        prose-headings:font-bold prose-headings:tracking-tight prose-headings:text-white 
+                        prose-p:text-slate-300 prose-p:leading-8 
+                        prose-a:text-violet-400 prose-a:no-underline hover:prose-a:underline
+                        prose-strong:text-white prose-code:text-violet-300 prose-code:bg-slate-900 prose-code:px-1 prose-code:rounded prose-code:before:content-none prose-code:after:content-none
+                        prose-li:text-slate-300
+                        ">
+                        <ReactMarkdown
+                            remarkPlugins={[remarkGfm]}
+                            // Pass minimum overrides, rely on Tailwind Typography (prose) mostly
+                            components={{
+                                // Custom link handling for safety/performance
+                                a: ({ href, children }) => (
+                                    <Link href={href as string} target={href?.startsWith("http") ? "_blank" : undefined} rel="noopener noreferrer">
+                                        {children}
+                                    </Link>
+                                ),
+                            }}
+                        >
+                            {item.body}
+                        </ReactMarkdown>
+                    </div>
+
+                    {/* Footer / Post-read */}
+                    <div className="mt-20 pt-10 border-t border-white/10 text-center">
+                        <h4 className="text-slate-500 font-medium mb-4">Thanks for reading!</h4>
+                        <Link
+                            href="/content/feed"
+                            className="inline-block px-8 py-3 bg-white text-black font-bold rounded-full hover:bg-slate-200 transition-colors"
+                        >
+                            Read more articles
+                        </Link>
+                    </div>
+                </article>
+            </main>
+        );
+    }
+
+    // Legacy UI (UNCHANGED)
     return (
         <main className="min-h-screen bg-slate-950 px-4 py-16">
             <article className="max-w-3xl mx-auto">

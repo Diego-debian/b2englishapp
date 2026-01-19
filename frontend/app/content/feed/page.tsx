@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { isContentEnabled } from "@/lib/featureFlags";
+import { isContentEnabled, isContentUxV2Enabled } from "@/lib/featureFlags";
 import { MOCK_CONTENT } from "@/lib/mockContent";
 import { getPublishedContentSnapshot } from "@/lib/contentStorage";
 import { ContentItemV1, isPublished } from "@/lib/contentSpec";
@@ -60,6 +60,103 @@ export default function ContentFeedPage() {
     if (!mounted) return null;
     if (!isContentEnabled()) return null;
 
+    const isV2 = isContentUxV2Enabled();
+
+    // V2 UI: Glassmorphic, Professional Blog Style
+    if (isV2) {
+        return (
+            <main className="min-h-screen bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900 via-slate-950 to-black px-4 py-12">
+                <div className="max-w-6xl mx-auto">
+                    <header className="mb-16 text-center space-y-4">
+                        <h1 className="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-violet-200 via-white to-violet-200 tracking-tight">
+                            B2English Magazine
+                        </h1>
+                        <p className="text-slate-400 text-lg max-w-2xl mx-auto font-light leading-relaxed">
+                            A curated collection of grammar guides, learning strategies, and insights for your journey to fluency.
+                        </p>
+                    </header>
+
+                    {/* V2 Filters: Minimalist */}
+                    <div className="mb-12 flex justify-center">
+                        <div className="inline-flex items-center gap-3 bg-white/5 backdrop-blur-md px-6 py-3 rounded-full border border-white/10 shadow-2xl">
+                            <span className="text-xs font-semibold text-violet-300 uppercase tracking-wider">Topic</span>
+                            <div className="h-4 w-px bg-white/10"></div>
+                            <select
+                                value={tagFilter}
+                                onChange={(e) => setTagFilter(e.target.value)}
+                                className="bg-transparent text-slate-200 text-sm font-medium focus:outline-none cursor-pointer hover:text-white transition-colors [&>option]:bg-slate-900"
+                            >
+                                <option value="all">All Topics</option>
+                                {allTags.map((tag) => (
+                                    <option key={tag} value={tag}>
+                                        {tag}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                    </div>
+
+                    {/* V2 Content Grid */}
+                    {filteredContent.length > 0 ? (
+                        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                            {filteredContent.map((item) => (
+                                <Link
+                                    key={item.slug}
+                                    href={`/content/${item.slug}`}
+                                    className="group relative flex flex-col h-full bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl overflow-hidden hover:bg-white/10 hover:border-violet-500/30 transition-all duration-500 shadow-xl hover:shadow-violet-900/10 hover:-translate-y-1"
+                                >
+                                    {/* Abstract Visual Header */}
+                                    <div className="h-48 bg-gradient-to-br from-slate-800 via-slate-900 to-black relative overflow-hidden">
+                                        <div className="absolute inset-0 bg-violet-500/10 group-hover:bg-violet-500/20 transition-colors duration-500" />
+                                        <div className="absolute top-4 left-4">
+                                            <div className="flex gap-2">
+                                                {item.tags?.slice(0, 2).map((tag) => (
+                                                    <span key={tag} className="px-2 py-1 bg-black/50 backdrop-blur text-[10px] font-bold uppercase tracking-wider text-white border border-white/10 rounded">
+                                                        {tag}
+                                                    </span>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className="p-8 flex flex-col flex-grow">
+                                        <h2 className="text-2xl font-bold text-white mb-4 leading-tight group-hover:text-violet-300 transition-colors">
+                                            {item.title}
+                                        </h2>
+                                        <p className="text-slate-400 text-sm leading-relaxed mb-8 flex-grow line-clamp-3">
+                                            {item.excerpt}
+                                        </p>
+
+                                        <div className="flex items-center justify-between pt-6 border-t border-white/5">
+                                            <time className="text-xs font-mono text-slate-500">
+                                                {item.publishedAt || "Recently"}
+                                            </time>
+                                            <span className="inline-flex items-center gap-2 text-sm font-bold text-violet-400 group-hover:text-violet-300 transition-colors">
+                                                Read Article
+                                                <span className="group-hover:translate-x-1 transition-transform">→</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </Link>
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="text-center py-32">
+                            <h3 className="text-2xl font-bold text-white mb-2">No articles found</h3>
+                            <button
+                                onClick={() => setTagFilter("all")}
+                                className="text-violet-400 hover:text-violet-300 underline underline-offset-4"
+                            >
+                                Clear filters
+                            </button>
+                        </div>
+                    )}
+                </div>
+            </main>
+        );
+    }
+
+    // Legacy UI (UNCHANGED)
     return (
         <main className="min-h-screen bg-slate-950 px-4 py-8">
             <div className="max-w-5xl mx-auto">
