@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Button } from "@/components/Button";
 import Footer from "@/components/Footer";
+import LatestContentBlock from "@/components/content/LatestContentBlock";
 
 export default function HomePage() {
   return (
@@ -85,6 +86,9 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* Latest Content Block */}
+      <LatestContentBlock />
 
       {/* Footer */}
       <Footer />
