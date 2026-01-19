@@ -162,12 +162,12 @@ export default function FeedClient({ initialContent }: FeedClientProps) {
                 {/* Filters Section */}
                 <div className="mb-10 flex flex-col md:flex-row gap-6 items-center justify-between bg-slate-900/50 p-4 rounded-2xl border border-white/5 mx-auto">
                     {/* Tag Filter Only (Status filter removed) */}
-                    <div className="flex items-center gap-3">
-                        <span className="text-sm text-slate-500">Filter by Tag:</span>
+                    <div className="flex items-center gap-3 w-full md:w-auto">
+                        <span className="text-sm text-slate-500 whitespace-nowrap">Filter by Tag:</span>
                         <select
                             value={tagFilter}
                             onChange={(e) => setTagFilter(e.target.value)}
-                            className="bg-slate-800 text-slate-300 border border-white/10 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
+                            className={ds.form.input("bg-slate-800 text-slate-300 border border-white/10 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500 w-full md:w-auto")}
                         >
                             <option value="all">All Tags</option>
                             {allTags.map((tag) => (
@@ -199,7 +199,7 @@ export default function FeedClient({ initialContent }: FeedClientProps) {
                                         {item.tags?.slice(0, 3).map((tag) => (
                                             <span
                                                 key={tag}
-                                                className="text-[10px] uppercase tracking-wider font-bold px-2 py-1 rounded bg-slate-800 text-slate-400 border border-white/5"
+                                                className={ds.meta.tag("text-[10px] uppercase tracking-wider font-bold px-2 py-1 rounded bg-slate-800 text-slate-400 border border-white/5")}
                                             >
                                                 {tag}
                                             </span>
@@ -214,12 +214,12 @@ export default function FeedClient({ initialContent }: FeedClientProps) {
                                     <h2 className="text-xl font-bold text-slate-100 group-hover:text-violet-400 transition-colors line-clamp-2 mb-3">
                                         {item.title}
                                     </h2>
-                                    <p className="text-sm text-slate-400 line-clamp-3 mb-6 flex-grow">
+                                    <p className={ds.typo.body("text-sm text-slate-400 line-clamp-3 mb-6 flex-grow")}>
                                         {item.excerpt}
                                     </p>
 
                                     <div className="pt-4 border-t border-white/5 flex justify-between items-center mt-auto">
-                                        <time className="text-xs text-slate-500 font-mono">
+                                        <time className={ds.meta.date("text-xs text-slate-500 font-mono")}>
                                             {item.publishedAt || item.createdAt.split("T")[0]}
                                         </time>
 
@@ -241,7 +241,7 @@ export default function FeedClient({ initialContent }: FeedClientProps) {
                                             >
                                                 🔗
                                             </button>
-                                            <span className={ds.button.primary("text-xs font-semibold text-violet-400 group-hover:translate-x-1 transition-transform bg-transparent p-0 hover:bg-transparent shadow-none")}>
+                                            <span className="text-xs font-semibold text-violet-400 group-hover:translate-x-1 transition-transform">
                                                 Read Article →
                                             </span>
                                         </div>

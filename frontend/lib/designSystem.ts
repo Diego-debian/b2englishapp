@@ -132,6 +132,20 @@ export const ds = {
         empty: (defaultClasses: string) => {
             if (!isUiV11Enabled()) return defaultClasses;
             return "text-center py-20 px-4 rounded-2xl bg-white border border-dashed border-slate-300 shadow-sm";
+        },
+        /**
+         * Loading state container
+         */
+        loading: (defaultClasses: string) => {
+            if (!isUiV11Enabled()) return defaultClasses;
+            return "flex items-center justify-center p-12 text-slate-400 animate-pulse";
+        },
+        /**
+         * Error state container
+         */
+        error: (defaultClasses: string) => {
+            if (!isUiV11Enabled()) return defaultClasses;
+            return "p-4 rounded-lg bg-red-50 border border-red-200 text-red-700 text-center";
         }
     },
     form: {
