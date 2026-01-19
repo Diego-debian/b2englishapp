@@ -190,7 +190,11 @@ export default function SupportPage() {
                             <div className="p-4 rounded-xl bg-amber-950/30 border border-amber-500/20">
                                 <p className="text-amber-200/90 text-sm leading-relaxed">
                                     <span className="font-semibold text-amber-200">📬 Contacto:</span><br />
-                                    Escríbeme por el mismo canal donde encontraste B2 English
+                                    <a href="mailto:b2english.app@gmail.com" className="font-bold hover:text-white underline decoration-amber-500/50 hover:decoration-white transition-all">
+                                        b2english.app@gmail.com
+                                    </a>
+                                    <br className="mb-2" />
+                                    También puedes escribirme por donde encontraste B2 English
                                     (YouTube, redes sociales, etc).
                                 </p>
                             </div>

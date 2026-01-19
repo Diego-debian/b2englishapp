@@ -31,6 +31,11 @@ Se eliminó el placeholder "PRÓXIMAMENTE" y se agregaron links funcionales:
 - **Link:** `https://ko-fi.com/diegodebian`
 - **Estilo:** Botón rojo sólido (`bg-red-600`)
 
+
+### 3. Contacto Oficial
+- **Email:** `b2english.app@gmail.com` (link mailto)
+- **Estilo:** `text-amber-200/90` con hover `text-white` para máximo contraste.
+
 ---
 
 ## Pruebas Manuales
@@ -40,10 +45,12 @@ Se eliminó el placeholder "PRÓXIMAMENTE" y se agregaron links funcionales:
 2. Navegar a `/support`
 3. Verificar que todo el texto sea perfectamente legible sobre el fondo oscuro.
 4. Verificar que no haya texto con gradientes (difíciles de leer).
+5. Verificar el email en la tarjeta de Feedback.
 
 ### Functional Check
 1. Clic en botón **PayPal** -> Abre página de donación a `profediegoparra01@gmail.com`.
 2. Clic en botón **Ko-fi** -> Abre perfil de `diegodebian`.
+3. Clic en email `b2english.app@gmail.com` -> Abre cliente de correo.
 
 ---
 
