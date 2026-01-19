@@ -38,6 +38,9 @@ from app.schemas import (
     # Progress
     ProgressUpdateIn, UserProgressUpdate, UserProgressOut
 )
+# Lazy import for router to avoid circular deps if needed, but standard is top level.
+# However, we only need it if flagged. 
+
 from app.crud import (
     # Auth
     authenticate_user, register_user, get_user_by_username,
@@ -204,6 +207,12 @@ def me(current_user: models.User = Depends(get_current_user)):
 # -------------------------------------------------------------------
 # USERS
 # -------------------------------------------------------------------
+# Feature Flagged Routers
+if _settings.FEATURE_CONTENT_API_V1:
+    from app.routers import content
+    app.include_router(content.router)
+    print("✅ Content API mounted (Feature Flag ON)")
+
 @app.get("/users/{user_id}", response_model=UserOut, tags=["Users"])
 def read_user(
     user_id: int,
