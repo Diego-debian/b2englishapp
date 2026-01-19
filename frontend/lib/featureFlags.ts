@@ -14,6 +14,7 @@ export const FEATURE_FLAGS = {
     CONTENT_PUBLIC_UX_V2: "FEATURE_CONTENT_PUBLIC_UX_V2",
     CONTENT_PUBLIC_SEO_V1: "FEATURE_CONTENT_PUBLIC_SEO_V1",
     CONTENT_PUBLIC_INDEX_V1: "FEATURE_CONTENT_PUBLIC_INDEX_V1",
+    CONTENT_BACKEND_READ_V1: "FEATURE_CONTENT_BACKEND_READ_V1",
 } as const;
 
 export type FeatureFlagKey = keyof typeof FEATURE_FLAGS;
@@ -104,3 +105,12 @@ export const isContentSeoV1Enabled = (): boolean => {
 export const isContentIndexV1Enabled = (): boolean => {
     return isFeatureOn(process.env.NEXT_PUBLIC_FEATURE_CONTENT_PUBLIC_INDEX_V1);
 };
+
+/**
+ * Check if FEATURE_CONTENT_BACKEND_READ_V1 is enabled.
+ * Controls whether public content fetches from Backend API (with fallback) or uses static mocks.
+ */
+export const isContentBackendReadV1Enabled = (): boolean => {
+    return isFeatureOn(process.env.NEXT_PUBLIC_FEATURE_CONTENT_BACKEND_READ_V1);
+};
+
