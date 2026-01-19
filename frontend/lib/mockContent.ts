@@ -1,0 +1,34 @@
+import { ContentItemV1 } from "./contentSpec";
+
+export const MOCK_CONTENT: ContentItemV1[] = [
+    {
+        slug: "present-simple-guide",
+        title: "Guide to Present Simple",
+        excerpt: "Learn the basics of the most common tense in English.",
+        body: "The **Present Simple** is used for: \n\n- Habits\n- Facts\n- Scheduled events\n\nFor example: 'I **study** every day.'",
+        status: "published",
+        createdAt: "2026-01-10T00:00:00Z",
+        updatedAt: "2026-01-10T00:00:00Z",
+        publishedAt: "2026-01-10",
+    },
+    {
+        slug: "5-tips-fluency",
+        title: "5 Tips for Fluency",
+        excerpt: "Improve your speaking skills with these practical tips.",
+        body: "## 1. Listen more\nExposure to natural English is key.\n\n## 2. Practice speaking alone\nTalk to yourself in the mirror.\n\n## 3. Don't fear mistakes\nMistakes are proof you are trying.\n\n## 4. Learn phrases\nDon't just learn isolated words.\n\n## 5. Be consistent\n15 minutes a day is better than 2 hours once a week.",
+        status: "published",
+        createdAt: "2026-01-15T00:00:00Z",
+        updatedAt: "2026-01-15T00:00:00Z",
+        publishedAt: "2026-01-15",
+    },
+    {
+        slug: "common-mistakes-b2",
+        title: "Common B2 Mistakes",
+        excerpt: "Avoid these common errors to sound more professional.",
+        body: "# Common Errors\n\nHere are some mistakes to watch out for:\n\n### 1. False Friends\nWords like *actually* (en realidad) vs *currently* (actualmente).\n\n### 2. Prepositions\n- **Wrong:** I depend of you.\n- **Right:** I depend **on** you.\n\n### 3. Subject-Verb Agreement\nRemember: *Everyone* **is** (singular), not *are*.\n\n> 'Experience is the best teacher.'\n\n[Read more about B2 Level](https://en.wikipedia.org/wiki/Common_European_Framework_of_Reference_for_Languages)",
+        status: "published",
+        createdAt: "2026-01-18T00:00:00Z",
+        updatedAt: "2026-01-18T00:00:00Z",
+        publishedAt: "2026-01-18",
+    },
+];

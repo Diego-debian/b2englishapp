@@ -69,3 +69,11 @@ export const isSupportEnabled = (): boolean => {
 export const isAdminContentEnabled = (): boolean => {
     return isFeatureOn(process.env.NEXT_PUBLIC_FEATURE_ADMIN_CONTENT);
 };
+
+/**
+ * Check if FEATURE_CONTENT is enabled.
+ * Controls access to public content feed and detail pages.
+ */
+export const isContentEnabled = (): boolean => {
+    return isFeatureOn(process.env.NEXT_PUBLIC_FEATURE_CONTENT);
+};
