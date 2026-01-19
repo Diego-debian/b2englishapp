@@ -13,6 +13,7 @@ export const FEATURE_FLAGS = {
     SUPPORT: "FEATURE_SUPPORT",
     CONTENT_PUBLIC_UX_V2: "FEATURE_CONTENT_PUBLIC_UX_V2",
     CONTENT_PUBLIC_SEO_V1: "FEATURE_CONTENT_PUBLIC_SEO_V1",
+    CONTENT_PUBLIC_INDEX_V1: "FEATURE_CONTENT_PUBLIC_INDEX_V1",
 } as const;
 
 export type FeatureFlagKey = keyof typeof FEATURE_FLAGS;
@@ -94,4 +95,12 @@ export const isContentUxV2Enabled = (): boolean => {
  */
 export const isContentSeoV1Enabled = (): boolean => {
     return isFeatureOn(process.env.NEXT_PUBLIC_FEATURE_CONTENT_PUBLIC_SEO_V1);
+};
+
+/**
+ * Check if FEATURE_CONTENT_PUBLIC_INDEX_V1 is enabled.
+ * Controls robots.txt allowing content and sitemap.xml generation.
+ */
+export const isContentIndexV1Enabled = (): boolean => {
+    return isFeatureOn(process.env.NEXT_PUBLIC_FEATURE_CONTENT_PUBLIC_INDEX_V1);
 };
