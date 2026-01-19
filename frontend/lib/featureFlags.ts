@@ -11,6 +11,7 @@ export const FEATURE_FLAGS = {
     ADMIN_CONTENT: "FEATURE_ADMIN_CONTENT",
     CONTENT_FEED: "FEATURE_CONTENT_FEED",
     SUPPORT: "FEATURE_SUPPORT",
+    CONTENT_PUBLIC_UX_V2: "FEATURE_CONTENT_PUBLIC_UX_V2",
 } as const;
 
 export type FeatureFlagKey = keyof typeof FEATURE_FLAGS;
@@ -76,4 +77,12 @@ export const isAdminContentEnabled = (): boolean => {
  */
 export const isContentEnabled = (): boolean => {
     return isFeatureOn(process.env.NEXT_PUBLIC_FEATURE_CONTENT);
+};
+
+/**
+ * Check if FEATURE_CONTENT_PUBLIC_UX_V2 is enabled.
+ * Controls the new "blog/magazine" UI for public content.
+ */
+export const isContentUxV2Enabled = (): boolean => {
+    return isFeatureOn(process.env.NEXT_PUBLIC_FEATURE_CONTENT_PUBLIC_UX_V2);
 };
