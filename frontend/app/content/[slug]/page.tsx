@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { useRouter, useParams } from "next/navigation";
+import { useRouter, useParams, notFound } from "next/navigation";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -9,6 +9,7 @@ import { isContentEnabled } from "@/lib/featureFlags";
 import { MOCK_CONTENT } from "@/lib/mockContent";
 import { getPublishedContentSnapshot } from "@/lib/contentStorage";
 import { shareContent, copyToClipboard } from "@/lib/share";
+import { isPublished } from "@/lib/contentSpec";
 
 export default function ContentDetailPage() {
     const router = useRouter();
@@ -41,26 +42,9 @@ export default function ContentDetailPage() {
         item = MOCK_CONTENT.find((c) => c.slug === slug);
     }
 
-    if (!item) {
-        return (
-            <main className="min-h-screen bg-slate-950 flex items-center justify-center p-4">
-                <div className="text-center">
-                    <div className="text-6xl mb-4">🔍</div>
-                    <h1 className="text-2xl font-bold text-white mb-2">
-                        Content Not Found
-                    </h1>
-                    <p className="text-slate-400 mb-6">
-                        The article you are looking for does not exist.
-                    </p>
-                    <Link
-                        href="/content/feed"
-                        className="px-6 py-2 bg-slate-800 text-white rounded-xl hover:bg-slate-700 transition-colors"
-                    >
-                        Back to Feed
-                    </Link>
-                </div>
-            </main>
-        );
+    // 3. STRICT CHECK: Must exist AND be published
+    if (!item || !isPublished(item)) {
+        return notFound();
     }
 
     return (
