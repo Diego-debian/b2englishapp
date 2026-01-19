@@ -17,6 +17,45 @@ import { isUiV11Enabled } from "@/lib/featureFlags";
 
 type ClassNameFactory = (defaultClasses: string) => string;
 
+const v11 = {
+    surface: {
+        page: "bg-slate-50",
+        card: "bg-white",
+        panel: "bg-slate-100/50",
+        interactivePrimary: "bg-violet-600 hover:bg-violet-700",
+        interactiveSecondary: "bg-white hover:bg-slate-50",
+        input: "bg-white",
+        header: "bg-slate-50",
+    },
+    text: {
+        primary: "text-slate-900",
+        secondary: "text-slate-700",
+        muted: "text-slate-500",
+        onInteractive: "text-white",
+        accent: "text-violet-600",
+        accentHover: "hover:text-violet-500",
+        error: "text-red-600",
+    },
+    border: {
+        default: "border-slate-200",
+        subtle: "border-slate-100",
+        error: "border-red-200",
+        interactive: "border-slate-300",
+        focus: "focus:border-violet-500",
+    },
+    effects: {
+        shadow: "shadow-sm",
+        shadowHover: "hover:shadow-md hover:-translate-y-1",
+        radius: "rounded-xl",
+        radiusSm: "rounded-lg",
+        focusRing: "focus:ring-2 focus:ring-violet-500 focus:outline-none",
+        transition: "transition-all duration-200",
+    },
+    spacing: {
+        page: "px-4 py-8 md:py-12",
+    }
+};
+
 export const ds = {
     layout: {
         /**
@@ -25,7 +64,7 @@ export const ds = {
          */
         page: (defaultClasses: string) => {
             if (!isUiV11Enabled()) return defaultClasses;
-            return "min-h-screen bg-slate-50 text-slate-900 px-4 py-8 md:py-12";
+            return `min-h-screen ${v11.surface.page} ${v11.text.primary} ${v11.spacing.page}`;
         },
         /**
          * Content container max-width.
@@ -41,7 +80,7 @@ export const ds = {
          */
         h1: (defaultClasses: string) => {
             if (!isUiV11Enabled()) return defaultClasses;
-            return "text-3xl md:text-4xl font-extrabold text-slate-900 mb-4 tracking-tight";
+            return `text-3xl md:text-4xl font-extrabold ${v11.text.primary} mb-4 tracking-tight`;
         },
         /**
          * Section Headers (H2).
@@ -55,21 +94,21 @@ export const ds = {
          */
         subtitle: (defaultClasses: string) => {
             if (!isUiV11Enabled()) return defaultClasses;
-            return "text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed";
+            return `text-lg ${v11.text.secondary} max-w-2xl mx-auto leading-relaxed`;
         },
         /**
         * Body text
         */
         body: (defaultClasses: string) => {
             if (!isUiV11Enabled()) return defaultClasses;
-            return "text-base text-slate-700 leading-7";
+            return `text-base ${v11.text.secondary} leading-7`;
         },
         /**
          * Blockquote
          */
         quote: (defaultClasses: string) => {
             if (!isUiV11Enabled()) return defaultClasses;
-            return "pl-4 border-l-4 border-violet-500 italic text-slate-700 my-6 py-2 bg-slate-50/50 rounded-r-lg";
+            return `pl-4 border-l-4 border-violet-500 italic ${v11.text.secondary} my-6 py-2 ${v11.surface.panel} rounded-r-lg`;
         },
         /**
          * Content Links
@@ -83,21 +122,21 @@ export const ds = {
          */
         list: (defaultClasses: string) => {
             if (!isUiV11Enabled()) return defaultClasses;
-            return "pl-6 mb-6 space-y-2 text-slate-700 marker:text-violet-500";
+            return `pl-6 mb-6 space-y-2 ${v11.text.secondary} marker:text-violet-500`;
         },
         /**
          * Inline Code
          */
         codeInline: (defaultClasses: string) => {
             if (!isUiV11Enabled()) return defaultClasses;
-            return "px-1.5 py-0.5 rounded text-sm font-mono bg-slate-100 text-violet-700 border border-slate-200";
+            return `px-1.5 py-0.5 rounded text-sm font-mono bg-slate-100 text-violet-700 border ${v11.border.default}`;
         },
         /**
          * Block Code
          */
         codeBlock: (defaultClasses: string) => {
             if (!isUiV11Enabled()) return defaultClasses;
-            return "block p-4 rounded-xl bg-slate-900 text-slate-50 text-sm font-mono overflow-x-auto my-6 shadow-sm";
+            return `block p-4 ${v11.effects.radius} bg-slate-900 text-slate-50 text-sm font-mono overflow-x-auto my-6 ${v11.effects.shadow}`;
         }
     },
     card: {
@@ -106,7 +145,7 @@ export const ds = {
          */
         root: (defaultClasses: string) => {
             if (!isUiV11Enabled()) return defaultClasses;
-            return "group flex flex-col h-full bg-white border border-slate-200 rounded-xl shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-200 overflow-hidden";
+            return `group flex flex-col h-full ${v11.surface.card} border ${v11.border.default} ${v11.effects.radius} ${v11.effects.shadow} ${v11.effects.shadowHover} ${v11.effects.transition} overflow-hidden`;
         }
     },
     button: {
@@ -115,14 +154,14 @@ export const ds = {
          */
         primary: (defaultClasses: string) => {
             if (!isUiV11Enabled()) return defaultClasses;
-            return "inline-flex items-center justify-center px-6 py-2.5 bg-violet-600 hover:bg-violet-700 text-white font-medium rounded-lg transition-colors shadow-sm cursor-pointer";
+            return `inline-flex items-center justify-center px-6 py-2.5 ${v11.surface.interactivePrimary} ${v11.text.onInteractive} font-medium ${v11.effects.radiusSm} transition-colors ${v11.effects.shadow} cursor-pointer`;
         },
         /**
          * Secondary/Ghost button.
          */
         secondary: (defaultClasses: string) => {
             if (!isUiV11Enabled()) return defaultClasses;
-            return "inline-flex items-center justify-center px-4 py-2 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-medium rounded-lg transition-colors cursor-pointer";
+            return `inline-flex items-center justify-center px-4 py-2 ${v11.surface.interactiveSecondary} border ${v11.border.default} hover:bg-slate-50 ${v11.text.secondary} font-medium ${v11.effects.radiusSm} transition-colors cursor-pointer`;
         }
     },
     state: {
@@ -131,21 +170,21 @@ export const ds = {
          */
         empty: (defaultClasses: string) => {
             if (!isUiV11Enabled()) return defaultClasses;
-            return "text-center py-20 px-4 rounded-2xl bg-white border border-dashed border-slate-300 shadow-sm";
+            return `text-center py-20 px-4 ${v11.effects.radius} ${v11.surface.card} border border-dashed border-slate-300 ${v11.effects.shadow}`;
         },
         /**
          * Loading state container
          */
         loading: (defaultClasses: string) => {
             if (!isUiV11Enabled()) return defaultClasses;
-            return "flex items-center justify-center p-12 text-slate-400 animate-pulse";
+            return `flex items-center justify-center p-12 ${v11.text.muted} animate-pulse`;
         },
         /**
          * Error state container
          */
         error: (defaultClasses: string) => {
             if (!isUiV11Enabled()) return defaultClasses;
-            return "p-4 rounded-lg bg-red-50 border border-red-200 text-red-700 text-center";
+            return `p-4 ${v11.effects.radiusSm} bg-red-50 border ${v11.border.error} ${v11.text.error} text-center`;
         }
     },
     form: {
@@ -154,28 +193,28 @@ export const ds = {
          */
         label: (defaultClasses: string) => {
             if (!isUiV11Enabled()) return defaultClasses;
-            return "block text-sm font-semibold text-slate-700 mb-1.5";
+            return `block text-sm font-semibold ${v11.text.secondary} mb-1.5`;
         },
         /**
          * Standard Input / Select / Textarea
          */
         input: (defaultClasses: string) => {
             if (!isUiV11Enabled()) return defaultClasses;
-            return "w-full rounded-lg border-slate-300 bg-white text-slate-900 shadow-sm focus:border-violet-500 focus:ring-violet-500 sm:text-sm";
+            return `w-full ${v11.effects.radiusSm} ${v11.border.interactive} ${v11.surface.input} ${v11.text.primary} ${v11.effects.shadow} ${v11.border.focus} ${v11.effects.focusRing} sm:text-sm`;
         },
         /**
          * Help text
          */
         help: (defaultClasses: string) => {
             if (!isUiV11Enabled()) return defaultClasses;
-            return "mt-1.5 text-xs text-slate-500";
+            return `mt-1.5 text-xs ${v11.text.muted}`;
         },
         /**
          * Error text
          */
         error: (defaultClasses: string) => {
             if (!isUiV11Enabled()) return defaultClasses;
-            return "mt-1.5 text-xs font-medium text-red-600";
+            return `mt-1.5 text-xs font-medium ${v11.text.error}`;
         },
         /**
          * Form Row / Group wrapper
@@ -191,8 +230,7 @@ export const ds = {
          */
         bar: (defaultClasses: string) => {
             if (!isUiV11Enabled()) return defaultClasses;
-            // Ensure flex layout is preserved or enhanced
-            return "flex items-center gap-3 pt-6 border-t border-slate-100 mt-8";
+            return `flex items-center gap-3 pt-6 border-t ${v11.border.subtle} mt-8`;
         }
     },
     table: {
@@ -201,21 +239,21 @@ export const ds = {
          */
         container: (defaultClasses: string) => {
             if (!isUiV11Enabled()) return defaultClasses;
-            return "overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm ring-1 ring-slate-900/5";
+            return `overflow-hidden ${v11.effects.radius} border ${v11.border.default} ${v11.surface.card} ${v11.effects.shadow} ring-1 ring-slate-900/5`;
         },
         /**
          * Table Head Cell
          */
         th: (defaultClasses: string) => {
             if (!isUiV11Enabled()) return defaultClasses;
-            return "px-4 py-3 bg-slate-50 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider border-b border-slate-200";
+            return `px-4 py-3 ${v11.surface.header} text-left text-xs font-semibold ${v11.text.muted} uppercase tracking-wider border-b ${v11.border.default}`;
         },
         /**
          * Table Body Cell
          */
         td: (defaultClasses: string) => {
             if (!isUiV11Enabled()) return defaultClasses;
-            return "px-4 py-4 text-sm text-slate-700 border-b border-slate-100 whitespace-nowrap";
+            return `px-4 py-4 text-sm ${v11.text.secondary} border-b ${v11.border.subtle} whitespace-nowrap`;
         },
         /**
          * Table Row
@@ -231,21 +269,21 @@ export const ds = {
          */
         group: (defaultClasses: string) => {
             if (!isUiV11Enabled()) return defaultClasses;
-            return "inline-flex items-center p-1 bg-slate-100/50 rounded-xl border border-slate-200 gap-1";
+            return `inline-flex items-center p-1 ${v11.surface.panel} ${v11.effects.radius} border ${v11.border.default} gap-1`;
         },
         /**
          * Active Filter Tab
          */
         active: (defaultClasses: string) => {
             if (!isUiV11Enabled()) return defaultClasses;
-            return "px-4 py-2 text-sm font-semibold rounded-lg bg-white text-violet-700 shadow-sm ring-1 ring-black/5 transition-all";
+            return `px-4 py-2 text-sm font-semibold ${v11.effects.radiusSm} ${v11.surface.card} text-violet-700 ${v11.effects.shadow} ring-1 ring-black/5 ${v11.effects.transition}`;
         },
         /**
          * Inactive Filter Tab
          */
         inactive: (defaultClasses: string) => {
             if (!isUiV11Enabled()) return defaultClasses;
-            return "px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-200/50 transition-all";
+            return `px-4 py-2 text-sm font-medium ${v11.text.secondary} hover:text-slate-900 hover:bg-slate-200/50 ${v11.effects.transition}`;
         }
     },
     meta: {
@@ -254,14 +292,14 @@ export const ds = {
          */
         row: (defaultClasses: string) => {
             if (!isUiV11Enabled()) return defaultClasses;
-            return "flex items-center gap-4 text-sm text-slate-500 mb-6";
+            return `flex items-center gap-4 text-sm ${v11.text.muted} mb-6`;
         },
         /**
          * Date / Time text
          */
         date: (defaultClasses: string) => {
             if (!isUiV11Enabled()) return defaultClasses;
-            return "font-medium text-slate-500";
+            return `font-medium ${v11.text.muted}`;
         },
         /**
          * Tag / Category Chip
@@ -277,7 +315,7 @@ export const ds = {
          */
         wrapper: (defaultClasses: string) => {
             if (!isUiV11Enabled()) return defaultClasses;
-            return "relative w-full overflow-hidden rounded-xl bg-slate-100 my-8 aspect-video";
+            return `relative w-full overflow-hidden ${v11.effects.radius} bg-slate-100 my-8 aspect-video`;
         }
     }
 };
