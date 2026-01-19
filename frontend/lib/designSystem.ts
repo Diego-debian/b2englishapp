@@ -197,6 +197,13 @@ export const ds = {
     },
     table: {
         /**
+         * Table Wrapper
+         */
+        container: (defaultClasses: string) => {
+            if (!isUiV11Enabled()) return defaultClasses;
+            return "overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm ring-1 ring-slate-900/5";
+        },
+        /**
          * Table Head Cell
          */
         th: (defaultClasses: string) => {
@@ -216,6 +223,29 @@ export const ds = {
         tr: (defaultClasses: string) => {
             if (!isUiV11Enabled()) return defaultClasses;
             return "hover:bg-slate-50 transition-colors";
+        }
+    },
+    filter: {
+        /**
+         * Filter Group Container
+         */
+        group: (defaultClasses: string) => {
+            if (!isUiV11Enabled()) return defaultClasses;
+            return "inline-flex items-center p-1 bg-slate-100/50 rounded-xl border border-slate-200 gap-1";
+        },
+        /**
+         * Active Filter Tab
+         */
+        active: (defaultClasses: string) => {
+            if (!isUiV11Enabled()) return defaultClasses;
+            return "px-4 py-2 text-sm font-semibold rounded-lg bg-white text-violet-700 shadow-sm ring-1 ring-black/5 transition-all";
+        },
+        /**
+         * Inactive Filter Tab
+         */
+        inactive: (defaultClasses: string) => {
+            if (!isUiV11Enabled()) return defaultClasses;
+            return "px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-200/50 transition-all";
         }
     },
     meta: {
