@@ -156,9 +156,34 @@ export default function ContentFeedPage() {
                                                 ? item.publishedAt
                                                 : item.createdAt.split("T")[0]}
                                         </time>
-                                        <span className="text-xs font-semibold text-violet-400 group-hover:translate-x-1 transition-transform">
-                                            Read Article →
-                                        </span>
+
+                                        <div className="flex items-center gap-3">
+                                            <button
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    e.stopPropagation();
+                                                    const url = window.location.origin + `/content/${item.slug}`;
+                                                    navigator.clipboard.writeText(url).then(() => {
+                                                        // Visual feedback could be added here, currently just alert or console
+                                                        // Since we want minimal UI changes store-less, let's just log or change icon momentarily?
+                                                        // Task says "Manejar ausencia de clipboard con fallback (try/catch + mensaje simple)."
+                                                        // But on feed card, simple alert might be annoying.
+                                                        // Let's use a simple native alert for now as it's reliable and "simple message", or better:
+                                                        // change button text momentarily? Complex without specific state per card.
+                                                        alert("Link copiado al portapapeles");
+                                                    }).catch(() => {
+                                                        alert("No se pudo copiar el link");
+                                                    });
+                                                }}
+                                                className="text-xs font-semibold text-slate-500 hover:text-white transition-colors z-10"
+                                                title="Copiar Link"
+                                            >
+                                                🔗
+                                            </button>
+                                            <span className="text-xs font-semibold text-violet-400 group-hover:translate-x-1 transition-transform">
+                                                Read Article →
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                             </Link>

@@ -8,6 +8,7 @@ import remarkGfm from "remark-gfm";
 import { isContentEnabled } from "@/lib/featureFlags";
 import { MOCK_CONTENT } from "@/lib/mockContent";
 import { getPublishedContentSnapshot } from "@/lib/contentStorage";
+import { shareContent, copyToClipboard } from "@/lib/share";
 
 export default function ContentDetailPage() {
     const router = useRouter();
@@ -79,6 +80,37 @@ export default function ContentDetailPage() {
                     <h1 className="text-3xl md:text-5xl font-bold text-white mb-6">
                         {item.title}
                     </h1>
+
+                    {/* Actions Bar */}
+                    <div className="flex gap-4 mb-6">
+                        <button
+                            onClick={() => {
+                                const url = window.location.href;
+                                shareContent({
+                                    title: item!.title,
+                                    text: item!.excerpt,
+                                    url
+                                }).then((result) => {
+                                    if (result === 'copied') alert("Link copiado al portapapeles");
+                                    // if 'shared', browser handled it
+                                });
+                            }}
+                            className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-lg text-sm font-medium transition-colors flex items-center gap-2"
+                        >
+                            📤 Compartir
+                        </button>
+                        <button
+                            onClick={() => {
+                                copyToClipboard(window.location.href).then((ok) => {
+                                    if (ok) alert("Link copiado al portapapeles");
+                                });
+                            }}
+                            className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white rounded-lg text-sm font-medium transition-colors flex items-center gap-2"
+                        >
+                            🔗 Copiar Link
+                        </button>
+                    </div>
+
                     <p className="text-xl text-slate-300 leading-relaxed border-l-4 border-violet-500/50 pl-4">
                         {item.excerpt}
                     </p>
