@@ -7,6 +7,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { isContentEnabled } from "@/lib/featureFlags";
 import { MOCK_CONTENT } from "@/lib/mockContent";
+import { getPublishedContentSnapshot } from "@/lib/contentStorage";
 
 export default function ContentDetailPage() {
     const router = useRouter();
@@ -29,7 +30,15 @@ export default function ContentDetailPage() {
     if (!isContentEnabled()) return null;
 
     const slug = params?.slug as string;
-    const item = MOCK_CONTENT.find((c) => c.slug === slug);
+
+    // 1. Try to find in local storage snapshot first
+    const snapshot = getPublishedContentSnapshot();
+    let item = snapshot.find((c) => c.slug === slug);
+
+    // 2. Fallback to mock content if not found
+    if (!item) {
+        item = MOCK_CONTENT.find((c) => c.slug === slug);
+    }
 
     if (!item) {
         return (

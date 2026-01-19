@@ -5,18 +5,32 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { isContentEnabled } from "@/lib/featureFlags";
 import { MOCK_CONTENT } from "@/lib/mockContent";
-import { ContentStatus } from "@/lib/contentSpec";
+import { getPublishedContentSnapshot } from "@/lib/contentStorage";
+import { ContentStatus, ContentItemV1 } from "@/lib/contentSpec";
 
 type FilterStatus = ContentStatus | "all";
 
 export default function ContentFeedPage() {
     const router = useRouter();
     const [mounted, setMounted] = useState(false);
+    const [contentItems, setContentItems] = useState<ContentItemV1[]>(MOCK_CONTENT);
     const [statusFilter, setStatusFilter] = useState<FilterStatus>("published");
     const [tagFilter, setTagFilter] = useState<string | "all">("all");
 
     useEffect(() => {
         setMounted(true);
+        // Load from local storage snapshot if available
+        const snapshot = getPublishedContentSnapshot();
+        if (snapshot.length > 0) {
+            console.log("Loaded content from localStorage snapshot:", snapshot.length);
+            // We prepend snapshot to mock content (or could replace it entirely)
+            // Task rule: "use snapshot if items, if no fallback mock".
+            // Let's replace mock if snapshot exists, or maybe merge?
+            // "fallback mock" implies if snapshot is empty -> use mock.
+            // If snapshot has items -> use snapshot (and maybe mock too? but cleaner to use just snapshot for admin testing).
+            // Let's use snapshot exclusively if it exists, to prove integration.
+            setContentItems(snapshot);
+        }
     }, []);
 
     // Feature flag guard
@@ -30,21 +44,21 @@ export default function ContentFeedPage() {
     // Derived data
     const allTags = useMemo(() => {
         const tags = new Set<string>();
-        MOCK_CONTENT.forEach((item) => {
+        contentItems.forEach((item) => {
             item.tags?.forEach((tag) => tags.add(tag));
         });
         return Array.from(tags).sort();
-    }, []);
+    }, [contentItems]);
 
     const filteredContent = useMemo(() => {
-        return MOCK_CONTENT.filter((item) => {
+        return contentItems.filter((item) => {
             const matchStatus =
                 statusFilter === "all" ? true : item.status === statusFilter;
             const matchTag =
                 tagFilter === "all" ? true : item.tags?.includes(tagFilter);
             return matchStatus && matchTag;
         });
-    }, [statusFilter, tagFilter]);
+    }, [contentItems, statusFilter, tagFilter]);
 
     if (!mounted) return null;
     if (!isContentEnabled()) return null;
@@ -68,8 +82,8 @@ export default function ContentFeedPage() {
                                 key={s}
                                 onClick={() => setStatusFilter(s)}
                                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${statusFilter === s
-                                        ? "bg-violet-600 text-white shadow-lg shadow-violet-900/20"
-                                        : "text-slate-400 hover:text-slate-200 hover:bg-slate-700/50"
+                                    ? "bg-violet-600 text-white shadow-lg shadow-violet-900/20"
+                                    : "text-slate-400 hover:text-slate-200 hover:bg-slate-700/50"
                                     } capitalize`}
                             >
                                 {s}
