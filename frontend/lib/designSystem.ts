@@ -63,6 +63,41 @@ export const ds = {
         body: (defaultClasses: string) => {
             if (!isUiV11Enabled()) return defaultClasses;
             return "text-base text-slate-700 leading-7";
+        },
+        /**
+         * Blockquote
+         */
+        quote: (defaultClasses: string) => {
+            if (!isUiV11Enabled()) return defaultClasses;
+            return "pl-4 border-l-4 border-violet-500 italic text-slate-700 my-6 py-2 bg-slate-50/50 rounded-r-lg";
+        },
+        /**
+         * Content Links
+         */
+        link: (defaultClasses: string) => {
+            if (!isUiV11Enabled()) return defaultClasses;
+            return "font-medium text-violet-600 underline underline-offset-4 decoration-violet-200 hover:decoration-violet-500 transition-all";
+        },
+        /**
+         * Lists (ul, ol)
+         */
+        list: (defaultClasses: string) => {
+            if (!isUiV11Enabled()) return defaultClasses;
+            return "pl-6 mb-6 space-y-2 text-slate-700 marker:text-violet-500";
+        },
+        /**
+         * Inline Code
+         */
+        codeInline: (defaultClasses: string) => {
+            if (!isUiV11Enabled()) return defaultClasses;
+            return "px-1.5 py-0.5 rounded text-sm font-mono bg-slate-100 text-violet-700 border border-slate-200";
+        },
+        /**
+         * Block Code
+         */
+        codeBlock: (defaultClasses: string) => {
+            if (!isUiV11Enabled()) return defaultClasses;
+            return "block p-4 rounded-xl bg-slate-900 text-slate-50 text-sm font-mono overflow-x-auto my-6 shadow-sm";
         }
     },
     card: {
@@ -168,5 +203,39 @@ export const ds = {
             if (!isUiV11Enabled()) return defaultClasses;
             return "hover:bg-slate-50 transition-colors";
         }
+    },
+    meta: {
+        /**
+         * Metadata row container (dates, tags, authors)
+         */
+        row: (defaultClasses: string) => {
+            if (!isUiV11Enabled()) return defaultClasses;
+            return "flex items-center gap-4 text-sm text-slate-500 mb-6";
+        },
+        /**
+         * Date / Time text
+         */
+        date: (defaultClasses: string) => {
+            if (!isUiV11Enabled()) return defaultClasses;
+            return "font-medium text-slate-500";
+        },
+        /**
+         * Tag / Category Chip
+         */
+        tag: (defaultClasses: string) => {
+            if (!isUiV11Enabled()) return defaultClasses;
+            return "inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-800";
+        }
+    },
+    media: {
+        /**
+         * Wrapper for responsive embeds/iframes
+         */
+        wrapper: (defaultClasses: string) => {
+            if (!isUiV11Enabled()) return defaultClasses;
+            return "relative w-full overflow-hidden rounded-xl bg-slate-100 my-8 aspect-video";
+        }
     }
 };
+
+

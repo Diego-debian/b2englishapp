@@ -150,15 +150,18 @@ export default function ContentDetailClient({ item }: ContentDetailClientProps) 
                 </Link>
 
                 <header className="mb-8">
-                    <time className="text-sm text-violet-400 mb-2 block">
-                        {item.publishedAt}
-                    </time>
+                    <div className={ds.meta.row("mb-4")}>
+                        <time className={ds.meta.date("text-sm text-violet-400 block")}>
+                            {item.publishedAt}
+                        </time>
+                    </div>
+
                     <h1 className={ds.typo.h1("text-3xl md:text-5xl font-bold text-white mb-6")}>
                         {item.title}
                     </h1>
 
                     {/* Actions Bar */}
-                    <div className="flex gap-4 mb-6">
+                    <div className={ds.actions.bar("flex gap-4 mb-6 border-t-0 pt-0 mt-0")}>
                         <button
                             onClick={() => {
                                 const url = window.location.href;
@@ -214,12 +217,12 @@ export default function ContentDetailClient({ item }: ContentDetailClientProps) 
                             ),
                             p: ({ children }) => <p className="mb-6">{children}</p>,
                             ul: ({ children }) => (
-                                <ul className="list-disc pl-6 mb-6 space-y-2 marker:text-violet-500">
+                                <ul className={ds.typo.list("list-disc pl-6 mb-6 space-y-2 marker:text-violet-500")}>
                                     {children}
                                 </ul>
                             ),
                             ol: ({ children }) => (
-                                <ol className="list-decimal pl-6 mb-6 space-y-2 marker:text-violet-500">
+                                <ol className={ds.typo.list("list-decimal pl-6 mb-6 space-y-2 marker:text-violet-500")}>
                                     {children}
                                 </ol>
                             ),
@@ -227,7 +230,7 @@ export default function ContentDetailClient({ item }: ContentDetailClientProps) 
                             a: ({ href, children }) => (
                                 <Link
                                     href={href as string}
-                                    className="text-cyan-400 hover:text-cyan-300 underline underline-offset-4 decoration-cyan-400/30 hover:decoration-cyan-300 transition-all font-medium"
+                                    className={ds.typo.link("text-cyan-400 hover:text-cyan-300 underline underline-offset-4 decoration-cyan-400/30 hover:decoration-cyan-300 transition-all font-medium")}
                                     target={href?.startsWith("http") ? "_blank" : undefined}
                                     rel={href?.startsWith("http") ? "noopener noreferrer" : undefined}
                                 >
@@ -235,30 +238,30 @@ export default function ContentDetailClient({ item }: ContentDetailClientProps) 
                                 </Link>
                             ),
                             blockquote: ({ children }) => (
-                                <blockquote className="border-l-4 border-violet-500/50 pl-4 py-1 my-6 text-slate-400 italic bg-white/5 rounded-r-lg">
+                                <blockquote className={ds.typo.quote("border-l-4 border-violet-500/50 pl-4 py-1 my-6 text-slate-400 italic bg-white/5 rounded-r-lg")}>
                                     {children}
                                 </blockquote>
                             ),
                             code: ({ children, className }) => {
                                 const isInline = !className;
                                 return isInline ? (
-                                    <code className="bg-slate-800 text-violet-300 px-1.5 py-0.5 rounded text-sm font-mono border border-white/10">
+                                    <code className={ds.typo.codeInline("bg-slate-800 text-violet-300 px-1.5 py-0.5 rounded text-sm font-mono border border-white/10")}>
                                         {children}
                                     </code>
                                 ) : (
-                                    <code className="block bg-slate-900 p-4 rounded-xl text-slate-300 text-sm font-mono overflow-x-auto border border-white/10 mb-6">
+                                    <code className={ds.typo.codeBlock("block bg-slate-900 p-4 rounded-xl text-slate-300 text-sm font-mono overflow-x-auto border border-white/10 mb-6")}>
                                         {children}
                                     </code>
                                 );
                             },
                             pre: ({ children }) => <pre className="contents">{children}</pre>,
                             strong: ({ children }) => (
-                                <strong className="font-bold text-white">{children}</strong>
+                                <strong className="font-bold text-current">{children}</strong>
                             ),
                             em: ({ children }) => (
-                                <em className="italic text-violet-200">{children}</em>
+                                <em className="italic text-current">{children}</em>
                             ),
-                            hr: () => <hr className="border-t border-white/10 my-8" />,
+                            hr: () => <hr className="border-t border-slate-200 my-8" />,
                         }}
                     >
                         {item.body}
