@@ -53,11 +53,23 @@ function mapBackendItemToSpec(item: BackendContentItem): ContentItemV1 {
     };
 }
 
-export async function fetchContentList(): Promise<ContentItemV1[]> {
+export interface ContentListResult {
+    items: ContentItemV1[];
+    source: "Backend" | "Mock" | "Mock (fallback)";
+    timestamp: string;
+}
+
+export async function fetchContentListWithMetadata(): Promise<ContentListResult> {
+    const now = new Date().toLocaleTimeString();
+
     // 1. Feature Flag Check
     if (!isContentBackendReadV1Enabled()) {
         console.log("[ContentClient] Backend Read Disabled -> Using Mock");
-        return MOCK_CONTENT.filter(isPublished);
+        return {
+            items: MOCK_CONTENT.filter(isPublished),
+            source: "Mock",
+            timestamp: now
+        };
     }
 
     try {
@@ -69,7 +81,8 @@ export async function fetchContentList(): Promise<ContentItemV1[]> {
 
         const res = await fetch(url, {
             signal: controller.signal,
-            cache: 'no-store', // Always fresh for now, or revalidate path logic later
+            cache: 'no-store', // Ensure no caching
+            next: { revalidate: 0 } // Explicit for Next.js 13+ App Router
         });
 
         clearTimeout(timeoutId);
@@ -81,12 +94,26 @@ export async function fetchContentList(): Promise<ContentItemV1[]> {
         const data: BackendContentList = await res.json();
         const mapped = data.items.map(mapBackendItemToSpec);
         console.log(`[ContentClient] Success: Loaded ${mapped.length} items from API`);
-        return mapped;
+
+        return {
+            items: mapped,
+            source: "Backend",
+            timestamp: new Date().toLocaleTimeString()
+        };
 
     } catch (error) {
         console.error("[ContentClient] Fetch Error (Fallback to Mock):", error);
-        return MOCK_CONTENT.filter(isPublished);
+        return {
+            items: MOCK_CONTENT.filter(isPublished),
+            source: "Mock (fallback)",
+            timestamp: new Date().toLocaleTimeString()
+        };
     }
+}
+
+export async function fetchContentList(): Promise<ContentItemV1[]> {
+    const result = await fetchContentListWithMetadata();
+    return result.items;
 }
 
 export async function fetchContentBySlug(slug: string): Promise<ContentItemV1 | null> {
@@ -106,6 +133,7 @@ export async function fetchContentBySlug(slug: string): Promise<ContentItemV1 | 
         const res = await fetch(url, {
             signal: controller.signal,
             cache: 'no-store',
+            next: { revalidate: 0 }
         });
 
         clearTimeout(timeoutId);
@@ -128,3 +156,4 @@ export async function fetchContentBySlug(slug: string): Promise<ContentItemV1 | 
         return mock && isPublished(mock) ? mock : null;
     }
 }
+
