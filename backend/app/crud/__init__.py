@@ -25,7 +25,8 @@ from .progress import (
     list_user_progress
 )
 from .content import (
-    get_published_content_by_slug, list_published_content, count_published_content
+    get_published_content_by_slug, list_published_content, count_published_content,
+    get_content_by_slug, create_content, update_content, delete_content
 )
 
 __all__ = [

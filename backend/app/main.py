@@ -213,6 +213,12 @@ if _settings.FEATURE_CONTENT_API_V1:
     app.include_router(content.router)
     print("✅ Content API mounted (Feature Flag ON)")
 
+if _settings.FEATURE_CONTENT_ADMIN_WRITE_V1:
+    from app.routers import admin_content
+    app.include_router(admin_content.router)
+    print("✅ Admin Content Write API mounted (Feature Flag ON)")
+
+
 @app.get("/users/{user_id}", response_model=UserOut, tags=["Users"])
 def read_user(
     user_id: int,
