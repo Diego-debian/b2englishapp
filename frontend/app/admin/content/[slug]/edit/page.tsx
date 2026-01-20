@@ -13,6 +13,7 @@ import {
 import { ContentForm } from "@/components/admin/ContentForm";
 import { StatusBadge } from "@/components/admin/StatusBadge";
 import { TypeBadge } from "@/components/admin/TypeBadge";
+import { AdminSyncStatus, SyncStatus } from "@/components/admin/AdminSyncStatus";
 import { Button } from "@/components/Button";
 import { ds } from "@/lib/designSystem";
 import { updateContent, hasAuthToken, AdminContentError } from "@/lib/adminContentClient";
@@ -85,6 +86,8 @@ export default function AdminContentEditPage() {
     const [warning, setWarning] = useState<string | null>(null);
     const [success, setSuccess] = useState<string | null>(null);
     const [mounted, setMounted] = useState(false);
+    const [syncStatus, setSyncStatus] = useState<SyncStatus>("idle");
+    const [syncMessage, setSyncMessage] = useState<string | undefined>(undefined);
 
     useEffect(() => {
         setMounted(true);
@@ -154,6 +157,7 @@ export default function AdminContentEditPage() {
         if (effectiveMode === "demo") {
             updateItem(slug, finalItem);
             setSuccess("✅ Changes saved successfully.");
+            setSyncStatus("saved_local");
             setSaving(false);
             setTimeout(() => router.push("/admin/content"), 1200);
             return;
@@ -164,15 +168,18 @@ export default function AdminContentEditPage() {
         if (item.type !== "text") {
             setWarning(`Type "${item.type}" is not supported for backend. Saved locally.`);
             updateItem(slug, finalItem);
+            setSyncStatus("saved_local");
+            setSyncMessage("type not supported");
             setSaving(false);
             setTimeout(() => router.push("/admin/content"), 1500);
             return;
         }
 
-        // Check auth
         if (!hasAuthToken()) {
             setWarning("Not authenticated. Changes saved locally. Please login for Real mode.");
             updateItem(slug, finalItem);
+            setSyncStatus("saved_local");
+            setSyncMessage("no auth");
             setSaving(false);
             setTimeout(() => router.push("/admin/content"), 1500);
             return;
@@ -188,6 +195,7 @@ export default function AdminContentEditPage() {
             // Also save locally for immediate UI consistency
             updateItem(slug, finalItem);
             setSuccess("✅ Changes saved successfully.");
+            setSyncStatus("synced");
             setSaving(false);
             setTimeout(() => router.push("/admin/content"), 1200);
         } catch (err) {
@@ -195,6 +203,8 @@ export default function AdminContentEditPage() {
             console.error("[AdminContentEdit] Backend error:", apiErr);
             setError(`Backend error: ${apiErr.message}. Saved locally as fallback.`);
             updateItem(slug, finalItem);
+            setSyncStatus("saved_local");
+            setSyncMessage("backend error");
             setSaving(false);
         }
     };
@@ -208,10 +218,12 @@ export default function AdminContentEditPage() {
             setStatus(slug, "published");
             setItem({ ...item, status: "published" });
             setSuccess("✅ Published successfully!");
+            setSyncStatus(effectiveMode === "demo" ? "saved_local" : "synced");
         } else if (confirmAction === "unpublish") {
             setStatus(slug, "draft");
             setItem({ ...item, status: "draft" });
             setSuccess("✅ Moved to drafts.");
+            setSyncStatus(effectiveMode === "demo" ? "saved_local" : "synced");
         }
         setConfirmAction(null);
     };
@@ -252,16 +264,17 @@ export default function AdminContentEditPage() {
                         </h1>
                         <TypeBadge type={item.type} />
                         <StatusBadge status={item.status} />
-                        <span className={`text-xs px-2 py-1 rounded-full ${effectiveMode === "demo"
-                            ? "bg-amber-100 text-amber-800"
-                            : "bg-green-100 text-green-800"
-                            }`}>
-                            {effectiveMode === "demo" ? "Demo" : "Real"}
-                        </span>
                     </div>
-                    <p className="text-sm text-slate-500">
+                    <p className="text-sm text-slate-500 mb-2">
                         Editing: <code className="bg-slate-100 px-1 rounded">{slug}</code>
                     </p>
+                    {/* Sync Status */}
+                    <AdminSyncStatus
+                        mode={effectiveMode}
+                        writeEnabled={backendWriteEnabled}
+                        syncStatus={syncStatus}
+                        message={syncMessage}
+                    />
                 </div>
                 <div className="flex gap-2">
                     <Link href={`/admin/content/${slug}/preview`}>

@@ -10,6 +10,7 @@ import {
     isContentAdminDualModeV1Enabled
 } from "@/lib/featureFlags";
 import { ContentForm } from "@/components/admin/ContentForm";
+import { AdminSyncStatus, SyncStatus } from "@/components/admin/AdminSyncStatus";
 import { ds } from "@/lib/designSystem";
 import { createContent, hasAuthToken, AdminContentError } from "@/lib/adminContentClient";
 
@@ -36,6 +37,8 @@ export default function AdminContentNewPage() {
     const [success, setSuccess] = useState<string | null>(null);
     const [mounted, setMounted] = useState(false);
     const [selectedStatus, setSelectedStatus] = useState<"draft" | "published">("draft");
+    const [syncStatus, setSyncStatus] = useState<SyncStatus>("idle");
+    const [syncMessage, setSyncMessage] = useState<string | undefined>(undefined);
 
     useEffect(() => {
         setMounted(true);
@@ -87,6 +90,7 @@ export default function AdminContentNewPage() {
             addItem(itemWithStatus);
             const msg = selectedStatus === "published" ? "✅ Published successfully!" : "✅ Saved as draft.";
             setSuccess(msg);
+            setSyncStatus("saved_local");
             setSaving(false);
             setTimeout(() => router.push("/admin/content"), 1200);
             return;
@@ -105,7 +109,9 @@ export default function AdminContentNewPage() {
         // Check auth
         if (!hasAuthToken()) {
             setWarning("Not authenticated. Content saved locally. Please login for Real mode.");
-            addItem(item);
+            addItem(itemWithStatus);
+            setSyncStatus("saved_local");
+            setSyncMessage("no auth");
             setSaving(false);
             setTimeout(() => router.push("/admin/content"), 1500);
             return;
@@ -123,6 +129,7 @@ export default function AdminContentNewPage() {
             addItem(itemWithStatus);
             const msg = selectedStatus === "published" ? "✅ Published successfully!" : "✅ Saved as draft.";
             setSuccess(msg);
+            setSyncStatus("synced");
             setSaving(false);
             setTimeout(() => router.push("/admin/content"), 1200);
         } catch (err) {
@@ -130,6 +137,8 @@ export default function AdminContentNewPage() {
             console.error("[AdminContentNew] Backend error:", apiErr);
             setError(`Backend error: ${apiErr.message}. Saved locally as fallback.`);
             addItem(itemWithStatus);
+            setSyncStatus("saved_local");
+            setSyncMessage("backend error");
             setSaving(false);
         }
     };
@@ -148,16 +157,17 @@ export default function AdminContentNewPage() {
                     <h1 className={ds.typo.h1("text-3xl font-black text-slate-900 tracking-tight")}>
                         New Content
                     </h1>
-                    <span className={`text-xs px-2 py-1 rounded-full ${effectiveMode === "demo"
-                        ? "bg-amber-100 text-amber-800"
-                        : "bg-green-100 text-green-800"
-                        }`}>
-                        {effectiveMode === "demo" ? "Demo" : "Real"}
-                    </span>
                 </div>
-                <p className={ds.typo.subtitle("text-sm text-slate-500 mt-1")}>
+                <p className={ds.typo.subtitle("text-sm text-slate-500 mt-1 mb-2")}>
                     Create a new content item for the feed
                 </p>
+                {/* Sync Status */}
+                <AdminSyncStatus
+                    mode={effectiveMode}
+                    writeEnabled={backendWriteEnabled}
+                    syncStatus={syncStatus}
+                    message={syncMessage}
+                />
             </div>
 
             {/* Status Selector */}
