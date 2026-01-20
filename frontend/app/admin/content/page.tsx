@@ -257,8 +257,12 @@ export default function AdminContentPage() {
                         </>
                     ) : (
                         <>
-                            <strong>🌐 Production Mode:</strong> Showing content from backend database.
+                            <strong>🌐 Production Mode:</strong> Showing content from <code className="bg-green-100 px-1 rounded">GET /content</code> (public API).
                             {backendItems.length > 0 && ` (${backendItems.length} items)`}
+                            <br />
+                            <span className="text-xs opacity-80">
+                                ⚠️ If <code className="bg-green-100 px-1 rounded text-xs">FEATURE_CONTENT_PUBLIC_PUBLISHED_ONLY_V1=true</code> is set on backend, draft items won&apos;t appear here.
+                            </span>
                         </>
                     )}
                 </p>

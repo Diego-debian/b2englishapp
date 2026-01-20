@@ -83,6 +83,7 @@ export default function AdminContentEditPage() {
     const [saving, setSaving] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [warning, setWarning] = useState<string | null>(null);
+    const [success, setSuccess] = useState<string | null>(null);
     const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
@@ -152,7 +153,9 @@ export default function AdminContentEditPage() {
         // Demo mode: save to localStorage only
         if (effectiveMode === "demo") {
             updateItem(slug, finalItem);
-            router.push("/admin/content");
+            setSuccess("✅ Changes saved successfully.");
+            setSaving(false);
+            setTimeout(() => router.push("/admin/content"), 1200);
             return;
         }
 
@@ -184,7 +187,9 @@ export default function AdminContentEditPage() {
             });
             // Also save locally for immediate UI consistency
             updateItem(slug, finalItem);
-            router.push("/admin/content");
+            setSuccess("✅ Changes saved successfully.");
+            setSaving(false);
+            setTimeout(() => router.push("/admin/content"), 1200);
         } catch (err) {
             const apiErr = err as AdminContentError;
             console.error("[AdminContentEdit] Backend error:", apiErr);
@@ -202,9 +207,11 @@ export default function AdminContentEditPage() {
         if (confirmAction === "publish") {
             setStatus(slug, "published");
             setItem({ ...item, status: "published" });
+            setSuccess("✅ Published successfully!");
         } else if (confirmAction === "unpublish") {
             setStatus(slug, "draft");
             setItem({ ...item, status: "draft" });
+            setSuccess("✅ Moved to drafts.");
         }
         setConfirmAction(null);
     };
@@ -281,6 +288,13 @@ export default function AdminContentEditPage() {
                     )}
                 </div>
             </div>
+
+            {/* Success */}
+            {success && (
+                <div className="bg-green-50 border border-green-200 rounded-lg px-4 py-3 mb-4">
+                    <p className="text-sm text-green-800">{success}</p>
+                </div>
+            )}
 
             {/* Warning */}
             {warning && (

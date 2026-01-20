@@ -33,7 +33,9 @@ export default function AdminContentNewPage() {
     const [saving, setSaving] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [warning, setWarning] = useState<string | null>(null);
+    const [success, setSuccess] = useState<string | null>(null);
     const [mounted, setMounted] = useState(false);
+    const [selectedStatus, setSelectedStatus] = useState<"draft" | "published">("draft");
 
     useEffect(() => {
         setMounted(true);
@@ -74,12 +76,19 @@ export default function AdminContentNewPage() {
     const handleSubmit = async (item: ContentItem) => {
         setError(null);
         setWarning(null);
+        setSuccess(null);
         setSaving(true);
+
+        // Apply selected status to item
+        const itemWithStatus = { ...item, status: selectedStatus };
 
         // Demo mode: save to localStorage only
         if (effectiveMode === "demo") {
-            addItem(item);
-            router.push("/admin/content");
+            addItem(itemWithStatus);
+            const msg = selectedStatus === "published" ? "✅ Published successfully!" : "✅ Saved as draft.";
+            setSuccess(msg);
+            setSaving(false);
+            setTimeout(() => router.push("/admin/content"), 1200);
             return;
         }
 
@@ -108,16 +117,19 @@ export default function AdminContentNewPage() {
                 title: item.title,
                 body: item.body,
                 excerpt: item.excerpt,
-                status: item.status
+                status: selectedStatus
             });
             // Also save locally for immediate UI consistency
-            addItem(item);
-            router.push("/admin/content");
+            addItem(itemWithStatus);
+            const msg = selectedStatus === "published" ? "✅ Published successfully!" : "✅ Saved as draft.";
+            setSuccess(msg);
+            setSaving(false);
+            setTimeout(() => router.push("/admin/content"), 1200);
         } catch (err) {
             const apiErr = err as AdminContentError;
             console.error("[AdminContentNew] Backend error:", apiErr);
             setError(`Backend error: ${apiErr.message}. Saved locally as fallback.`);
-            addItem(item);
+            addItem(itemWithStatus);
             setSaving(false);
         }
     };
@@ -147,6 +159,47 @@ export default function AdminContentNewPage() {
                     Create a new content item for the feed
                 </p>
             </div>
+
+            {/* Status Selector */}
+            <div className="bg-slate-50 border border-slate-200 rounded-lg px-4 py-3 mb-4">
+                <div className="flex items-center gap-4">
+                    <span className="text-sm font-medium text-slate-700">Save as:</span>
+                    <label className="flex items-center gap-2 cursor-pointer">
+                        <input
+                            type="radio"
+                            name="status"
+                            value="draft"
+                            checked={selectedStatus === "draft"}
+                            onChange={() => setSelectedStatus("draft")}
+                            className="w-4 h-4 text-slate-600"
+                        />
+                        <span className="text-sm text-slate-700">📝 Draft</span>
+                    </label>
+                    <label className="flex items-center gap-2 cursor-pointer">
+                        <input
+                            type="radio"
+                            name="status"
+                            value="published"
+                            checked={selectedStatus === "published"}
+                            onChange={() => setSelectedStatus("published")}
+                            className="w-4 h-4 text-green-600"
+                        />
+                        <span className="text-sm text-slate-700">🌐 Published</span>
+                    </label>
+                </div>
+                <p className="text-xs text-slate-500 mt-2">
+                    {selectedStatus === "draft"
+                        ? "Draft items are not visible to the public."
+                        : "Published items are visible in the public feed immediately."}
+                </p>
+            </div>
+
+            {/* Success */}
+            {success && (
+                <div className="bg-green-50 border border-green-200 rounded-lg px-4 py-3 mb-4">
+                    <p className="text-sm text-green-800">{success}</p>
+                </div>
+            )}
 
             {/* Warning */}
             {warning && (
