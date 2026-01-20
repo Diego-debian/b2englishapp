@@ -150,24 +150,24 @@ export default function FeedClient({ initialContent }: FeedClientProps) {
 
     // Legacy UI (UNCHANGED logic, now styled via DS if enabled)
     return (
-        <main className={ds.layout.page("min-h-screen bg-slate-950 px-4 py-8")}>
+        <main className={ds.layout.page("min-h-screen bg-stone-50 px-4 py-8")}>
             <div className={ds.layout.container("max-w-5xl mx-auto")}>
                 <header className="mb-12 text-center">
-                    <h1 className={ds.typo.h1("text-4xl font-bold text-white mb-4")}>Latest Content</h1>
-                    <p className={ds.typo.subtitle("text-slate-400 max-w-xl mx-auto")}>
+                    <h1 className={ds.typo.h1("text-4xl font-bold text-stone-900 mb-4")}>Latest Content</h1>
+                    <p className={ds.typo.subtitle("text-stone-600 max-w-xl mx-auto")}>
                         Explore our guides, tips, and resources to master English grammar.
                     </p>
                 </header>
 
                 {/* Filters Section */}
-                <div className="mb-10 flex flex-col md:flex-row gap-6 items-center justify-between bg-slate-900/50 p-4 rounded-2xl border border-white/5 mx-auto">
+                <div className="mb-10 flex flex-col md:flex-row gap-6 items-center justify-between bg-white p-4 rounded-2xl border border-stone-200 shadow-sm mx-auto">
                     {/* Tag Filter Only (Status filter removed) */}
                     <div className="flex items-center gap-3 w-full md:w-auto">
-                        <span className="text-sm text-slate-500 whitespace-nowrap">Filter by Tag:</span>
+                        <span className="text-sm text-stone-600 whitespace-nowrap">Filter by Tag:</span>
                         <select
                             value={tagFilter}
                             onChange={(e) => setTagFilter(e.target.value)}
-                            className={ds.form.input("bg-slate-800 text-slate-300 border border-white/10 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500 w-full md:w-auto")}
+                            className={ds.form.input("bg-white text-stone-700 border border-stone-200 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-400/50 w-full md:w-auto")}
                         >
                             <option value="all">All Tags</option>
                             {allTags.map((tag) => (
@@ -186,10 +186,10 @@ export default function FeedClient({ initialContent }: FeedClientProps) {
                             <Link
                                 key={item.slug}
                                 href={`/content/${item.slug}`}
-                                className={ds.card.root("group flex flex-col h-full bg-slate-900 border border-white/10 rounded-2xl hover:border-violet-500/50 hover:bg-slate-800/80 transition-all duration-300 shadow-xl shadow-black/20 hover:shadow-violet-900/10 overflow-hidden")}
+                                className={ds.card.root("group flex flex-col h-full bg-white border border-stone-200 rounded-2xl hover:border-violet-400 hover:shadow-lg transition-all duration-300 shadow-sm overflow-hidden")}
                             >
                                 {/* Card Header (Image placeholder or gradient) */}
-                                <div className="h-32 bg-gradient-to-br from-slate-800 to-slate-900 relative">
+                                <div className="h-32 bg-gradient-to-br from-stone-100 to-stone-200 relative">
                                     {/* Status Badge REMOVED - all are published */}
                                 </div>
 
@@ -199,27 +199,27 @@ export default function FeedClient({ initialContent }: FeedClientProps) {
                                         {item.tags?.slice(0, 3).map((tag) => (
                                             <span
                                                 key={tag}
-                                                className={ds.meta.tag("text-[10px] uppercase tracking-wider font-bold px-2 py-1 rounded bg-slate-800 text-slate-400 border border-white/5")}
+                                                className={ds.meta.tag("text-[10px] uppercase tracking-wider font-bold px-2 py-1 rounded bg-stone-100 text-stone-600 border border-stone-200")}
                                             >
                                                 {tag}
                                             </span>
                                         ))}
                                         {(item.tags?.length || 0) > 3 && (
-                                            <span className="text-[10px] px-2 py-1 text-slate-500">
+                                            <span className="text-[10px] px-2 py-1 text-stone-500">
                                                 +{item.tags!.length - 3}
                                             </span>
                                         )}
                                     </div>
 
-                                    <h2 className="text-xl font-bold text-slate-100 group-hover:text-violet-400 transition-colors line-clamp-2 mb-3">
+                                    <h2 className="text-xl font-bold text-stone-900 group-hover:text-violet-600 transition-colors line-clamp-2 mb-3">
                                         {item.title}
                                     </h2>
-                                    <p className={ds.typo.body("text-sm text-slate-400 line-clamp-3 mb-6 flex-grow")}>
+                                    <p className={ds.typo.body("text-sm text-stone-600 line-clamp-3 mb-6 flex-grow")}>
                                         {item.excerpt}
                                     </p>
 
-                                    <div className="pt-4 border-t border-white/5 flex justify-between items-center mt-auto">
-                                        <time className={ds.meta.date("text-xs text-slate-500 font-mono")}>
+                                    <div className="pt-4 border-t border-stone-100 flex justify-between items-center mt-auto">
+                                        <time className={ds.meta.date("text-xs text-stone-500 font-mono")}>
                                             {item.publishedAt || item.createdAt.split("T")[0]}
                                         </time>
 
@@ -236,12 +236,12 @@ export default function FeedClient({ initialContent }: FeedClientProps) {
                                                         alert("No se pudo copiar el link");
                                                     });
                                                 }}
-                                                className="text-xs font-semibold text-slate-500 hover:text-white transition-colors z-10"
+                                                className="text-xs font-semibold text-stone-500 hover:text-violet-600 transition-colors z-10"
                                                 title="Copiar Link"
                                             >
                                                 🔗
                                             </button>
-                                            <span className="text-xs font-semibold text-violet-400 group-hover:translate-x-1 transition-transform">
+                                            <span className="text-xs font-semibold text-violet-600 group-hover:translate-x-1 transition-transform">
                                                 Read Article →
                                             </span>
                                         </div>
@@ -251,19 +251,19 @@ export default function FeedClient({ initialContent }: FeedClientProps) {
                         ))}
                     </div>
                 ) : (
-                    <div className={ds.state.empty("text-center py-20 bg-slate-900/30 rounded-3xl border border-white/5 border-dashed")}>
+                    <div className={ds.state.empty("text-center py-20 bg-white rounded-3xl border border-stone-200 border-dashed shadow-sm")}>
                         <div className="text-4xl mb-4">📭</div>
-                        <h3 className={ds.typo.h2("text-xl font-bold text-white mb-2")}>
+                        <h3 className={ds.typo.h2("text-xl font-bold text-stone-900 mb-2")}>
                             No content found
                         </h3>
-                        <p className={ds.typo.body("text-slate-400")}>
+                        <p className={ds.typo.body("text-stone-600")}>
                             No published content available at this time.
                         </p>
                         <button
                             onClick={() => {
                                 setTagFilter("all");
                             }}
-                            className={ds.button.secondary("mt-6 px-6 py-2 bg-slate-800 text-white rounded-xl hover:bg-slate-700 transition-colors text-sm")}
+                            className={ds.button.secondary("mt-6 px-6 py-2 bg-white text-stone-700 border border-stone-200 rounded-xl hover:bg-stone-50 transition-colors text-sm")}
                         >
                             Clear Filters
                         </button>

@@ -19,28 +19,28 @@ type ClassNameFactory = (defaultClasses: string) => string;
 
 const v11 = {
     surface: {
-        page: "bg-slate-50",
+        page: "bg-stone-50",
         card: "bg-white",
-        panel: "bg-slate-100/50",
+        panel: "bg-stone-100/70",
         interactivePrimary: "bg-violet-600 hover:bg-violet-700",
-        interactiveSecondary: "bg-white hover:bg-slate-50",
+        interactiveSecondary: "bg-white hover:bg-stone-50",
         input: "bg-white",
-        header: "bg-slate-50",
+        header: "bg-stone-100",
     },
     text: {
-        primary: "text-slate-900",
-        secondary: "text-slate-700",
-        muted: "text-slate-500",
+        primary: "text-stone-900",
+        secondary: "text-stone-700",
+        muted: "text-stone-600",
         onInteractive: "text-white",
-        accent: "text-violet-600",
-        accentHover: "hover:text-violet-500",
+        accent: "text-violet-700",
+        accentHover: "hover:text-violet-600",
         error: "text-red-600",
     },
     border: {
-        default: "border-slate-200",
-        subtle: "border-slate-100",
+        default: "border-stone-200",
+        subtle: "border-stone-100",
         error: "border-red-200",
-        interactive: "border-slate-300",
+        interactive: "border-stone-300",
         focus: "focus:border-violet-500",
     },
     effects: {
@@ -48,7 +48,7 @@ const v11 = {
         shadowHover: "hover:shadow-md hover:-translate-y-1",
         radius: "rounded-xl",
         radiusSm: "rounded-lg",
-        focusRing: "focus:ring-2 focus:ring-violet-500 focus:outline-none",
+        focusRing: "focus:ring-2 focus:ring-violet-400/50 focus:outline-none",
         transition: "transition-all duration-200",
     },
     spacing: {
@@ -87,7 +87,7 @@ export const ds = {
          */
         h2: (defaultClasses: string) => {
             if (!isUiV11Enabled()) return defaultClasses;
-            return "text-2xl font-bold text-slate-800 mb-4 tracking-tight";
+            return "text-2xl font-bold text-stone-800 mb-4 tracking-tight";
         },
         /**
          * Subtitles / Descriptions.
@@ -115,7 +115,7 @@ export const ds = {
          */
         link: (defaultClasses: string) => {
             if (!isUiV11Enabled()) return defaultClasses;
-            return "font-medium text-violet-600 underline underline-offset-4 decoration-violet-200 hover:decoration-violet-500 transition-all";
+            return "font-medium text-violet-700 underline underline-offset-4 decoration-violet-300 hover:decoration-violet-600 transition-all";
         },
         /**
          * Lists (ul, ol)
@@ -129,7 +129,7 @@ export const ds = {
          */
         codeInline: (defaultClasses: string) => {
             if (!isUiV11Enabled()) return defaultClasses;
-            return `px-1.5 py-0.5 rounded text-sm font-mono bg-slate-100 text-violet-700 border ${v11.border.default}`;
+            return `px-1.5 py-0.5 rounded text-sm font-mono bg-stone-100 text-violet-700 border ${v11.border.default}`;
         },
         /**
          * Block Code
@@ -161,7 +161,7 @@ export const ds = {
          */
         secondary: (defaultClasses: string) => {
             if (!isUiV11Enabled()) return defaultClasses;
-            return `inline-flex items-center justify-center px-4 py-2 ${v11.surface.interactiveSecondary} border ${v11.border.default} hover:bg-slate-50 ${v11.text.secondary} font-medium ${v11.effects.radiusSm} transition-colors cursor-pointer`;
+            return `inline-flex items-center justify-center px-4 py-2 ${v11.surface.interactiveSecondary} border ${v11.border.default} hover:bg-stone-50 ${v11.text.secondary} font-medium ${v11.effects.radiusSm} transition-colors cursor-pointer`;
         }
     },
     state: {
@@ -170,7 +170,7 @@ export const ds = {
          */
         empty: (defaultClasses: string) => {
             if (!isUiV11Enabled()) return defaultClasses;
-            return `text-center py-20 px-4 ${v11.effects.radius} ${v11.surface.card} border border-dashed border-slate-300 ${v11.effects.shadow}`;
+            return `text-center py-20 px-4 ${v11.effects.radius} ${v11.surface.card} border border-dashed border-stone-300 ${v11.effects.shadow}`;
         },
         /**
          * Loading state container
@@ -239,7 +239,7 @@ export const ds = {
          */
         container: (defaultClasses: string) => {
             if (!isUiV11Enabled()) return defaultClasses;
-            return `overflow-hidden ${v11.effects.radius} border ${v11.border.default} ${v11.surface.card} ${v11.effects.shadow} ring-1 ring-slate-900/5`;
+            return `overflow-hidden ${v11.effects.radius} border ${v11.border.default} ${v11.surface.card} ${v11.effects.shadow} ring-1 ring-stone-900/5`;
         },
         /**
          * Table Head Cell
@@ -260,7 +260,7 @@ export const ds = {
          */
         tr: (defaultClasses: string) => {
             if (!isUiV11Enabled()) return defaultClasses;
-            return "hover:bg-slate-50 transition-colors";
+            return "hover:bg-stone-50 transition-colors";
         }
     },
     filter: {
@@ -283,7 +283,7 @@ export const ds = {
          */
         inactive: (defaultClasses: string) => {
             if (!isUiV11Enabled()) return defaultClasses;
-            return `px-4 py-2 text-sm font-medium ${v11.text.secondary} hover:text-slate-900 hover:bg-slate-200/50 ${v11.effects.transition}`;
+            return `px-4 py-2 text-sm font-medium ${v11.text.secondary} hover:text-stone-900 hover:bg-stone-200/50 ${v11.effects.transition}`;
         }
     },
     meta: {
@@ -306,7 +306,7 @@ export const ds = {
          */
         tag: (defaultClasses: string) => {
             if (!isUiV11Enabled()) return defaultClasses;
-            return "inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-800";
+            return "inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-stone-100 text-stone-800";
         }
     },
     media: {
@@ -315,7 +315,7 @@ export const ds = {
          */
         wrapper: (defaultClasses: string) => {
             if (!isUiV11Enabled()) return defaultClasses;
-            return `relative w-full overflow-hidden ${v11.effects.radius} bg-slate-100 my-8 aspect-video`;
+            return `relative w-full overflow-hidden ${v11.effects.radius} bg-stone-100 my-8 aspect-video`;
         }
     }
 };
