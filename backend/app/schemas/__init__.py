@@ -15,7 +15,7 @@ from .activity import (
 )
 
 from .progress import ProgressUpdateIn, UserProgressUpdate, UserProgressOut, StatsOverview
-from .content import ContentItemPublic, ContentList
+from .content import ContentItemPublic, ContentList, ContentCreate, ContentUpdate, ContentItemAdmin
 
 __all__ = [
     # Auth
