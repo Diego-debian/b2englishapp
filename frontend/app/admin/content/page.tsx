@@ -11,6 +11,7 @@ import {
     isContentAdminDualModeV1Enabled
 } from "@/lib/featureFlags";
 import { ContentList } from "@/components/admin/ContentList";
+import { AdminSyncStatus, SyncStatus } from "@/components/admin/AdminSyncStatus";
 import { Button } from "@/components/Button";
 import { Spinner } from "@/components/Spinner";
 import { ds } from "@/lib/designSystem";
@@ -167,9 +168,21 @@ export default function AdminContentPage() {
                     <h1 className={ds.typo.h1("text-3xl font-black text-slate-900 tracking-tight")}>
                         Content Admin
                     </h1>
-                    <p className={ds.typo.subtitle("text-sm text-slate-500 mt-1")}>
+                    <p className={ds.typo.subtitle("text-sm text-slate-500 mt-1 mb-2")}>
                         Manage content items for the feed
                     </p>
+                    {/* Sync Status */}
+                    <AdminSyncStatus
+                        mode={effectiveMode}
+                        writeEnabled={backendWriteEnabled}
+                        syncStatus={(() => {
+                            if (!isRealMode) return "saved_local" as SyncStatus;
+                            if (backendError) return "error" as SyncStatus;
+                            if (backendFetched) return "synced" as SyncStatus;
+                            return "idle" as SyncStatus;
+                        })()}
+                        message={backendError ? "showing local fallback" : undefined}
+                    />
                 </div>
                 <div className="flex gap-2">
                     {isRealMode && (
