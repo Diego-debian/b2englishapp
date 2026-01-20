@@ -133,3 +133,20 @@ export const isUiV11Enabled = (): boolean => {
     return isFeatureOn(process.env.NEXT_PUBLIC_FEATURE_UI_V11);
 };
 
+/**
+ * Check if FEATURE_CONTENT_BACKEND_WRITE_V1 is enabled.
+ * Controls whether Admin can write content to backend API.
+ * Default: OFF
+ */
+export const isContentBackendWriteV1Enabled = (): boolean => {
+    return isFeatureOn(process.env.NEXT_PUBLIC_FEATURE_CONTENT_BACKEND_WRITE_V1);
+};
+
+/**
+ * Check if FEATURE_CONTENT_ADMIN_DUAL_MODE_V1 is enabled.
+ * Controls whether Admin shows a toggle between Demo (localStorage) and Real (backend) mode.
+ * Default: OFF
+ */
+export const isContentAdminDualModeV1Enabled = (): boolean => {
+    return isFeatureOn(process.env.NEXT_PUBLIC_FEATURE_CONTENT_ADMIN_DUAL_MODE_V1);
+};
