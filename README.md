@@ -1,8 +1,5 @@
 # B2English — English Grammar Learning Platform
 
-> **Status:** Public Beta (v0.8.0)  
-> **Core:** Focus Mode — Targeted Grammar Drills
-
 [![License](https://img.shields.io/badge/License-GPLv3-blue)](LICENSE)
 
 ---
