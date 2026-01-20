@@ -30,6 +30,10 @@ services:
       APP_NAME: ${APP_NAME:-B2 English Verb Trainer API}
       APP_VERSION: ${APP_VERSION:-1.0.0}
       APP_DESCRIPTION: ${APP_DESCRIPTION:-API para aprendizaje de verbos irregulares en inglés nivel B2}
+      FEATURE_CONTENT_API_V1: "true"
+      FEATURE_CONTENT_ADMIN_WRITE_V1: "true"
+      FEATURE_CONTENT_PUBLIC_PUBLISHED_ONLY_V1: "true"
+      NEXT_PUBLIC_FEATURE_CONTENT_BACKEND_READ_V1: "true"
     depends_on:
       db:
         condition: service_healthy
@@ -47,6 +51,7 @@ services:
         NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
     environment:
       NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
+      API_INTERNAL_URL: http://backend:8000
       PORT: 3000
     depends_on:
       - backend

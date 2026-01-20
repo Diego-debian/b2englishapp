@@ -15,8 +15,13 @@ const FETCH_TIMEOUT_MS = 2000;
  */
 
 function getApiUrl(): string {
-    const base = process.env.NEXT_PUBLIC_API_URL?.trim() || "http://localhost:8000";
-    return base.endsWith("/") ? base : `${base}/`;
+    const baseUrl =
+        typeof window === "undefined"
+            ? process.env.API_INTERNAL_URL || process.env.NEXT_PUBLIC_API_URL
+            : process.env.NEXT_PUBLIC_API_URL;
+
+    const finalUrl = (baseUrl || "http://localhost:8000").trim();
+    return finalUrl.endsWith("/") ? finalUrl : `${finalUrl}/`;
 }
 
 interface BackendContentList {

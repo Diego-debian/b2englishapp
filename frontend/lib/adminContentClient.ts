@@ -45,9 +45,14 @@ export interface AdminContentError {
 }
 
 function getApiUrl(): string {
-    const raw = (process.env.NEXT_PUBLIC_API_URL ?? "").trim();
+    const baseUrl =
+        typeof window === "undefined"
+            ? process.env.API_INTERNAL_URL || process.env.NEXT_PUBLIC_API_URL
+            : process.env.NEXT_PUBLIC_API_URL;
+
+    const raw = (baseUrl ?? "").trim();
     if (!raw) {
-        throw { status: 0, message: "NEXT_PUBLIC_API_URL not configured" } as AdminContentError;
+        throw { status: 0, message: "API URL not configured" } as AdminContentError;
     }
     return raw.endsWith("/") ? raw : raw + "/";
 }

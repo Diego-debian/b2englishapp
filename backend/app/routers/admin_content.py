@@ -2,9 +2,11 @@
 app/routers/admin_content.py
 Router protegido para operaciones admin de contenido.
 """
+import logging
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.orm import Session
+from sqlalchemy.exc import IntegrityError
 from jose import jwt, JWTError
 
 from app.database import get_db
@@ -15,6 +17,9 @@ from app.crud.content import (
 )
 from app.crud import get_user_by_username
 from app import models
+
+# Logger for admin content operations
+logger = logging.getLogger(__name__)
 
 _settings = get_settings()
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
@@ -59,23 +64,55 @@ def admin_create_content(
     Create a new content item.
     Requires authentication.
     """
-    # Check for duplicate slug
-    existing = get_content_by_slug(db, payload.slug)
-    if existing:
+    try:
+        # Check for duplicate slug
+        existing = get_content_by_slug(db, payload.slug)
+        if existing:
+            logger.warning(
+                "admin_content.create: slug=%s action=create status=409 result=duplicate",
+                payload.slug
+            )
+            raise HTTPException(
+                status_code=status.HTTP_409_CONFLICT,
+                detail="Content with this slug already exists"
+            )
+        
+        item = create_content(
+            db=db,
+            slug=payload.slug,
+            title=payload.title,
+            body=payload.body,
+            excerpt=payload.excerpt,
+            status=payload.status
+        )
+        
+        logger.info(
+            "admin_content.create: slug=%s action=create status=201 result=success",
+            payload.slug
+        )
+        return item
+        
+    except IntegrityError:
+        db.rollback()
+        logger.warning(
+            "admin_content.create: slug=%s action=create status=409 result=integrity_error",
+            payload.slug
+        )
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
-            detail=f"Content with slug '{payload.slug}' already exists"
+            detail="Content with this slug already exists"
         )
-    
-    item = create_content(
-        db=db,
-        slug=payload.slug,
-        title=payload.title,
-        body=payload.body,
-        excerpt=payload.excerpt,
-        status=payload.status
-    )
-    return item
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(
+            "admin_content.create: slug=%s action=create status=500 result=error error_type=%s",
+            payload.slug, type(e).__name__
+        )
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="An unexpected error occurred"
+        )
 
 
 @router.put("/{slug}", response_model=ContentItemAdmin)
@@ -89,22 +126,44 @@ def admin_update_content(
     Update an existing content item.
     Requires authentication.
     """
-    item = get_content_by_slug(db, slug)
-    if not item:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Content with slug '{slug}' not found"
+    try:
+        item = get_content_by_slug(db, slug)
+        if not item:
+            logger.warning(
+                "admin_content.update: slug=%s action=update status=404 result=not_found",
+                slug
+            )
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Content not found"
+            )
+        
+        updated = update_content(
+            db=db,
+            item=item,
+            title=payload.title,
+            body=payload.body,
+            excerpt=payload.excerpt,
+            status=payload.status
         )
-    
-    updated = update_content(
-        db=db,
-        item=item,
-        title=payload.title,
-        body=payload.body,
-        excerpt=payload.excerpt,
-        status=payload.status
-    )
-    return updated
+        
+        logger.info(
+            "admin_content.update: slug=%s action=update status=200 result=success",
+            slug
+        )
+        return updated
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(
+            "admin_content.update: slug=%s action=update status=500 result=error error_type=%s",
+            slug, type(e).__name__
+        )
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="An unexpected error occurred"
+        )
 
 
 @router.delete("/{slug}", status_code=status.HTTP_204_NO_CONTENT)
@@ -117,13 +176,34 @@ def admin_delete_content(
     Delete a content item.
     Requires authentication.
     """
-    item = get_content_by_slug(db, slug)
-    if not item:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Content with slug '{slug}' not found"
+    try:
+        item = get_content_by_slug(db, slug)
+        if not item:
+            logger.warning(
+                "admin_content.delete: slug=%s action=delete status=404 result=not_found",
+                slug
+            )
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Content not found"
+            )
+        
+        delete_content(db, item)
+        
+        logger.info(
+            "admin_content.delete: slug=%s action=delete status=204 result=success",
+            slug
         )
-    
-    delete_content(db, item)
-    return None
-
+        return None
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(
+            "admin_content.delete: slug=%s action=delete status=500 result=error error_type=%s",
+            slug, type(e).__name__
+        )
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="An unexpected error occurred"
+        )
