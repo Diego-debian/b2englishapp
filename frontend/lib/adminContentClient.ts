@@ -142,3 +142,69 @@ export async function updateContent(
 export function hasAuthToken(): boolean {
     return getAuthToken() !== null;
 }
+
+// Response type for content list
+export interface ContentListResponse {
+    items: ContentItemAdmin[];
+    total: number;
+}
+
+/**
+ * GET /content - List content (public endpoint, uses same types)
+ * Uses public endpoint since admin list needs all statuses eventually
+ * but for now reuses public endpoint structure
+ */
+export async function listContent(): Promise<ContentItemAdmin[]> {
+    const url = `${getApiUrl()}content`;
+
+    const res = await fetch(url, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    });
+
+    const data = await res.json().catch(() => null);
+
+    if (!res.ok) {
+        throw {
+            status: res.status,
+            message: data?.detail || data?.message || `Backend returned ${res.status}`,
+            detail: data
+        } as AdminContentError;
+    }
+
+    // Backend returns { items: [...], total: N }
+    const list = data as ContentListResponse;
+    return list.items ?? [];
+}
+
+/**
+ * GET /content/{slug} - Get single content item (public endpoint)
+ */
+export async function getContent(slug: string): Promise<ContentItemAdmin | null> {
+    const url = `${getApiUrl()}content/${encodeURIComponent(slug)}`;
+
+    const res = await fetch(url, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    });
+
+    if (res.status === 404) {
+        return null;
+    }
+
+    const data = await res.json().catch(() => null);
+
+    if (!res.ok) {
+        throw {
+            status: res.status,
+            message: data?.detail || data?.message || `Backend returned ${res.status}`,
+            detail: data
+        } as AdminContentError;
+    }
+
+    return data as ContentItemAdmin;
+}

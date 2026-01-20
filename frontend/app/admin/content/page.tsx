@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useContentStore } from "@/store/contentStore";
+import { useContentStore, ContentItem } from "@/store/contentStore";
 import {
     isFeatureEnabled,
     FEATURE_FLAGS,
@@ -14,6 +14,7 @@ import { ContentList } from "@/components/admin/ContentList";
 import { Button } from "@/components/Button";
 import { Spinner } from "@/components/Spinner";
 import { ds } from "@/lib/designSystem";
+import { listContent, ContentItemAdmin, AdminContentError } from "@/lib/adminContentClient";
 
 // localStorage key for admin mode preference
 const ADMIN_MODE_KEY = "b2english-admin-content-mode";
@@ -32,10 +33,23 @@ function setStoredMode(mode: AdminMode): void {
     localStorage.setItem(ADMIN_MODE_KEY, mode);
 }
 
+// Convert backend item to local ContentItem format
+function backendToLocal(item: ContentItemAdmin): ContentItem {
+    return {
+        type: "text",
+        slug: item.slug,
+        title: item.title,
+        body: item.body,
+        excerpt: item.excerpt ?? undefined,
+        status: item.status as "draft" | "published",
+        published_at: item.published_at
+    } as ContentItem;
+}
+
 export default function AdminContentPage() {
     const router = useRouter();
-    const hydrated = useContentStore((s) => s.hydrated);
-    const items = useContentStore((s) => s.items);
+    const localHydrated = useContentStore((s) => s.hydrated);
+    const localItems = useContentStore((s) => s.items);
     const loadItems = useContentStore((s) => s.loadItems);
     const [filter, setFilter] = useState<"all" | "draft" | "published">("all");
 
@@ -44,6 +58,12 @@ export default function AdminContentPage() {
 
     // Mode state (only relevant if dual-mode is enabled)
     const [preferredMode, setPreferredMode] = useState<AdminMode>("demo");
+
+    // Backend fetch state
+    const [backendItems, setBackendItems] = useState<ContentItem[]>([]);
+    const [backendLoading, setBackendLoading] = useState(false);
+    const [backendError, setBackendError] = useState<string | null>(null);
+    const [backendFetched, setBackendFetched] = useState(false);
 
     useEffect(() => {
         setMounted(true);
@@ -67,6 +87,28 @@ export default function AdminContentPage() {
     const handleModeToggle = useCallback((newMode: AdminMode) => {
         setPreferredMode(newMode);
         setStoredMode(newMode);
+        // Reset backend state when switching modes
+        setBackendFetched(false);
+        setBackendError(null);
+    }, []);
+
+    // Fetch backend content
+    const fetchBackendContent = useCallback(async () => {
+        setBackendLoading(true);
+        setBackendError(null);
+
+        try {
+            const items = await listContent();
+            setBackendItems(items.map(backendToLocal));
+            setBackendFetched(true);
+        } catch (err) {
+            const apiErr = err as AdminContentError;
+            console.error("[AdminContent] Backend fetch error:", apiErr);
+            setBackendError(apiErr.message || "Failed to load from backend");
+            setBackendFetched(true);
+        } finally {
+            setBackendLoading(false);
+        }
     }, []);
 
     // Render nothing until mounted (prevents SSR/client mismatch)
@@ -94,7 +136,22 @@ export default function AdminContentPage() {
     const showModeToggle = dualModeEnabled;
     const writeDisabledWarning = dualModeEnabled && !backendWriteEnabled;
 
-    if (!hydrated) {
+    // Determine which items to display
+    const isRealMode = effectiveMode === "real";
+
+    // In real mode, auto-fetch if not yet fetched
+    if (isRealMode && !backendFetched && !backendLoading && localHydrated) {
+        fetchBackendContent();
+    }
+
+    // Use backend items in real mode (with fallback), local items in demo mode
+    const displayItems = isRealMode
+        ? (backendError ? localItems : backendItems)
+        : localItems;
+
+    const isLoading = isRealMode ? backendLoading : !localHydrated;
+
+    if (isLoading) {
         return (
             <div className="flex items-center justify-center min-h-[400px]">
                 <Spinner />
@@ -114,11 +171,22 @@ export default function AdminContentPage() {
                         Manage content items for the feed
                     </p>
                 </div>
-                <Link href="/admin/content/new">
-                    <Button variant="primary" className="px-6">
-                        + New Content
-                    </Button>
-                </Link>
+                <div className="flex gap-2">
+                    {isRealMode && (
+                        <Button
+                            variant="secondary"
+                            className="px-4"
+                            onClick={fetchBackendContent}
+                        >
+                            🔄 Refresh
+                        </Button>
+                    )}
+                    <Link href="/admin/content/new">
+                        <Button variant="primary" className="px-6">
+                            + New Content
+                        </Button>
+                    </Link>
+                </div>
             </div>
 
             {/* Dual Mode Toggle (only shown if flag enabled) */}
@@ -132,8 +200,8 @@ export default function AdminContentPage() {
                                     onClick={() => handleModeToggle("demo")}
                                     disabled={writeDisabledWarning}
                                     className={`px-3 py-1 text-sm font-medium rounded-md transition-colors ${effectiveMode === "demo"
-                                            ? "bg-white text-slate-900 shadow-sm"
-                                            : "text-slate-600 hover:text-slate-900"
+                                        ? "bg-white text-slate-900 shadow-sm"
+                                        : "text-slate-600 hover:text-slate-900"
                                         } ${writeDisabledWarning ? "cursor-not-allowed" : ""}`}
                                 >
                                     📁 Demo (localStorage)
@@ -142,8 +210,8 @@ export default function AdminContentPage() {
                                     onClick={() => handleModeToggle("real")}
                                     disabled={!backendWriteEnabled}
                                     className={`px-3 py-1 text-sm font-medium rounded-md transition-colors ${effectiveMode === "real"
-                                            ? "bg-white text-slate-900 shadow-sm"
-                                            : "text-slate-600 hover:text-slate-900"
+                                        ? "bg-white text-slate-900 shadow-sm"
+                                        : "text-slate-600 hover:text-slate-900"
                                         } ${!backendWriteEnabled ? "opacity-50 cursor-not-allowed" : ""}`}
                                 >
                                     🌐 Real (Backend API)
@@ -151,8 +219,8 @@ export default function AdminContentPage() {
                             </div>
                         </div>
                         <span className={`text-xs px-2 py-1 rounded-full ${effectiveMode === "demo"
-                                ? "bg-amber-100 text-amber-800"
-                                : "bg-green-100 text-green-800"
+                            ? "bg-amber-100 text-amber-800"
+                            : "bg-green-100 text-green-800"
                             }`}>
                             {effectiveMode === "demo" ? "Demo Mode" : "Production Mode"}
                         </span>
@@ -167,10 +235,19 @@ export default function AdminContentPage() {
                 </div>
             )}
 
+            {/* Backend Error Warning */}
+            {isRealMode && backendError && (
+                <div className="bg-amber-50 border border-amber-200 rounded-lg px-4 py-3 mb-4">
+                    <p className="text-sm text-amber-800">
+                        ⚠️ <strong>Backend unavailable:</strong> {backendError}. Showing local data as fallback.
+                    </p>
+                </div>
+            )}
+
             {/* Info Banner */}
             <div className={`border rounded-lg px-4 py-3 mb-6 ${effectiveMode === "demo"
-                    ? "bg-blue-50 border-blue-200"
-                    : "bg-green-50 border-green-200"
+                ? "bg-blue-50 border-blue-200"
+                : "bg-green-50 border-green-200"
                 }`}>
                 <p className={`text-sm ${effectiveMode === "demo" ? "text-blue-800" : "text-green-800"}`}>
                     {effectiveMode === "demo" ? (
@@ -180,15 +257,15 @@ export default function AdminContentPage() {
                         </>
                     ) : (
                         <>
-                            <strong>🌐 Production Mode:</strong> Changes are saved directly to the backend database.
+                            <strong>🌐 Production Mode:</strong> Showing content from backend database.
+                            {backendItems.length > 0 && ` (${backendItems.length} items)`}
                         </>
                     )}
                 </p>
             </div>
 
             {/* List */}
-            <ContentList items={items} filter={filter} onFilterChange={setFilter} />
+            <ContentList items={displayItems} filter={filter} onFilterChange={setFilter} />
         </div>
     );
 }
-
