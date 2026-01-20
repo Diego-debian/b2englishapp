@@ -4,12 +4,28 @@ import React, { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import Link from "next/link";
 import { useContentStore, ContentItem } from "@/store/contentStore";
-import { isFeatureEnabled, FEATURE_FLAGS } from "@/lib/featureFlags";
+import {
+    isFeatureEnabled,
+    FEATURE_FLAGS,
+    isContentBackendWriteV1Enabled,
+    isContentAdminDualModeV1Enabled
+} from "@/lib/featureFlags";
 import { ContentForm } from "@/components/admin/ContentForm";
 import { StatusBadge } from "@/components/admin/StatusBadge";
 import { TypeBadge } from "@/components/admin/TypeBadge";
 import { Button } from "@/components/Button";
 import { ds } from "@/lib/designSystem";
+import { updateContent, hasAuthToken, AdminContentError } from "@/lib/adminContentClient";
+
+// localStorage key for admin mode preference (shared with list page)
+const ADMIN_MODE_KEY = "b2english-admin-content-mode";
+type AdminMode = "demo" | "real";
+
+function getStoredMode(): AdminMode {
+    if (typeof window === "undefined") return "demo";
+    const stored = localStorage.getItem(ADMIN_MODE_KEY);
+    return stored === "real" ? "real" : "demo";
+}
 
 // Confirm Modal Component
 function ConfirmModal({
@@ -64,6 +80,14 @@ export default function AdminContentEditPage() {
 
     const [item, setItem] = useState<ContentItem | undefined>(undefined);
     const [confirmAction, setConfirmAction] = useState<"publish" | "unpublish" | null>(null);
+    const [saving, setSaving] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+    const [warning, setWarning] = useState<string | null>(null);
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     // Feature flag guard
     useEffect(() => {
@@ -85,7 +109,7 @@ export default function AdminContentEditPage() {
         }
     }, [hydrated, slug, getBySlug]);
 
-    if (!isFeatureEnabled(FEATURE_FLAGS.ADMIN_CONTENT)) {
+    if (!mounted || !isFeatureEnabled(FEATURE_FLAGS.ADMIN_CONTENT)) {
         return null;
     }
 
@@ -109,10 +133,65 @@ export default function AdminContentEditPage() {
         );
     }
 
-    const handleSubmit = (updated: ContentItem) => {
+    // Calculate effective mode
+    const dualModeEnabled = isContentAdminDualModeV1Enabled();
+    const backendWriteEnabled = isContentBackendWriteV1Enabled();
+    const preferredMode = getStoredMode();
+    const effectiveMode: AdminMode = dualModeEnabled && backendWriteEnabled
+        ? preferredMode
+        : "demo";
+
+    const handleSubmit = async (updated: ContentItem) => {
+        setError(null);
+        setWarning(null);
+        setSaving(true);
+
         // Preserve status when saving
-        updateItem(slug, { ...updated, status: item.status });
-        router.push("/admin/content");
+        const finalItem = { ...updated, status: item.status };
+
+        // Demo mode: save to localStorage only
+        if (effectiveMode === "demo") {
+            updateItem(slug, finalItem);
+            router.push("/admin/content");
+            return;
+        }
+
+        // Real mode: attempt backend write
+        // Only "text" type is supported for backend
+        if (item.type !== "text") {
+            setWarning(`Type "${item.type}" is not supported for backend. Saved locally.`);
+            updateItem(slug, finalItem);
+            setSaving(false);
+            setTimeout(() => router.push("/admin/content"), 1500);
+            return;
+        }
+
+        // Check auth
+        if (!hasAuthToken()) {
+            setWarning("Not authenticated. Changes saved locally. Please login for Real mode.");
+            updateItem(slug, finalItem);
+            setSaving(false);
+            setTimeout(() => router.push("/admin/content"), 1500);
+            return;
+        }
+
+        try {
+            await updateContent(slug, {
+                title: (finalItem as any).title,
+                body: (finalItem as any).body,
+                excerpt: (finalItem as any).excerpt,
+                status: finalItem.status
+            });
+            // Also save locally for immediate UI consistency
+            updateItem(slug, finalItem);
+            router.push("/admin/content");
+        } catch (err) {
+            const apiErr = err as AdminContentError;
+            console.error("[AdminContentEdit] Backend error:", apiErr);
+            setError(`Backend error: ${apiErr.message}. Saved locally as fallback.`);
+            updateItem(slug, finalItem);
+            setSaving(false);
+        }
     };
 
     const handleCancel = () => {
@@ -166,6 +245,12 @@ export default function AdminContentEditPage() {
                         </h1>
                         <TypeBadge type={item.type} />
                         <StatusBadge status={item.status} />
+                        <span className={`text-xs px-2 py-1 rounded-full ${effectiveMode === "demo"
+                            ? "bg-amber-100 text-amber-800"
+                            : "bg-green-100 text-green-800"
+                            }`}>
+                            {effectiveMode === "demo" ? "Demo" : "Real"}
+                        </span>
                     </div>
                     <p className="text-sm text-slate-500">
                         Editing: <code className="bg-slate-100 px-1 rounded">{slug}</code>
@@ -197,6 +282,20 @@ export default function AdminContentEditPage() {
                 </div>
             </div>
 
+            {/* Warning */}
+            {warning && (
+                <div className="bg-amber-50 border border-amber-200 rounded-lg px-4 py-3 mb-4">
+                    <p className="text-sm text-amber-800">⚠️ {warning}</p>
+                </div>
+            )}
+
+            {/* Error */}
+            {error && (
+                <div className="bg-red-50 border border-red-200 rounded-lg px-4 py-3 mb-4">
+                    <p className="text-sm text-red-800">❌ {error}</p>
+                </div>
+            )}
+
             {/* Form */}
             <div className="bg-white rounded-xl border border-slate-200 p-6">
                 <ContentForm
@@ -210,3 +309,4 @@ export default function AdminContentEditPage() {
         </div>
     );
 }
+
