@@ -9,9 +9,11 @@ import { ds } from "@/lib/designSystem";
 
 interface FeedClientProps {
     initialContent: ContentItemV1[];
+    source?: string;
+    timestamp?: string;
 }
 
-export default function FeedClient({ initialContent }: FeedClientProps) {
+export default function FeedClient({ initialContent, source, timestamp }: FeedClientProps) {
     const router = useRouter();
     const [mounted, setMounted] = useState(false);
 
@@ -66,6 +68,30 @@ export default function FeedClient({ initialContent }: FeedClientProps) {
                         <p className="text-slate-400 text-lg max-w-2xl mx-auto font-light leading-relaxed">
                             A curated collection of grammar guides, learning strategies, and insights for your journey to fluency.
                         </p>
+                        {/* Source Indicator (V2) */}
+                        {source && (
+                            <div className="flex flex-col items-center justify-center gap-2 mt-2">
+                                <div className="flex items-center gap-2">
+                                    <span className={`text-[10px] px-2 py-0.5 rounded-full border ${source.includes("Backend")
+                                        ? "bg-green-500/10 text-green-400 border-green-500/20"
+                                        : "bg-amber-500/10 text-amber-400 border-amber-500/20"
+                                        }`}>
+                                        Source: {source}
+                                    </span>
+                                    {timestamp && (
+                                        <span className="text-[10px] text-slate-600">
+                                            Updated: {timestamp}
+                                        </span>
+                                    )}
+                                </div>
+                                <button
+                                    onClick={() => router.refresh()}
+                                    className="text-[10px] text-violet-400 hover:text-violet-300 underline underline-offset-2 transition-colors"
+                                >
+                                    ↻ Refresh Data
+                                </button>
+                            </div>
+                        )}
                     </header>
 
                     {/* V2 Filters: Minimalist */}
@@ -157,6 +183,30 @@ export default function FeedClient({ initialContent }: FeedClientProps) {
                     <p className={ds.typo.subtitle("text-stone-600 max-w-xl mx-auto")}>
                         Explore our guides, tips, and resources to master English grammar.
                     </p>
+                    {/* Source Indicator (Legacy) */}
+                    {source && (
+                        <div className="flex flex-col items-center justify-center gap-2 mt-3">
+                            <div className="flex items-center gap-2">
+                                <span className={`text-[10px] px-2 py-0.5 rounded-full border ${source.includes("Backend")
+                                    ? "bg-green-50 text-green-700 border-green-200"
+                                    : "bg-amber-50 text-amber-700 border-amber-200"
+                                    }`}>
+                                    Source: {source}
+                                </span>
+                                {timestamp && (
+                                    <span className="text-[10px] text-stone-400 font-mono">
+                                        Last updated: {timestamp}
+                                    </span>
+                                )}
+                            </div>
+                            <button
+                                onClick={() => router.refresh()}
+                                className="text-[10px] text-violet-600 hover:text-violet-700 underline underline-offset-2 transition-colors"
+                            >
+                                ↻ Refresh Data
+                            </button>
+                        </div>
+                    )}
                 </header>
 
                 {/* Filters Section */}
