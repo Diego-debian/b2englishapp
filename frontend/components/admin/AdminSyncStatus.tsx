@@ -5,7 +5,7 @@ import React from "react";
 /**
  * Sync status for admin operations
  */
-export type SyncStatus = "idle" | "synced" | "saved_local" | "error";
+export type SyncStatus = "idle" | "synced" | "saved_local" | "error" | "syncing";
 
 export interface AdminSyncStatusProps {
     /** Current mode (demo or real) */
@@ -16,6 +16,14 @@ export interface AdminSyncStatusProps {
     syncStatus: SyncStatus;
     /** Optional message to display (for errors or warnings) */
     message?: string;
+    /** Optional action button label */
+    actionLabel?: string;
+    /** Optional action button callback */
+    onAction?: () => void;
+    /** Whether action button is disabled */
+    actionDisabled?: boolean;
+    /** Hint text when action is disabled */
+    actionHint?: string;
 }
 
 /**
@@ -25,12 +33,17 @@ export interface AdminSyncStatusProps {
  * - Mode badge (Demo/Real)
  * - Write enabled/disabled indicator
  * - Sync status with appropriate icon
+ * - Optional action button (e.g., Retry sync)
  */
 export function AdminSyncStatus({
     mode,
     writeEnabled,
     syncStatus,
     message,
+    actionLabel,
+    onAction,
+    actionDisabled,
+    actionHint,
 }: AdminSyncStatusProps) {
     // Mode badge styles
     const modeStyles = mode === "demo"
@@ -50,6 +63,7 @@ export function AdminSyncStatus({
         synced: { icon: "☁️", label: "Synced", style: "text-green-700" },
         saved_local: { icon: "💾", label: "Saved locally", style: "text-amber-700" },
         error: { icon: "⚠️", label: "Error", style: "text-red-700" },
+        syncing: { icon: "🔄", label: "Syncing...", style: "text-blue-700" },
     };
 
     const sync = syncConfig[syncStatus];
@@ -81,6 +95,28 @@ export function AdminSyncStatus({
                     — {message}
                 </span>
             )}
+
+            {/* Optional Action Button */}
+            {actionLabel && onAction && (
+                <span className="flex items-center gap-1">
+                    <button
+                        onClick={onAction}
+                        disabled={actionDisabled || syncStatus === "syncing"}
+                        className={`px-2 py-1 rounded text-xs font-medium transition-colors ${actionDisabled || syncStatus === "syncing"
+                                ? "bg-slate-200 text-slate-400 cursor-not-allowed"
+                                : "bg-blue-100 text-blue-700 hover:bg-blue-200 border border-blue-300"
+                            }`}
+                    >
+                        {syncStatus === "syncing" ? "🔄 Syncing..." : actionLabel}
+                    </button>
+                    {actionDisabled && actionHint && (
+                        <span className="text-slate-500 text-xs italic">
+                            ({actionHint})
+                        </span>
+                    )}
+                </span>
+            )}
         </div>
     );
 }
+

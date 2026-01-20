@@ -88,6 +88,13 @@ export default function AdminContentEditPage() {
     const [mounted, setMounted] = useState(false);
     const [syncStatus, setSyncStatus] = useState<SyncStatus>("idle");
     const [syncMessage, setSyncMessage] = useState<string | undefined>(undefined);
+    // Store payload for retry sync
+    const [lastSavedPayload, setLastSavedPayload] = useState<{
+        title?: string;
+        body?: string;
+        excerpt?: string;
+        status?: "draft" | "published";
+    } | null>(null);
 
     useEffect(() => {
         setMounted(true);
@@ -180,8 +187,14 @@ export default function AdminContentEditPage() {
             updateItem(slug, finalItem);
             setSyncStatus("saved_local");
             setSyncMessage("no auth");
+            // Store payload for potential retry
+            setLastSavedPayload({
+                title: (finalItem as any).title,
+                body: (finalItem as any).body,
+                excerpt: (finalItem as any).excerpt,
+                status: finalItem.status
+            });
             setSaving(false);
-            setTimeout(() => router.push("/admin/content"), 1500);
             return;
         }
 
@@ -201,11 +214,66 @@ export default function AdminContentEditPage() {
         } catch (err) {
             const apiErr = err as AdminContentError;
             console.error("[AdminContentEdit] Backend error:", apiErr);
-            setError(`Backend error: ${apiErr.message}. Saved locally as fallback.`);
+            // Categorize error messages
+            let errorMsg = "Backend error";
+            if (apiErr.status === 401) {
+                errorMsg = "Authentication failed. Please login again.";
+            } else if (apiErr.status === 404) {
+                errorMsg = "Content not found on server.";
+            } else if (apiErr.status >= 500) {
+                errorMsg = "Server error. Try again later.";
+            } else {
+                errorMsg = apiErr.message;
+            }
+            setError(`${errorMsg} Saved locally as fallback.`);
             updateItem(slug, finalItem);
             setSyncStatus("saved_local");
-            setSyncMessage("backend error");
+            setSyncMessage(apiErr.status === 401 ? "auth expired" : "backend error");
+            // Store payload for retry
+            setLastSavedPayload({
+                title: (finalItem as any).title,
+                body: (finalItem as any).body,
+                excerpt: (finalItem as any).excerpt,
+                status: finalItem.status
+            });
             setSaving(false);
+        }
+    };
+
+    // Retry sync handler
+    const handleRetrySync = async () => {
+        if (!lastSavedPayload) return;
+
+        setError(null);
+        setSuccess(null);
+        setSyncStatus("syncing");
+        setSyncMessage(undefined);
+
+        try {
+            await updateContent(slug, lastSavedPayload);
+            setSuccess("✅ Synced to backend successfully!");
+            setSyncStatus("synced");
+            setLastSavedPayload(null);
+            setTimeout(() => router.push("/admin/content"), 1200);
+        } catch (err) {
+            const apiErr = err as AdminContentError;
+            console.error("[AdminContentEdit] Retry sync error:", apiErr);
+            // Categorize error
+            let errorMsg = "Sync failed";
+            let syncMsg = "backend error";
+            if (apiErr.status === 401) {
+                errorMsg = "Authentication expired. Please login again.";
+                syncMsg = "auth expired";
+            } else if (apiErr.status === 404) {
+                errorMsg = "Content not found on server.";
+                syncMsg = "not found";
+            } else if (apiErr.status >= 500) {
+                errorMsg = "Server unavailable. Try again later.";
+                syncMsg = "server error";
+            }
+            setError(errorMsg);
+            setSyncStatus("saved_local");
+            setSyncMessage(syncMsg);
         }
     };
 
@@ -274,6 +342,10 @@ export default function AdminContentEditPage() {
                         writeEnabled={backendWriteEnabled}
                         syncStatus={syncStatus}
                         message={syncMessage}
+                        actionLabel={syncStatus === "saved_local" && effectiveMode === "real" ? "🔄 Retry sync" : undefined}
+                        onAction={syncStatus === "saved_local" && effectiveMode === "real" ? handleRetrySync : undefined}
+                        actionDisabled={!hasAuthToken()}
+                        actionHint={!hasAuthToken() ? "Login required" : undefined}
                     />
                 </div>
                 <div className="flex gap-2">
