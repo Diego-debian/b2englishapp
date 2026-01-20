@@ -23,6 +23,7 @@ class Settings(BaseSettings):
     # Feature Flags
     FEATURE_CONTENT_API_V1: bool = Field(False, alias="FEATURE_CONTENT_API_V1")
     FEATURE_CONTENT_ADMIN_WRITE_V1: bool = Field(False, alias="FEATURE_CONTENT_ADMIN_WRITE_V1")
+    FEATURE_CONTENT_PUBLIC_PUBLISHED_ONLY_V1: bool = Field(False, alias="FEATURE_CONTENT_PUBLIC_PUBLISHED_ONLY_V1")
 
     # ✅ Pydantic v2 config
     model_config = SettingsConfigDict(
